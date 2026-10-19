@@ -30,11 +30,18 @@ The `ygo-deck-analyze` skill orchestrates a 4-step process:
 Step 1: Get raw card data → deck_raw.json
     ↓
 Step 2: Parse deck structure → deck_parsed.json
+        + combo_scan.py   找出「需求 → 满足者」候选（二卡动点）
+        + hand_matrix.py  穷举 5 张手牌，得到真实的能动率 / 死手率
     ↓
 Step 3: Gameplay analysis → deck_analysis.json
     ↓
 Step 4: Generate report → report.md
 ```
+
+> 二卡动点（combo starter）不能靠读卡发现。`combo_scan.py` 扫描每张卡的
+> 外部需求（例如「融合·连接怪兽特殊召唤的场合」）并去卡组里找满足者，
+> `hand_matrix.py` 再把确认过的动点规则穷举成百分比。死手率超过 15% 会触发告警，
+> 提示回去复查是否漏了启动点。
 
 ## Output Format
 

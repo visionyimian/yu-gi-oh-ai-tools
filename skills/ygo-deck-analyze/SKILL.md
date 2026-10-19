@@ -30,6 +30,9 @@ description: 游戏王卡组完整分析流程的 parent skill。当用户提供
 {deck_name}_analysis/
 ├── TODO.md              # 进度追踪，每步完成后更新
 ├── deck_raw.csv         # Step 1 产物：CLI 原始返回数据（CSV格式）
+├── deck_raw.json        # Step 1 产物：同一份数据的 JSON 版（combo_scan 需要 archetypes 字段）
+├── combo_candidates.json # Step 2 产物：需求 → 满足者候选（combo_scan 输出）
+├── combos.json          # Step 2 产物：人工确认后的动点规则（hand_matrix 输入）
 ├── deck_parsed.json     # Step 2 产物：deck-parser 输出
 ├── deck_analysis.json   # Step 3 产物：deck-analyzer 输出
 └── report.md            # Step 4 产物：最终人类可读报告
@@ -103,9 +106,34 @@ CLI 工具会将数据（CSV格式）完整 dump 到 `deck_raw.csv`。
 输入：`deck_raw.csv`
 输出：按 `deck-parser` skill 定义的 JSON schema 生成结果，dump 到 `deck_parsed.json`。
 
+#### 3.1 动点矩阵（必做，不能只靠读卡）
+
+同样的数据再导一份 JSON（`combo_scan` 需要 `archetypes` 字段）：
+
+```bash
+ygo-db-cli get-cards-by-ydk -i {ydk} --format json -o deck_raw.json
+python ../deck-parser/scripts/combo_scan.py deck_raw.json -o combo_candidates.json
+```
+
+按 `combo_scan` 的候选表逐条验证，把成立的二卡动点写成 `combos.json`，然后穷举起手：
+
+```bash
+python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
+```
+
+把结果（`one_card_rate` / `two_card_rate` / `startable_rate` / `dead_rate`）回填进 `deck_parsed.json` 的 `hand_matrix`。
+
+> **判断依据**：只有走完确实能产出有效场面（至少一次有意义的额外卡组召唤）才算动点。
+> 「两张怪站着」不算。额外卡组怪兽不能写进 `combos.json` 的卡名，用 `link1_material` 之类的谓词表达。
+
+#### 3.2 死手率闸门
+
+`dead_rate` > 15% 时**不得进入 Step 4**：先回 3.1 复查是否漏了二卡动点（尤其是额外卡组里的 Link-1）。
+确认无误后再继续，并在 `TODO.md` 里写明「已复查，死手率 X% 为真实值」。
+
 完成后更新 `TODO.md`：
 ```markdown
-- [x] Step 2: 解析卡组结构 → deck_parsed.json
+- [x] Step 2: 解析卡组结构 → deck_parsed.json（能动率 X%，死手率 Y%）
 ```
 
 ---
@@ -146,6 +174,13 @@ CLI 工具会将数据（CSV格式）完整 dump 到 `deck_raw.csv`。
 5. 如果无缺失：
    - 输出：`[VALIDATION PASSED] 所有 endboard 卡片均已在终场分析中覆盖`
    - 直接进入 Step 5
+
+**动点校验（与上面的终场校验并列，任一失败都不得进入 Step 5）**：
+
+1. `deck_parsed.json` 必须包含 `hand_matrix`，且 `startable_rate` 与 `hand_matrix.py` 的输出一致。
+2. `dead_rate` > 15% 时，必须有 `combo_starters` 的复查记录；找不到就回去补，不允许直接写报告。
+3. 卡组里只要有一张卡的文本含「连接怪兽特殊召唤的场合」或「被除外的场合」，
+   `combo_starters` 就必须逐条说明「最便宜的触发器是什么」，或者说明为什么不成立。
 
 完成后更新 `TODO.md`：
 ```markdown
@@ -193,10 +228,12 @@ CLI 工具会将数据（CSV格式）完整 dump 到 `deck_raw.csv`。
 
 ## 起手稳定性
 
+- 能动率 **{startable_rate}**（穷举全部 5 张手牌得出）／死手率 {dead_rate}
+- 其中单卡动点 {one_card_rate}、二卡动点 {two_card_rate}
 - Starter（{starter_total_copies}张）开出率：刚好1张 {starter_exactly_1} ／ 刚好2张 {starter_exactly_2} ／ 至少1张 {starter_at_least_1} ／ 至少2张 {starter_at_least_2}
 - 手坑（{handtrap_total_copies}张）开出率：刚好1张 {handtrap_exactly_1} ／ 刚好2张 {handtrap_exactly_2} ／ 至少1张 {handtrap_at_least_1} ／ 至少2张 {handtrap_at_least_2}
 
-{用1-2句话说明稳定性的含义，例如"平均每4手有3手能正常启动"}
+{用1-2句话说明稳定性的含义，例如"平均每4手有3手能正常启动"。如果存在二卡动点，说明是哪两组牌配哪几类身体。}
 
 ---
 

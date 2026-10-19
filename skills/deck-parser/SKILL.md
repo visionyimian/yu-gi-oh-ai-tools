@@ -44,6 +44,7 @@ description: 游戏王卡组结构解析 skill。接收 CLI 原始卡片数据�
 | `boardbreaker` | 主要用于突破对手盘面的卡片，例如冥王结界波、拮抗者、坏兽等。 |
 | `floodgate` | 持续限制对手行动的永续魔陷或怪兽效果。 |
 | `resource_denial` | 通过破坏对手手牌、卡组或墓地资源来压制对手的卡片，例如轰雷帝、暗黑界军神。注意：这类卡通常本身就是某些卡组的终场核心，而非通用工具。 |
+| `enabler` | 靠自己的召唤/发动去触发别的卡的效果，本身不产生资源。典型是素材条件宽松的 Link-1：它把「除外状态的卡在连接怪兽特殊召唤时回场」这类需求变成可用的展开起点。 |
 | `utility` | 不属于以上类型的泛用功能卡。 |
 
 #### 关于 `endboard` 的多标签说明
@@ -107,9 +108,73 @@ archetype 字段相同的卡归入同一 engine。这是最弱的归组依据，
 
 ---
 
+### Step 2.5 — 需求 → 满足者扫描（找二卡动点）
+
+**这一步不能只靠读卡，必须借助脚本。** 40 张主卡组有 780 对组合，人工逐对检查一定会漏。
+
+```bash
+python scripts/combo_scan.py deck_raw.json -o combo_candidates.json
+```
+
+脚本输出三类信息，**都只是候选，不是结论**：
+
+1. **额外卡组连接怪兽的素材门槛**：每只 Link 的素材条件，以及主卡组里有多少张卡能满足它。
+   便宜的 Link-1 往往就是整个卡组的隐藏启动点。
+2. **触发需求**：每张卡文本里的「融合·连接怪兽特殊召唤的场合」「被除外的场合」等外部条件。
+3. **候选组合**：某张卡的需求 × 能满足它的卡。
+
+随后逐条判断，只有满足下面**全部**条件才算二卡动点：
+
+- 两张牌都能从手牌正常使用（不是必须已在场、不是必须对方配合）；
+- 中间每一步都不缺少必要素材（召唤权、格子、支付成本）；
+- 走完之后确实产出有效场面（至少一次有意义的连接/融合/同调/超量召唤），而不是「两只怪站着」；
+- 不依赖起手 5 张之外的资源。
+
+**判断完成后必须回填 `combo_starters`，并说明用到了哪些 enabler。** 不要因为「主引擎不是它」就跳过——双轴卡组里，副轴的二卡动点经常占总启动率的 10% 以上。
+
+---
+
 ### Step 3 — 起手概率计算
 
-统计 starter 总张数和手坑总张数，调用 `starter-probability`，计算。
+**（1）单组概率**：统计 starter 总张数和手坑总张数，调用 `starter-probability`。
+
+```bash
+python ../starter-probability/scripts/starter_probability.py -d 40 -t 11
+```
+
+**（2）组合概率**：二卡动点用 `--also-count` 算「至少各摸到 1 张」。两组必须互不重叠。
+
+```bash
+python ../starter-probability/scripts/starter_probability.py -d 40 -t 4 -a 17
+```
+
+**（3）真实起手分布**：这是**唯一能回答「这套牌到底多大比例能动」的办法**。
+把 1 卡动点、二卡动点写成规则文件，穷举全部 5 张起手。
+
+```bash
+python scripts/hand_matrix.py deck_raw.json combos.json
+```
+
+规则文件格式：
+
+```json
+{
+  "one_card": [
+    { "label": "白兔单卡", "cards": ["码丽丝<兵卒>白兔"] }
+  ],
+  "two_card": [
+    { "label": "无限/净化 + Link-1 身体",
+      "first": ["无限与有限之无垢大艺术", "净化与腐败之无垢大艺术"],
+      "second_predicate": "link1_material" }
+  ]
+}
+```
+
+可用谓词：`link1_material`（手里有能当某只 Link-1 素材的怪）、`link2_material`、`ns_body`（手里有可通召的怪）。
+规则里的卡名必须来自主卡组；额外卡组怪兽用谓词表达，不能直接写名字。
+
+**（4）死手率自检**：脚本默认在死手率超过 15% 时告警。**看到告警不要直接写报告**——
+对一线卡组来说，>15% 通常意味着还有没识别的二卡动点，先回 Step 2.5 复查。加 `--strict` 可让它直接以失败结束。
 
 ---
 
@@ -154,7 +219,21 @@ archetype 字段相同的卡归入同一 engine。这是最弱的归组依据，
     }
   ],
 
-  // Starter 汇总
+  // 二卡动点（combo starter）汇总
+  // 一张卡自己动不了、但配另一张就能动。必须写清前提、enabler 与整条线路。
+  "combo_starters": [
+    {
+      "label": "无限/净化 + Link-1 身体",
+      "cards": ["无限与有限之无垢大艺术", "净化与腐败之无垢大艺术"],
+      "requires": "任意可通常召唤、且满足 Link-1 素材条件的怪兽",
+      "enablers": ["转生炎兽 独角兔", "连环栗仔球"],
+      "requires_normal_summon": true,
+      "line_summary": "无限①除外自身检索净化 → 净化①检索黄昏 → 黄昏②检索结合 → 结合①从除外区拉回无限 → NS 怪做 Link-1 → 净化②/结合②回场 → I:P → 小男巫 → 防火龙",
+      "verified": true
+    }
+  ],
+
+  // Starter 汇总（只放「单卡就能启动」的）
   "starters": {
     "cards": [
       {
@@ -244,6 +323,27 @@ archetype 字段相同的卡归入同一 engine。这是最弱的归组依据，
       "exactly_2": "0.00%",
       "at_least_1": "0.00%",
       "at_least_2": "0.00%"
+    },
+    // 二卡动点组合概率，来自 starter-probability 的 --also-count
+    "two_card": {
+      "group_a_copies": 0,
+      "group_b_copies": 0,
+      "both": "0.00%",          // 同时摸到 A 与 B
+      "either": "0.00%"         // 至少摸到 A 或 B
+    }
+  },
+
+  // 穷举起手手牌的结果，来自 hand_matrix.py（这是「能动率」的唯一可靠来源）
+  "hand_matrix": {
+    "hand_size": 5,
+    "total_hands": 0,
+    "one_card_rate": "0.00%",
+    "two_card_rate": "0.00%",
+    "startable_rate": "0.00%",
+    "dead_rate": "0.00%",
+    "dead_over_threshold": false,
+    "by_label": {
+      "规则标签": "0.00%"
     }
   }
 }

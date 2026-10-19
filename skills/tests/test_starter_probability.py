@@ -2,11 +2,19 @@
 """Tests for starter-probability skill."""
 
 import sys
+from itertools import combinations
 from pathlib import Path
+
+import pytest
 
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "starter-probability" / "scripts"))
-from starter_probability import hypergeometric_pmf, calculate_probabilities, to_yaml
+from starter_probability import (
+  calculate_probabilities,
+  hypergeometric_pmf,
+  joint_probability,
+  to_yaml,
+)
 
 
 class TestHypergeometricPmf:
@@ -159,3 +167,56 @@ class TestValidation:
     """Test minimum valid values."""
     result = calculate_probabilities(1, 1, 1)
     assert result["probabilities"]["1"] == 100.0
+
+
+class TestJointProbability:
+  """两组牌同时/任一出现在的概率（二卡展开必备）。"""
+
+  @staticmethod
+  def brute_force(deck_size, group_a, group_b, hand_size):
+    """直接枚举全部手牌，作为解析式的对照。"""
+    cards = ["A"] * group_a + ["B"] * group_b + ["C"] * (deck_size - group_a - group_b)
+    total = both = either = 0
+    for combo in combinations(range(deck_size), hand_size):
+      names = {cards[i] for i in combo}
+      total += 1
+      has_a = "A" in names
+      has_b = "B" in names
+      if has_a and has_b:
+        both += 1
+      if has_a or has_b:
+        either += 1
+    return total, both, either
+
+  def test_both_matches_brute_force(self):
+    total, both, _ = self.brute_force(10, 3, 4, 3)
+    result = joint_probability(10, 3, 4, 3)
+    assert result["both"] == pytest.approx(both / total * 100, abs=0.01)
+
+  def test_either_matches_brute_force(self):
+    total, _, either = self.brute_force(12, 5, 2, 4)
+    result = joint_probability(12, 5, 2, 4)
+    assert result["either"] == pytest.approx(either / total * 100, abs=0.01)
+
+  def test_both_cannot_exceed_either(self):
+    result = joint_probability(40, 11, 17, 5)
+    assert 0 < result["both"] < result["either"] < 100
+
+  def test_either_plus_neither_is_full(self):
+    result = joint_probability(40, 4, 17, 5)
+    assert result["either"] + result["neither"] == pytest.approx(100.0, abs=0.01)
+
+  def test_overlapping_groups_rejected(self):
+    """两组之和超过卡组大小说明有重叠，必须报错而不是算错。"""
+    with pytest.raises(ValueError):
+      joint_probability(40, 25, 20, 5)
+
+  def test_negative_group_rejected(self):
+    with pytest.raises(ValueError):
+      joint_probability(40, -1, 5, 5)
+
+  def test_zero_group(self):
+    result = joint_probability(40, 0, 5, 5)
+    assert result["both"] == 0.0
+    # A 组为空时，「至少一张」退化成普通单组概率
+    assert result["either"] == calculate_probabilities(40, 5, 5)["at_least_1"]

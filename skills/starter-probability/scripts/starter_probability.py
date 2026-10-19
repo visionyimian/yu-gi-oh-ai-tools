@@ -4,7 +4,6 @@
 
 import argparse
 from math import comb
-from typing import Dict
 
 
 def hypergeometric_pmf(
@@ -37,9 +36,51 @@ def hypergeometric_pmf(
   return numerator / denominator
 
 
+def joint_probability(
+  deck_size: int, group_a: int, group_b: int, hand_size: int = 5
+) -> dict[str, float]:
+  """Calculate joint probabilities for two disjoint card groups.
+
+  单组超几何只能回答「至少摸到 1 张 A」，回答不了「同时摸到 A 和 B」。
+  二卡展开（combo starter）恰好是后者，所以这里补上并集与交集。
+
+  Args:
+      deck_size: Total number of cards in the main deck (N)
+      group_a: Number of cards in group A (a)
+      group_b: Number of cards in group B (b), must not overlap group A
+      hand_size: Number of cards in starting hand (n)
+
+  Returns:
+      Dictionary with both / either / neither percentages
+  """
+  if group_a < 0 or group_b < 0:
+    raise ValueError("Group sizes cannot be negative")
+  if group_a + group_b > deck_size:
+    raise ValueError("Group A and B overlap or exceed deck size; groups must be disjoint")
+
+  total = comb(deck_size, hand_size)
+  none_a = comb(deck_size - group_a, hand_size)
+  none_b = comb(deck_size - group_b, hand_size)
+  none_both = comb(deck_size - group_a - group_b, hand_size)
+
+  # P(A=0 或 B=0) = P(A=0) + P(B=0) - P(A=0 且 B=0)
+  either_missing = none_a + none_b - none_both
+  both = total - either_missing
+  # P(A=0 且 B=0)
+  neither = none_both
+
+  return {
+    "group_a": group_a,
+    "group_b": group_b,
+    "both": round(both / total * 100, 2),
+    "either": round((total - neither) / total * 100, 2),
+    "neither": round(neither / total * 100, 2),
+  }
+
+
 def calculate_probabilities(
   deck_size: int, target_count: int, hand_size: int = 5
-) -> Dict[str, float]:
+) -> dict[str, float]:
   """Calculate probabilities for drawing 0 to hand_size target cards.
 
   Args:
@@ -96,7 +137,9 @@ def to_yaml(data: dict, indent: int = 0) -> str:
 
 
 def main():
-  parser = argparse.ArgumentParser(description="Calculate Yu-Gi-Oh! starting hand probabilities")
+  parser = argparse.ArgumentParser(
+    description="Calculate Yu-Gi-Oh! starting hand probabilities (single group or combo)"
+  )
   parser.add_argument(
     "--deck-size", "-d", type=int, default=40, help="Main deck size (default: 40)"
   )
@@ -104,6 +147,13 @@ def main():
     "--target-count", "-t", type=int, required=True, help="Number of target cards in deck"
   )
   parser.add_argument("--hand-size", type=int, default=5, help="Starting hand size (default: 5)")
+  parser.add_argument(
+    "--also-count",
+    "-a",
+    type=int,
+    default=None,
+    help="Size of a second, disjoint card group; prints P(both) and P(either)",
+  )
 
   args = parser.parse_args()
 
@@ -120,6 +170,13 @@ def main():
     raise ValueError("Hand size cannot exceed deck size")
 
   results = calculate_probabilities(args.deck_size, args.target_count, args.hand_size)
+  if args.also_count is not None:
+    joint = joint_probability(args.deck_size, args.target_count, args.also_count, args.hand_size)
+    results["joint"] = {
+      "both": joint["both"],
+      "either": joint["either"],
+      "neither": joint["neither"],
+    }
   print(to_yaml(results))
 
 

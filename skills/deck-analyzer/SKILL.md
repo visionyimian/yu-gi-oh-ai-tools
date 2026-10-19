@@ -25,10 +25,23 @@ description: 游戏王卡组对局分析 skill。接收 deck_raw.csv 和 deck_pa
 
 - `deck_raw.csv`：CLI 原始卡片数据（CSV格式）
 - `deck_parsed.json`：deck-parser 的结构化输出
+  - `combo_starters`：二卡动点（一张卡动不了、配另一张就能动）
+  - `hand_matrix`：穷举 5 张手牌得到的真实起手分布
 - `resources/handtraps.csv`：当前 meta 手坑列表，含效果摘要和分析重点
 - `resources/boardbreakers.csv`：当前 meta 解场卡列表，含效果摘要和分析重点
 
 > 如果 CSV 文件不存在，跳过对应部分并在输出中注明 `"resources_missing": true`，继续完成其他分析维度。
+
+---
+
+## Step 0 — 输入完整性自检（不通过就不要往下写）
+
+1. **死手率**：如果 `hand_matrix.dead_rate` > 15%，这通常不是「卡组缺陷」而是「解析漏了二卡动点」。
+   回到 `combo_scan` 的候选表复查「需求 → 满足者」，补完 `combo_starters` 后重跑 `hand_matrix`。
+2. **enabler 检查**：卡组里只要存在「这张卡是除外状态，连接/融合怪兽特殊召唤的场合才能发动」这类效果，
+   就必须确认 `combo_starters` 里至少考虑过「最便宜的那次连接召唤」是不是启动点。
+3. **额外卡组的 Link-1**：素材条件宽松的 Link-1（通常召唤的攻击力 N 以下 / N 星以下某种族）
+   经常是隐藏启动点，不能在 `extradeck_monsters` 里只标成 `mid_material` 就算完。
 
 ---
 
@@ -182,13 +195,19 @@ G 不打断展开，而是制造"继续展开=给对手抽牌"的困境。分析
 
 ### consistency（起手稳定性）
 
+**以 `deck_parsed.json` 的 `hand_matrix.startable_rate`（穷举 5 张手牌后「能动」的比例）为准**，
+不要用单卡 starter 张数代替——二卡动点同样算数，而且经常占 10% 以上。
+
 | 分数 | 锚点条件 |
 |---|---|
-| 9–10 | starter 开出率 ≥ 90%，且多数 starter 能独立展开 |
-| 7–8 | starter 开出率 75–89%，或开出率高但需要配合 |
-| 5–6 | starter 开出率 60–74%，或依赖特定组合起手 |
-| 3–4 | starter 开出率 < 60%，或大量死牌影响稳定性 |
-| 1–2 | 经常起手无法动，或严重依赖抽到特定单卡 |
+| 9–10 | 能动率 ≥ 88% |
+| 7–8 | 能动率 78–87% |
+| 5–6 | 能动率 65–77% |
+| 3–4 | 能动率 50–64% |
+| 1–2 | 能动率 < 50% |
+
+`reason` 里必须写出这个百分比，并说明它是穷举得到的（`hand_matrix`），不是估算的；
+同时写出 `dead_rate`，以及死手主要是哪些牌。
 
 ### ceiling（终场上限）
 
