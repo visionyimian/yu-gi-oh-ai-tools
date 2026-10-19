@@ -1,0 +1,9 @@
+# 构建产物
+ygo-db/bin/
+*.exe
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/

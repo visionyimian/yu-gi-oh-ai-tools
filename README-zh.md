@@ -86,6 +86,9 @@ ygo-db-cli get-cards-by-ydk -i deck.ydk -o deck_raw.csv
 # 激活 'ygo-deck-analyze' Skill 处理上述生成的 CSV
 ```
 
+> **Windows 本机运行**：见 [RUN-WINDOWS.md](RUN-WINDOWS.md)，
+> 一键命令为 `.\scripts\setup.ps1`（装环境）和 `.\scripts\verify.ps1`（验证）。
+
 ## 环境要求
 
 - **AI Skills**: Gemini CLI、Claude Code 或兼容的 AI 助手环境。
