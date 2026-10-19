@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"slices"
 
 	"github.com/spf13/cobra"
@@ -24,11 +25,44 @@ var (
 	gitRepo  *git.Repo
 )
 
+// getBasePath returns the directory that caches the ygopro-database clone.
+//
+// Resolution order:
+//  1. $XDG_CONFIG_HOME/ygo-db — explicit override, honoured on every platform.
+//  2. $HOME/.config/ygo-db    — legacy location, kept when it is already populated
+//     so that existing installations do not re-download the database.
+//  3. platform default        — os.UserCacheDir() on Windows (%LocalAppData%), otherwise
+//     os.UserConfigDir() ($HOME/.config on Linux, ~/Library/Application Support on macOS).
+//
+// Windows defines neither $HOME nor $XDG_CONFIG_HOME by default, so the previous
+// implementation resolved to the relative path ".config/ygo-db" and silently moved the
+// ~100 MB cache along with the current working directory.
 func getBasePath() string {
-	if os.Getenv("XDG_CONFIG_HOME") != "" {
-		return filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "ygo-db")
+	if xdg := os.Getenv("XDG_CONFIG_HOME"); xdg != "" {
+		return filepath.Join(xdg, "ygo-db")
 	}
-	return filepath.Join(os.Getenv("HOME"), ".config/ygo-db")
+
+	if home, err := os.UserHomeDir(); err == nil {
+		legacy := filepath.Join(home, ".config", "ygo-db")
+		if _, err := os.Stat(legacy); err == nil {
+			return legacy
+		}
+	}
+
+	// The database is a re-downloadable clone, so prefer the cache directory on
+	// Windows: %LocalAppData% is not roamed to the domain profile like %AppData% is.
+	if runtime.GOOS == "windows" {
+		if dir, err := os.UserCacheDir(); err == nil {
+			return filepath.Join(dir, "ygo-db")
+		}
+	}
+	if dir, err := os.UserConfigDir(); err == nil {
+		return filepath.Join(dir, "ygo-db")
+	}
+
+	// os.UserConfigDir only fails when neither $HOME nor $XDG_CONFIG_HOME is set on
+	// Unix; fall back to the historical relative path as a last resort.
+	return filepath.Join(".config", "ygo-db")
 }
 
 var rootCmd = &cobra.Command{
