@@ -424,7 +424,10 @@ G 不打断展开，而是制造"继续展开=给对手抽牌"的困境。分析
         { "act": "白兔③ 支付 300 回场", "field_value": 2, "gain": "+1（③ 回场）", "spend": null }
       ],
       "peak_field_value": 4,
-      "endboard_options": ["4 场值能做成什么：Link-4 / Link-3＋Link-1 / Link-2＋Link-2"],
+      "endboard_options": [
+        { "name": "A. 留场不动", "board": ["场上还留什么"], "cost": "花掉几场值",
+          "interactions": 1, "pros": "优点", "cons": "代价" }
+      ],
       "choice_reason": "从这些选项里为什么选这个终场",
       "endboard": ["最终选择"],
       "interactions": 3,

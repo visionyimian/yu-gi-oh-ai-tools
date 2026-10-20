@@ -384,9 +384,12 @@ python skills/ygo-deck-analyze/scripts/verify.py {analysis} --cdb {cards.cdb}
 
 **{peak_field_value} 场值能换成什么**
 
-| 终场 | 用途 |
-|---|---|
-| {endboard_options} | |
+{把 endboard_options 全部列成表：选项 / 场上 / 花掉多少场值 / 干扰点 / 优点 / 代价。
+不要只给一个推荐——把可能性列全，让使用方自己选。最后用一两句话总结取舍。}
+
+| 选项 | 场上 | 花掉 | 干扰点 | 优点 | 代价 |
+|---|---|---:|---:|---|---|
+| {endboard_options[].name} | {endboard_options[].board} | {endboard_options[].cost} | {endboard_options[].interactions} | {endboard_options[].pros} | {endboard_options[].cons} |
 
 **中断分支**
 
