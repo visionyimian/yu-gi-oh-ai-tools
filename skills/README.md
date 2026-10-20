@@ -19,6 +19,7 @@ A collection of AI skills for analyzing Yu-Gi-Oh! decks using Claude Code.
 | **starter-probability** | Calculates the probability of drawing specific cards (starters, hand traps) in a 5-card starting hand using hypergeometric distribution. |
 | **count-deck** | Counts cards in main deck, extra deck, and side deck from a YDK file. |
 | **ocg-banlist** | Fetches the YGOCore limit list (`lflist.conf`) for OCG or TCG and validates a `.ydk` against it. |
+| **ocg-rules** | Rule checklist distilled from the OCG Comprehensive Rules 2020: once-per-turn variants, 時/場合 timing, negate types, summon rights, Link material counting. |
 | **simple-calculator** | Basic arithmetic calculations (+, -, *, /). |
 
 ## Analysis Pipeline
