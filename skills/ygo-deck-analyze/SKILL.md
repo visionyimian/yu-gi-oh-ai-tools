@@ -79,6 +79,7 @@ mkdir -p {deck_name}_analysis && touch {deck_name}_analysis/TODO.md
 - [ ] Step 4: 对局分析 → deck_analysis.json
 - [ ] Step 4.5: 一致性校验 → PASSED / FAILED+修正
 - [ ] Step 5: 生成报告 → report.md
+- [ ] Step 5.5: 报告一致性校验 → PASSED / FAILED+补充
 ```
 
 3. 在 `TODO.md` 中将 Step 1.5 标记为进行中。
@@ -250,9 +251,25 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 
 报告格式见下方「报告模板」。
 
+### Step 5.5 — 报告一致性校验
+
+报告是手写的，很容易漏掉表格里的一两行。用脚本核对：
+
+```bash
+python skills/ygo-deck-analyze/scripts/check_report.py {analysis}/deck_analysis.json {analysis}/report.md
+```
+
+它把 JSON 里**标识性文字**（终场卡名、解场卡名、手坑名、chokepoint 卡名、后攻工具、六维键）当作必现清单，逐项在报告里查找；`reason` 这类自由文本不参与比对。
+
+- 退出码 `0` → 每条结论都出现了
+- 退出码 `1` → 会列出哪个分区缺了哪些条目，**补完再交付**
+
+> 实测：码丽丝那份报告第一遍跑就抓出 4 处遗漏（3 张备选终场 + 1 个 chokepoint 用了简称）。
+
 完成后更新 `TODO.md`：
 ```markdown
-- [x] Step 4: 生成报告 → report.md
+- [x] Step 5: 生成报告 → report.md
+- [x] Step 5.5: 报告一致性校验 → PASSED（N 条结论全覆盖）
 
 ## 完成
 - 完成时间: {timestamp}
