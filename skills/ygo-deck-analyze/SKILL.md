@@ -80,6 +80,7 @@ mkdir -p {deck_name}_analysis && touch {deck_name}_analysis/TODO.md
 - [ ] Step 4.5: 一致性校验 → PASSED / FAILED+修正
 - [ ] Step 5: 生成报告 → report.md
 - [ ] Step 5.5: 报告一致性校验 → PASSED / FAILED+补充
+- [ ] Step 5.6: 交付前总校验 → VERIFY PASSED
 ```
 
 3. 在 `TODO.md` 中将 Step 1.5 标记为进行中。
@@ -262,6 +263,30 @@ python skills/ygo-deck-analyze/scripts/check_report.py {analysis}/deck_analysis.
 ```markdown
 - [x] Step 5: 生成报告 → report.md
 - [x] Step 5.5: 报告一致性校验 → PASSED（N 条结论全覆盖）
+```
+
+### Step 5.6 — 交付前总校验
+
+一条命令把前面所有校验跑完：
+
+```bash
+python skills/ygo-deck-analyze/scripts/verify.py {analysis} --cdb {cards.cdb}
+```
+
+| 组 | 检查 |
+|---|---|
+| 1 | 产物完整性：11 个文件都在且非空 |
+| 2 | 流程完成度：`TODO.md` 里没有未勾选的步骤 |
+| 3 | Step 4.5：调用 `check_parse.py`（4 项） |
+| 4 | Step 5.5：调用 `check_report.py` |
+
+- `[VERIFY PASSED]` 才交付
+- `--skip-report` 用于报告还没写的中间状态
+- 不联网；禁限校验不重跑，只检查 `banlist_check.txt` 是否已生成
+
+完成后更新 `TODO.md`：
+```markdown
+- [x] Step 5.6: 交付前总校验 → VERIFY PASSED（4 组）
 
 ## 完成
 - 完成时间: {timestamp}
