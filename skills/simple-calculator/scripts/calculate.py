@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-import sys
 import re
+import sys
 
 
 class CalculateError(Exception):
   """Exception raised for calculation errors."""
-
-  pass
 
 
 def calculate(expression):
@@ -38,7 +36,7 @@ def calculate(expression):
     # and having already validated the characters in the expression.
     result = eval(expression, {"__builtins__": None}, {})
     return result
-  except Exception as e:
+  except (SyntaxError, ZeroDivisionError, TypeError, NameError) as e:
     raise CalculateError(str(e))
 
 

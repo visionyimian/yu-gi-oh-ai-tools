@@ -19,11 +19,10 @@ import json
 import os
 import re
 import time
-import urllib.request
 import urllib.parse
+import urllib.request
 from datetime import datetime, timedelta
 from typing import Any
-
 
 API_BASE_URL = "https://ygoprodeck.com/api/decks/getDecks.php"
 
@@ -303,7 +302,7 @@ def fetch_decks_single_page(url: str) -> list[dict[str, Any]]:
     with urllib.request.urlopen(request) as response:
       data = response.read().decode("utf-8")
       return json.loads(data)
-  except Exception as e:
+  except (OSError, ValueError) as e:
     print(f"Error fetching decks: {e}")
     return []
 

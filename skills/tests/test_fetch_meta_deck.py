@@ -3,12 +3,11 @@
 import sys
 from pathlib import Path
 
-
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "ygoprodeck-get-meta" / "scripts"))
 from fetch_meta_deck import (
-  CATEGORY_MAP,
   API_PAGE_SIZE,
+  CATEGORY_MAP,
   MetaDeck,
   build_api_url,
   get_default_from_date,

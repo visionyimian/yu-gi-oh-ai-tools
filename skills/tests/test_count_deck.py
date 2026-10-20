@@ -7,8 +7,7 @@ import pytest
 
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "count-deck" / "scripts"))
-from count_deck import count_deck, YDKError
-
+from count_deck import YDKError, count_deck
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "decks"
 

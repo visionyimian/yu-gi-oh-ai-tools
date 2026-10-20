@@ -12,8 +12,6 @@ import sys
 class YDKError(Exception):
   """Exception raised for YDK file parsing errors."""
 
-  pass
-
 
 def count_deck(ydk_path):
   """
@@ -70,7 +68,7 @@ def count_deck(ydk_path):
 
   except FileNotFoundError:
     raise YDKError(f"File '{ydk_path}' not found.")
-  except Exception as e:
+  except (OSError, UnicodeDecodeError) as e:
     raise YDKError(str(e))
 
   return main_count, extra_count, side_count
