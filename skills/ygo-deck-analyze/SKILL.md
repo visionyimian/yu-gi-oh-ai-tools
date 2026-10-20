@@ -233,6 +233,9 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 4. **脚本事实一致性**：`script_facts.json` 里 `opt` 为 `custom` 的每一张卡，
    `deck_parsed.json` 中都必须带 `once_per_turn_source: "script_custom"`；
    其余卡要么与 `opt` 完全一致，要么在 `effect_summary` 里写明偏离原因。缺一条即 FAILED。
+5. **`script` 块完整性**：凡是有脚本的卡，`deck_parsed.json` 里都必须带
+   `script: {kinds, targets, has_cost, no_miss_timing}`，且与 `script_facts.json` 一致。
+   缺失即视为没做 Step 0，FAILED。通常脚本缺失（如通常怪兽）的卡可以没有这个块。
 
 完成后更新 `TODO.md`：
 ```markdown

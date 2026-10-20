@@ -174,7 +174,11 @@ def parse_card(text: str) -> dict:
   for effect in effects:
     types = effect.get("types", [])
     flags = effect.get("flags", [])
-    effect["kind"] = next((kind for token, kind in KIND_ORDER if token in types), "other")
+    kind = next((kind for token, kind in KIND_ORDER if token in types), "other")
+    # 只标了 SINGLE/FIELD、没有触发类型的，属于持续适用（永续/无分类）效果
+    if kind == "other" and {"EFFECT_TYPE_SINGLE", "EFFECT_TYPE_FIELD"} & set(types):
+      kind = "continuous"
+    effect["kind"] = kind
     if "count_limit_key" in effect:
       effect["opt"] = "card_name" if effect["count_limit_key"] else "card"
     elif "count_limit" in effect:

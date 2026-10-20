@@ -278,6 +278,13 @@ python scripts/hand_matrix.py deck_raw.json combos.json
           "copies": 0,
           "types": [],        // 此卡的类型列表，从上方类型枚举中选取，endboard 和 extender 可同时存在
           "once_per_turn_type": "card_name_once | once_per_turn | unlimited",
+          "once_per_turn_source": "script | script_custom  // 默认 script；custom 复核后填 script_custom",
+          "script": {
+            "kinds": ["trigger_optional", "continuous"],   // 每个效果的类型，来自 Step 0
+            "targets": false,                              // 是否存在取对象效果
+            "has_cost": true,                              // 是否存在 cost
+            "no_miss_timing": true                         // 所有诱发效果是否都不会错过时点
+          },
           "join_reason": "archetype字段匹配 | 效果引用「X」| archetype名引用「X」| 功能性产出「X」| 召唤/发动条件依赖「X」  // 说明这张卡为何归入本 engine，archetype字段匹配时可省略",
           "endboard_role": "这张卡在终场的持续贡献，例如'为全场陷阱怪兽提供对象抗性；被破坏时触发联动'。仅在 types 含 endboard 时填写，否则填 null",
           "effect_summary": "一句话说明效果或在 engine 中的作用"
