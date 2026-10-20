@@ -218,6 +218,18 @@ python scripts/derive_combos.py deck_raw.json script_facts.json combo_candidates
 
 每条规则都带 `reason`，**逐条看一遍**：删掉明显不成立的（陷阱卡、需要前置场面的卡），补上漏掉的（`categories` 里没有、但文本上明显能启动的）。
 
+如果完全不想人工介入，可以让 `hand_matrix` 自己推导，不需要 `combos.json`：
+
+```bash
+python scripts/hand_matrix.py deck_raw.json --derive \
+  --facts script_facts.json --candidates combo_candidates.json --cdb cards.cdb \
+  --write-rules combos_auto.json -o hand_matrix.json
+```
+
+**注意口径**：自动推导把「任何能产出资源的卡」都算成动点，所以**结果是上界**——
+像「超融合」「金满而谦虚之壶」这种会被误算成启动点。写报告时要注明这是未复核的推导值，
+或者按 `reason` 复核后用 `combos.json` 重跑。
+
 然后穷举：
 
 ```bash

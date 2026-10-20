@@ -38,6 +38,7 @@ from collections import Counter
 from itertools import combinations
 from pathlib import Path
 
+import derive_combos
 from combo_scan import link_monsters, load_deck
 
 # 谓词：不是具体卡名，而是「手里有没有满足某个条件的一张牌」
@@ -293,10 +294,15 @@ def render(result: dict, threshold: float) -> str:
   return "\n".join(lines)
 
 
-def main():
+def main(argv: list[str] | None = None):
   parser = argparse.ArgumentParser(description="精确枚举起手手牌，统计动点与死手率")
   parser.add_argument("deck", help="deck_raw.json 或 deck_raw.csv")
-  parser.add_argument("rules", help="combos.json（动点规则）")
+  parser.add_argument("rules", nargs="?", help="combos.json；用 --derive 时可省略")
+  parser.add_argument("--derive", action="store_true", help="自动推导动点规则，不读 combos.json")
+  parser.add_argument("--facts", type=Path, help="script_facts.json（--derive 需要）")
+  parser.add_argument("--candidates", type=Path, help="combo_candidates.json（--derive 需要）")
+  parser.add_argument("--cdb", type=Path, help="cards.cdb（--derive 需要）")
+  parser.add_argument("--write-rules", type=Path, help="把推导出的规则另存一份")
   parser.add_argument("--hand-size", type=int, default=5, help="起手张数（默认 5）")
   parser.add_argument(
     "--max-dead-rate", type=float, default=15.0, help="死手率告警阈值（默认 15%%）"
@@ -304,10 +310,35 @@ def main():
   parser.add_argument("--strict", action="store_true", help="死手率超过阈值时以退出码 1 结束")
   parser.add_argument("--json", action="store_true", help="输出 JSON")
   parser.add_argument("--output", "-o", help="把 JSON 结果写入文件")
-  args = parser.parse_args()
+  args = parser.parse_args(argv)
 
   deck = load_deck(args.deck)
-  rules = json.loads(Path(args.rules).read_text(encoding="utf-8-sig"))
+  if args.derive:
+    required = (("--facts", args.facts), ("--candidates", args.candidates), ("--cdb", args.cdb))
+    missing = [name for name, value in required if value is None]
+    if missing:
+      print(f"错误：--derive 需要 {' '.join(missing)}", file=sys.stderr)
+      return 1
+    rules = derive_combos.derive(
+      deck,
+      json.loads(args.facts.read_text(encoding="utf-8-sig")),
+      json.loads(args.candidates.read_text(encoding="utf-8-sig")),
+      derive_combos.load_names(args.cdb),
+    )
+    if args.write_rules:
+      args.write_rules.write_text(
+        json.dumps(rules, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+      )
+    print(
+      f"自动推导动点：{len(rules['one_card'])} 条单卡动 / "
+      f"{len(rules['two_card'])} 条二卡动（未复核）"
+    )
+  else:
+    if not args.rules:
+      print("错误：需要 combos.json，或加 --derive 自动推导", file=sys.stderr)
+      return 1
+    rules = json.loads(Path(args.rules).read_text(encoding="utf-8-sig"))
+
   try:
     parsed = build_rules(rules, deck)
     result = enumerate_hands(deck, parsed, args.hand_size)

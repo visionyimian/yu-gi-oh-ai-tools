@@ -1,11 +1,13 @@
 """Tests for the automatic combos.json derivation."""
 
+import json
 import sqlite3
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "deck-parser" / "scripts"))
 from derive_combos import derive, producing_effects
+from hand_matrix import main as hand_matrix_main
 
 
 def build(tmp_path: Path) -> tuple[dict, dict, dict, dict, Path]:
@@ -90,3 +92,49 @@ def test_rules_carry_a_reason(tmp_path):
   result = derive(deck, facts, candidates, names)
 
   assert all(rule["reason"] for rule in result["one_card"] + result["two_card"])
+
+
+def test_hand_matrix_can_derive_rules_itself(tmp_path, capsys):
+  """--derive 让 hand_matrix 不需要 combos.json 也能跑。"""
+  deck, facts, candidates, _, cdb = build(tmp_path)
+  # 这套夹具没有额外卡组，把 enabler 换成主卡组的卡，走「按卡名」那条分支
+  candidates["triggers"][0]["enablers"] = [{"card": "A"}]
+  deck_path = tmp_path / "deck_raw.json"
+  deck_path.write_text(json.dumps(deck, ensure_ascii=False), encoding="utf-8")
+  facts_path = tmp_path / "facts.json"
+  facts_path.write_text(json.dumps(facts, ensure_ascii=False), encoding="utf-8")
+  cand_path = tmp_path / "candidates.json"
+  cand_path.write_text(json.dumps(candidates, ensure_ascii=False), encoding="utf-8")
+  rules_path = tmp_path / "combos.json"
+
+  code = hand_matrix_main(
+    [
+      str(deck_path),
+      "--derive",
+      "--facts",
+      str(facts_path),
+      "--candidates",
+      str(cand_path),
+      "--cdb",
+      str(cdb),
+      "--write-rules",
+      str(rules_path),
+      "--hand-size",
+      "2",
+    ]
+  )
+
+  assert code == 0
+  assert "自动推导动点" in capsys.readouterr().out
+  written = json.loads(rules_path.read_text(encoding="utf-8"))
+  assert [rule["label"] for rule in written["one_card"]] == ["A单卡", "B单卡"]
+  assert [rule["label"] for rule in written["two_card"]] == ["D＋触发件"]
+
+
+def test_hand_matrix_without_rules_or_derive_reports_an_error(tmp_path, capsys):
+  deck, _, _, _, _ = build(tmp_path)
+  deck_path = tmp_path / "deck_raw.json"
+  deck_path.write_text(json.dumps(deck, ensure_ascii=False), encoding="utf-8")
+
+  assert hand_matrix_main([str(deck_path)]) == 1
+  assert "combos.json" in capsys.readouterr().err

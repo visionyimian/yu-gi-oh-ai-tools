@@ -74,6 +74,15 @@ def consumptions(effects: list[dict], locks: list[str]) -> tuple[dict, list[str]
   return consumes, list(locks)
 
 
+def is_trap(card: dict) -> bool:
+  """兼容原始 deck_raw.json（type 字符串）与 combo_scan 规整后的结构（is_trap）。"""
+  if card.get("is_trap"):
+    return True
+  if "陷阱卡" in (card.get("type") or ""):
+    return True
+  return "陷阱卡" in (card.get("types") or [])
+
+
 def derive(deck: dict, facts: dict, candidates: dict, names: dict[int, str]) -> dict:
   main_cards = {card["name"]: card for card in deck["main"]}
   by_name = {names.get(card["id"], ""): card for card in facts["cards"]}
@@ -93,7 +102,7 @@ def derive(deck: dict, facts: dict, candidates: dict, names: dict[int, str]) -> 
     if fact is None:
       continue
     # 陷阱卡先手无法单独启动：要么得先盖一回合，要么得靠别的卡把怪除外
-    if "陷阱卡" in (card.get("type") or ""):
+    if is_trap(card):
       continue
     # 触发依赖外部事件（比如「连接召唤成功时」）→ 交给二卡动处理
     if name in external:

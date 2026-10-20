@@ -175,7 +175,16 @@ python ../deck-parser/scripts/derive_combos.py deck_raw.json script_facts.json \
 ```
 
 `derive_combos` 会给出带 `reason` 的草稿（单卡动按 `categories` 推、二卡动按 `self_trigger` 推）。
-逐条看 `reason`，删掉不成立的、补上漏掉的，再穷举：
+完全不想人工介入时，直接让 `hand_matrix` 自己推导：
+
+```bash
+python ../deck-parser/scripts/hand_matrix.py deck_raw.json --derive \
+  --facts script_facts.json --candidates combo_candidates.json --cdb {cards.cdb} \
+  --write-rules combos.json -o hand_matrix.json
+```
+
+**这个口径是上界**（任何能检索的卡都会被算成动点），报告里要注明「未复核的推导值」。
+要更准就按 `reason` 复核 `combos.json` 再用文件模式重跑。
 
 ```bash
 python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
