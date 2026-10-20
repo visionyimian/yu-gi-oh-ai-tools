@@ -133,8 +133,8 @@ def test_missing_script_is_classified_as_vanilla_with_cdb(tmp_path):
   """A normal monster has no script; it must not be reported as a missing file."""
   cdb = tmp_path / "cards.cdb"
   connection = sqlite3.connect(cdb)
-  connection.execute("CREATE TABLE datas (id INTEGER PRIMARY KEY, type INTEGER)")
-  connection.execute("INSERT INTO datas VALUES (10000009, 17)")
+  connection.execute("CREATE TABLE datas (id INTEGER PRIMARY KEY, alias INTEGER, type INTEGER)")
+  connection.execute("INSERT INTO datas VALUES (10000009, 0, 17)")
   connection.commit()
   connection.close()
 
@@ -158,4 +158,37 @@ def test_missing_script_is_classified_as_vanilla_with_cdb(tmp_path):
 
   payload = json.loads(out.read_text(encoding="utf-8"))
   assert payload["vanilla"] == [10000009]
+  assert payload["missing"] == []
+
+
+def test_alias_card_borrows_the_original_script(tmp_path):
+  """An alternate-art print has no script of its own; alias points at the real one."""
+  cdb = tmp_path / "cards.cdb"
+  connection = sqlite3.connect(cdb)
+  connection.execute("CREATE TABLE datas (id INTEGER PRIMARY KEY, alias INTEGER, type INTEGER)")
+  connection.execute("INSERT INTO datas VALUES (10000007, 10000001, 33)")
+  connection.commit()
+  connection.close()
+
+  out = tmp_path / "facts.json"
+  assert (
+    main(
+      [
+        "--ids",
+        "10000007",
+        "--cache",
+        str(FIXTURES),
+        "--offline",
+        "--cdb",
+        str(cdb),
+        "-o",
+        str(out),
+      ]
+    )
+    == 0
+  )
+
+  payload = json.loads(out.read_text(encoding="utf-8"))
+  assert [card["id"] for card in payload["cards"]] == [10000007]
+  assert payload["aliased"] == [{"id": 10000007, "alias": 10000001}]
   assert payload["missing"] == []

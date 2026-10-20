@@ -235,11 +235,18 @@ def summarize_opt(facts: dict) -> str:
   return "mixed"
 
 
-def load_card_types(path: Path) -> dict[int, int]:
-  """从 cards.cdb 读 id → type 位掩码，用来区分「通常怪兽没有脚本」和「脚本缺失」。"""
+def load_card_meta(path: Path) -> dict[int, dict]:
+  """从 cards.cdb 读 id → {alias, type}。
+
+  ``alias`` 非 0 表示这张卡在规则上当作另一张卡（异画、复刻）。
+  这类卡通常**没有自己的脚本**，卡脚本挂在被指向的那个 id 下。
+  """
   connection = sqlite3.connect(path)
   try:
-    return {row[0]: row[1] for row in connection.execute("SELECT id, type FROM datas")}
+    return {
+      row[0]: {"alias": row[1], "type": row[2]}
+      for row in connection.execute("SELECT id, alias, type FROM datas")
+    }
   finally:
     connection.close()
 
@@ -257,21 +264,31 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--cache", type=Path, default=Path(".cache/ygopro-scripts"))
   parser.add_argument("--offline", action="store_true", help="只用缓存，不联网")
   parser.add_argument("--url", action="append", help="覆盖下载地址，可重复")
-  parser.add_argument("--cdb", type=Path, help="cards.cdb；用于把通常怪兽和脚本缺失区分开")
+  parser.add_argument(
+    "--cdb", type=Path, help="cards.cdb；用于识别通常怪兽，以及从 alias 找到真实脚本"
+  )
   parser.add_argument("-o", "--out", type=Path, help="输出文件，默认打印到标准输出")
   args = parser.parse_args(argv)
 
   ids = read_ydk_ids(args.ydk) if args.ydk else args.ids
   urls = tuple(args.url) if args.url else DEFAULT_URLS
-  types = load_card_types(args.cdb) if args.cdb else {}
+  meta = load_card_meta(args.cdb) if args.cdb else {}
 
   cards: list[dict] = []
   missing: list[int] = []
   vanilla: list[int] = []
+  aliased: list[dict] = []
   for passcode in ids:
     text = fetch_script(passcode, args.cache, urls, args.offline)
     if text is None:
-      if is_vanilla(types.get(passcode, 0)):
+      # 异画/复刻没有自己的脚本，脚本挂在 alias 指向的那张卡下面
+      alias = meta.get(passcode, {}).get("alias", 0)
+      if alias:
+        text = fetch_script(alias, args.cache, urls, args.offline)
+        if text is not None:
+          aliased.append({"id": passcode, "alias": alias})
+    if text is None:
+      if is_vanilla(meta.get(passcode, {}).get("type", 0)):
         vanilla.append(passcode)
       else:
         missing.append(passcode)
@@ -289,12 +306,13 @@ def main(argv: list[str] | None = None) -> int:
       card["custom_evidence"] = facts["custom_evidence"]
     cards.append(card)
 
-  payload = {"cards": cards, "missing": missing, "vanilla": vanilla}
+  payload = {"cards": cards, "missing": missing, "vanilla": vanilla, "aliased": aliased}
   body = json.dumps(payload, ensure_ascii=False, indent=2)
   if args.out:
     args.out.write_text(body, encoding="utf-8")
     print(
       f"已写入 {args.out}：{len(cards)} 张有效果脚本，"
+      f"{len(aliased)} 张走了 alias，"
       f"{len(vanilla)} 张通常怪兽（无脚本），{len(missing)} 张缺失"
     )
   else:
