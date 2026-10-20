@@ -205,43 +205,34 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 
 ### Step 4.5 — 一致性校验（Validation）
 
-在生成报告前，执行以下校验。**如果校验失败，不得进入 Step 5，必须先修正。**
+在生成报告前跑脚本。**退出码非 0 就不得进入 Step 5，必须先修正。**
 
-**校验逻辑**：
+```bash
+python skills/ygo-deck-analyze/scripts/check_parse.py \
+  --parsed {analysis}/deck_parsed.json \
+  --analysis {analysis}/deck_analysis.json \
+  --matrix {analysis}/hand_matrix.json \
+  --facts {analysis}/script_facts.json \
+  --cdb {cards.cdb}
+```
 
-1. 从 `deck_parsed.json` 中提取所有 endboard 卡片名称：
-   - `maindeck_endboard` 中的所有卡片
-   - `extradeck_monsters` 中 role 为 `endboard` 或 `both` 的所有卡片
+它检查四件事：
 
-2. 从 `deck_analysis.json` 的 `first_turn_board.typical_endboard` 中提取所有已出现的卡片名称（遍历 core / synergy_tech / protection 三个数组）
+| 检查 | 含义 | 不过时怎么办 |
+|---|---|---|
+| **endboard 覆盖** | parser 标为终场的卡（`maindeck_endboard` ＋ `extradeck_monsters` 中 role 为 `endboard`/`both` 的），analyzer 的 `typical_endboard` 里必须都出现 | 回 deck-analyzer 的 Step 2 补分析 |
+| **hand_matrix** | `deck_parsed.json` 里的能动率/死手率必须与穷举结果一致 | 重新回填，不要手改数字 |
+| **脚本事实一致性** | `once_per_turn_type` 必须等于脚本的 `opt`；`custom` 的卡必须标 `once_per_turn_source: "script_custom"` | 看 Step 0 的 `custom_evidence` 重新判定 |
+| **script 块完整性** | 有脚本的卡必须带 `script: {kinds, targets, has_cost, no_miss_timing}` 且与脚本一致 | 说明没做 Step 0，回去补 |
 
-3. 对比两个列表，找出**在 Parser 中标记为 endboard 但在 Analyzer 的终场描述中完全未出现的卡片**
+脚本覆盖不到、仍需人工确认的两件事：
 
-4. 如果存在缺失卡片：
-   - 输出警告：`[VALIDATION FAILED] 以下 endboard 卡片未在终场分析中出现：{卡名列表}`
-   - **重新触发 deck-analyzer 的 Step 2**，要求对缺失卡片补充分析并更新 `deck_analysis.json`
-   - 校验通过后才进入 Step 5
-
-5. 如果无缺失：
-   - 输出：`[VALIDATION PASSED] 所有 endboard 卡片均已在终场分析中覆盖`
-   - 直接进入 Step 5
-
-**动点校验（与上面的终场校验并列，任一失败都不得进入 Step 5）**：
-
-1. `deck_parsed.json` 必须包含 `hand_matrix`，且 `startable_rate` 与 `hand_matrix.py` 的输出一致。
-2. `dead_rate` > 15% 时，必须有 `combo_starters` 的复查记录；找不到就回去补，不允许直接写报告。
-3. 卡组里只要有一张卡的文本含「连接怪兽特殊召唤的场合」或「被除外的场合」，
-   `combo_starters` 就必须逐条说明「最便宜的触发器是什么」，或者说明为什么不成立。
-4. **脚本事实一致性**：`script_facts.json` 里 `opt` 为 `custom` 的每一张卡，
-   `deck_parsed.json` 中都必须带 `once_per_turn_source: "script_custom"`；
-   其余卡要么与 `opt` 完全一致，要么在 `effect_summary` 里写明偏离原因。缺一条即 FAILED。
-5. **`script` 块完整性**：凡是有脚本的卡，`deck_parsed.json` 里都必须带
-   `script: {kinds, targets, has_cost, no_miss_timing}`，且与 `script_facts.json` 一致。
-   缺失即视为没做 Step 0，FAILED。通常脚本缺失（如通常怪兽）的卡可以没有这个块。
+1. **死手率闸门**：脚本在 `dead_rate > 15%` 时会打 `[WARN]`。这时必须回 Step 3.1 复查是否漏了二卡动点（尤其是额外卡组里的 Link-1），并在 `TODO.md` 里写明「已复查，死手率 X% 为真实值」。
+2. **需求覆盖**：卡组里只要有卡的文本含「连接怪兽特殊召唤的场合」或「被除外的场合」，`combo_starters` 就必须逐条说明「最便宜的触发器是什么」，或者说明为什么不成立。
 
 完成后更新 `TODO.md`：
 ```markdown
-- [x] Step 4.5: 一致性校验 → PASSED / FAILED+修正
+- [x] Step 4.5: 一致性校验 → PASSED（4 项）/ FAILED+修正
 ```
 
 ---
