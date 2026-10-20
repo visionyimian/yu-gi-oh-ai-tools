@@ -367,22 +367,35 @@ python skills/ygo-deck-analyze/scripts/verify.py {analysis} --cdb {cards.cdb}
 
 ---
 
-## 做场步骤
+## 场值展开
 
-{遍历 combo_lines，每条一个三级标题，标题必须与 JSON 里的 name 完全一致}
+{先写清楚场值定义：非连接怪兽=1，连接怪兽=标记数，连接召唤只是打包，净增来自「被除外→回场」和「素材少于标记数的连接」。
+再声明：场值 ≠ 干扰点，场值是预算，干扰点是怎么花。}
 
 ### {combo_lines[].name}
 
+{标题必须与 JSON 里的 name 完全一致}
+
 起手：**{hand_required}**
 
-1. {steps[0]}
-2. {steps[1]}
+| 场值 | 动作 | 变化 |
+|---:|---|---|
+| {steps[].field_value} | {steps[].act} | {steps[].gain} |
 
-终场：{endboard}（{interactions} 个干扰点）
-风险：{notes}
+**{peak_field_value} 场值能换成什么**
 
-> 开头必须写明「步骤依据卡片文本推导，未经模拟器验证」。
+| 终场 | 用途 |
+|---|---|
+| {endboard_options} | |
+
+**中断分支**
+
+- {branches[].if} → {branches[].then}
+
+**结论**：{notes}
+
 > 如果某条线的起手不在 `combos.json` 里，在这里注明原因（对应 `starter_note`）。
+> 报告里要写明步骤是「按卡面推导、未经模拟器验证」。
 
 ---
 

@@ -191,6 +191,39 @@ def check_combo_lines(parsed: dict, analysis: dict, rules: dict | None) -> tuple
   return not problems, detail
 
 
+def check_field_value(analysis: dict) -> tuple[bool, str]:
+  """场值账本要能对上：每一步的增减都要有依据，峰值要和声明一致。"""
+  lines = analysis.get("combo_lines") or []
+  tracked = [line for line in lines if any(isinstance(s, dict) for s in line.get("steps") or [])]
+  if not tracked:
+    return True, "（未提供场值步骤）"
+
+  problems = []
+  for line in tracked:
+    name = line.get("name", "?")
+    steps = [step for step in line["steps"] if isinstance(step, dict)]
+    values = [step.get("field_value") for step in steps]
+    if any(value is None for value in values):
+      problems.append(f"{name}：有步骤没写 field_value")
+      continue
+
+    peak = line.get("peak_field_value")
+    if peak is not None and max(values) != peak:
+      problems.append(f"{name}：峰值声明 {peak}，实际 {max(values)}")
+
+    for index in range(1, len(steps)):
+      before, after = values[index - 1], values[index]
+      if after < before:
+        problems.append(f"{name}：第 {index + 1} 步场值下降（{before}→{after}）")
+      elif after != before and not steps[index].get("gain"):
+        problems.append(f"{name}：第 {index + 1} 步场值 {before}→{after} 但没写 gain")
+
+  detail = (
+    f"{len(tracked)} 条" if not problems else f"{len(tracked)} 条  " + "；".join(problems[:3])
+  )
+  return not problems, detail
+
+
 def main(argv: list[str] | None = None) -> int:
   parser = argparse.ArgumentParser(description="Step 4.5：校验 deck_parsed.json 的内部一致性。")
   parser.add_argument("--parsed", type=Path, required=True, help="deck_parsed.json")
@@ -216,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
     ("脚本事实一致性", *check_facts(parsed, facts_by_name)),
     ("script 块完整性", *check_script_block(parsed, facts_by_name)),
     ("做场线", *check_combo_lines(parsed, analysis, rules)),
+    ("场值账本", *check_field_value(analysis)),
   ]
 
   width = max(len(name) for name, _, _ in results)

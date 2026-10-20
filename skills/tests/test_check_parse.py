@@ -197,3 +197,61 @@ def test_combo_line_with_starter_note_is_accepted(tmp_path, capsys):
 
   assert run(paths) == 0
   assert "标注了推导差异" in capsys.readouterr().out
+
+
+def field_line(steps: list[dict], peak: int | None = None) -> dict:
+  line = {"name": "线A", "starter": "卡A", "cards_used": ["卡A"], "steps": steps}
+  if peak is not None:
+    line["peak_field_value"] = peak
+  return line
+
+
+def test_field_value_ledger_passes(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path),
+    field_line(
+      [
+        {"act": "NS 卡A", "field_value": 1},
+        {"act": "卡A③ 回场", "field_value": 2, "gain": "+1"},
+      ],
+      peak=2,
+    ),
+  )
+
+  assert run(paths) == 0
+  assert "场值账本" in capsys.readouterr().out
+
+
+def test_field_value_increase_without_gain_fails(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path),
+    field_line([{"act": "NS", "field_value": 1}, {"act": "回场", "field_value": 2}]),
+  )
+
+  assert run(paths) == 1
+  assert "没写 gain" in capsys.readouterr().out
+
+
+def test_field_value_peak_mismatch_fails(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path),
+    field_line([{"act": "NS", "field_value": 1}], peak=3),
+  )
+
+  assert run(paths) == 1
+  assert "峰值声明" in capsys.readouterr().out
+
+
+def test_field_value_drop_fails(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path),
+    field_line(
+      [
+        {"act": "NS", "field_value": 2},
+        {"act": "连接召唤", "field_value": 1, "gain": "打包"},
+      ]
+    ),
+  )
+
+  assert run(paths) == 1
+  assert "场值下降" in capsys.readouterr().out
