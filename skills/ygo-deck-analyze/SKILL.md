@@ -151,7 +151,8 @@ CLI 工具会将数据（CSV格式）完整 dump 到 `deck_raw.csv`。
 先跑 `deck-parser` 的 Step 0，把效果硬事实落盘：
 
 ```bash
-python ../deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts -o script_facts.json
+python ../deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts \
+  --cdb {cards.cdb} -o script_facts.json
 ```
 
 `deck_parsed.json` 的 `once_per_turn_type` 必须与 `script_facts.json` 的 `opt` 一致；脚本给 `custom` 的卡必须人工复核并标注 `once_per_turn_source: "script_custom"`。

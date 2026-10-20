@@ -56,16 +56,33 @@ python -m venv .venv
 
 ```
 go test ./...                   5 个包全部 ok（cdb / git / ydk / cli）
-pytest                          104 passed
-ruff check                      23 个文件格式通过；lint 有 13 条既有告警（见下）
+pytest                          114 passed（离线用例；test_fetch_meta_deck 需要联网）
+ruff check .                    All checks passed
+ruff format . --check           全部已格式化
 ygo-db-cli get-card-by-id       中文库、英文库（--lang en-US）均正常
 ygo-db-cli get-cards-by-ydk     示例卡组导出 145 行 CSV
 count_deck.py / starter_probability.py / calculate.py   正常
 ```
 
-`ruff` 的 13 条告警（`I001` 导入排序、`BLE001` 宽泛 except 等）是仓库里**原本就有**的代码风格问题，
-其中 10 条可用 `ruff check . --fix` 自动修；不影响运行，所以 `verify.ps1` 默认只警告不拦截。
-想把它当失败条件就加 `-StrictLint`。
+ruff 原先有 11 条既有告警（`I001` 导入排序、`BLE001` 宽泛 `except` 等），已在本仓库修掉，
+`verify.ps1` 的 `-StrictLint` 现在可以作为失败条件使用。
+
+## 网络与代理
+
+若干脚本需要联网：`fetch_banlist.py`（拉 `lflist.conf`）、`script_facts.py`（拉卡脚本）、
+以及 `ygo-db-cli` 首次运行的卡库 clone。它们都用标准库 `urllib`，遵循 `HTTP_PROXY` / `HTTPS_PROXY`。
+
+**IPv6-only 代理的坑**：如果代理客户端只监听 `::`（FlClash 常见），把代理写成 `localhost`
+可能被 Python 解析到 IPv4 而连接被拒；改用显式 IPv6 字面量：
+
+```powershell
+$env:HTTP_PROXY  = "http://[::1]:7890"
+$env:HTTPS_PROXY = "http://[::1]:7890"
+```
+
+git 读的是 `git config http.proxy`，**不受**上面两个变量影响，需要单独设置或用
+`git -c http.proxy=... push` 临时覆盖。
+
 
 ## 怎么用
 

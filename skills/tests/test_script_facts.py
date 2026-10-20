@@ -1,11 +1,12 @@
 """Tests for the script_facts parser (synthetic fixtures, no network)."""
 
 import json
+import sqlite3
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "deck-parser" / "scripts"))
-from script_facts import main, parse_card, read_ydk_ids, summarize_opt
+from script_facts import is_vanilla, main, parse_card, read_ydk_ids, summarize_opt
 
 FIXTURES = Path(__file__).parent / "fixtures" / "scripts"
 
@@ -119,3 +120,42 @@ def test_offline_run_reports_missing(tmp_path, capsys):
   payload = json.loads(out.read_text(encoding="utf-8"))
   assert [card["id"] for card in payload["cards"]] == [10000001]
   assert payload["missing"] == [99999999]
+  assert payload["vanilla"] == []
+
+
+def test_is_vanilla_only_matches_normal_monsters():
+  assert is_vanilla(0x11) is True  # 怪兽卡 + 通常怪兽
+  assert is_vanilla(0x21) is False  # 效果怪兽
+  assert is_vanilla(0x2) is False  # 魔法卡
+
+
+def test_missing_script_is_classified_as_vanilla_with_cdb(tmp_path):
+  """A normal monster has no script; it must not be reported as a missing file."""
+  cdb = tmp_path / "cards.cdb"
+  connection = sqlite3.connect(cdb)
+  connection.execute("CREATE TABLE datas (id INTEGER PRIMARY KEY, type INTEGER)")
+  connection.execute("INSERT INTO datas VALUES (10000009, 17)")
+  connection.commit()
+  connection.close()
+
+  out = tmp_path / "facts.json"
+  assert (
+    main(
+      [
+        "--ids",
+        "10000009",
+        "--cache",
+        str(FIXTURES),
+        "--offline",
+        "--cdb",
+        str(cdb),
+        "-o",
+        str(out),
+      ]
+    )
+    == 0
+  )
+
+  payload = json.loads(out.read_text(encoding="utf-8"))
+  assert payload["vanilla"] == [10000009]
+  assert payload["missing"] == []

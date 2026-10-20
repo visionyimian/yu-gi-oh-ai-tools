@@ -34,8 +34,12 @@ description: 游戏王卡组结构解析 skill。接收 CLI 原始卡片数据�
 在分类之前，先把「这张卡在规则上到底怎么运作」从脚本里读出来，不要凭中文文本推断：
 
 ```bash
-python skills/deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts -o script_facts.json
+python skills/deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts \
+  --cdb {cards.cdb} -o script_facts.json
 ```
+
+`--cdb` 是可选的，作用是把**通常怪兽**（本来就没有脚本）和**脚本缺失**区分开：
+输出里 `vanilla` 是前者、`missing` 是后者。没有这个参数时两者都会进 `missing`。
 
 每张卡会得到：
 

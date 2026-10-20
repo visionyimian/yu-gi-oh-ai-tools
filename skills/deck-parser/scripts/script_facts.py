@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sqlite3
 import sys
 import urllib.request
 from pathlib import Path
@@ -57,6 +58,10 @@ KIND_ORDER = (
 )
 
 OPT_LABELS = {"card_name": "card_name_once", "card": "once_per_turn", "none": "unlimited"}
+
+# cards.cdb 的 type 位：0x10 通常怪兽、0x20 效果
+TYPE_NORMAL = 0x10
+TYPE_EFFECT = 0x20
 
 
 def read_ydk_ids(path: Path) -> list[int]:
@@ -230,6 +235,20 @@ def summarize_opt(facts: dict) -> str:
   return "mixed"
 
 
+def load_card_types(path: Path) -> dict[int, int]:
+  """从 cards.cdb 读 id → type 位掩码，用来区分「通常怪兽没有脚本」和「脚本缺失」。"""
+  connection = sqlite3.connect(path)
+  try:
+    return {row[0]: row[1] for row in connection.execute("SELECT id, type FROM datas")}
+  finally:
+    connection.close()
+
+
+def is_vanilla(card_type: int) -> bool:
+  """通常怪兽：有「通常怪兽」位、没有「效果」位。"""
+  return bool(card_type & TYPE_NORMAL) and not card_type & TYPE_EFFECT
+
+
 def main(argv: list[str] | None = None) -> int:
   parser = argparse.ArgumentParser(description="解析 ygopro-scripts，输出卡片效果的硬事实。")
   source = parser.add_mutually_exclusive_group(required=True)
@@ -238,18 +257,24 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--cache", type=Path, default=Path(".cache/ygopro-scripts"))
   parser.add_argument("--offline", action="store_true", help="只用缓存，不联网")
   parser.add_argument("--url", action="append", help="覆盖下载地址，可重复")
+  parser.add_argument("--cdb", type=Path, help="cards.cdb；用于把通常怪兽和脚本缺失区分开")
   parser.add_argument("-o", "--out", type=Path, help="输出文件，默认打印到标准输出")
   args = parser.parse_args(argv)
 
   ids = read_ydk_ids(args.ydk) if args.ydk else args.ids
   urls = tuple(args.url) if args.url else DEFAULT_URLS
+  types = load_card_types(args.cdb) if args.cdb else {}
 
   cards: list[dict] = []
   missing: list[int] = []
+  vanilla: list[int] = []
   for passcode in ids:
     text = fetch_script(passcode, args.cache, urls, args.offline)
     if text is None:
-      missing.append(passcode)
+      if is_vanilla(types.get(passcode, 0)):
+        vanilla.append(passcode)
+      else:
+        missing.append(passcode)
       continue
     facts = parse_card(text)
     summary = summarize_opt(facts)
@@ -264,11 +289,14 @@ def main(argv: list[str] | None = None) -> int:
       card["custom_evidence"] = facts["custom_evidence"]
     cards.append(card)
 
-  payload = {"cards": cards, "missing": missing}
+  payload = {"cards": cards, "missing": missing, "vanilla": vanilla}
   body = json.dumps(payload, ensure_ascii=False, indent=2)
   if args.out:
     args.out.write_text(body, encoding="utf-8")
-    print(f"已写入 {args.out}：{len(cards)} 张卡，{len(missing)} 张缺失")
+    print(
+      f"已写入 {args.out}：{len(cards)} 张有效果脚本，"
+      f"{len(vanilla)} 张通常怪兽（无脚本），{len(missing)} 张缺失"
+    )
   else:
     sys.stdout.write(body + "\n")
   return 0
