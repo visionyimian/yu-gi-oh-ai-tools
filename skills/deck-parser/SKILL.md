@@ -72,6 +72,27 @@ description: 游戏王卡组结构解析 skill。接收 CLI 原始卡片数据�
 
 `once_per_turn` 和 `unlimited` 的卡在资源堆叠上有特殊价值，deck-analyzer 会用这个信息分析资源上限。
 
+#### 别靠读文本猜，直接读脚本
+
+`once_per_turn_type` 不该凭中文效果文本推断——`ygopro-scripts` 里每张卡都有 `c<passcode>.lua`，次数限制是写死的：
+
+```bash
+python skills/deck-parser/scripts/script_facts.py --ydk deck.ydk --cache .cache/scripts -o facts.json
+```
+
+映射关系：
+
+| Lua 声明 | 对应取值 |
+|---|---|
+| `SetCountLimit(1, id)` | `card_name_once` |
+| `SetCountLimit(1)` | `once_per_turn` |
+| 两者都没有 | `unlimited` |
+| 没有 SetCountLimit，但有 `GetFlagEffect` / `aux.Enable*` | **`custom`** —— 限制换了写法，必须人工确认 |
+
+同一个工具还会输出 `no_miss_timing`（对应「時/場合」，见 `ocg-rules` 的 C2）、`targets`（C6）、`has_cost`（C5），以及 `restrictions` / `indirect_restrictions`（自锁）。详见 `ocg-rules` skill。
+
+> 实测：码丽丝那套牌 29 张可比对的卡里有 4 张与人工判断不符，其中 2 张是人工写错、2 张是 `custom`。
+
 ---
 
 ### Step 2 — Engine 识别
