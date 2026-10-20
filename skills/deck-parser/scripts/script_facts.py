@@ -43,6 +43,8 @@ SETTER_RE = re.compile(r"^\s*(\w+)\s*:\s*Set(\w+)\s*\((.*)\)\s*$")
 # 两种命名风格：新卡用 s.initial_effect，老卡用 c<passcode>.initial_effect
 ENTRY_RE = re.compile(r"^function\s+\w+\.initial_effect\s*\(")
 RESTRICTION_RE = re.compile(r"EFFECT_CANNOT_[A-Z_]+")
+FLAG_RE = re.compile(r"Duel\.GetFlagEffect\s*\(\s*([^)]*?)\s*\)\s*(<=|>=|==|<|>)\s*(\d+)")
+AUX_RE = re.compile(r"aux\.(Enable\w+)")
 
 KIND_ORDER = (
   ("EFFECT_TYPE_IGNITION", "ignition"),
@@ -193,14 +195,20 @@ def parse_card(text: str) -> dict:
   indirect = set(RESTRICTION_RE.findall(text)) - direct
 
   # 次数限制不一定用 SetCountLimit 表达：有的卡用 GetFlagEffect 计数，
-  # 有的靠 aux.Enable*Check 之类的共享 helper。这种情况下不能判成「无限制」。
-  custom_opt = bool(re.search(r"GetFlagEffect\s*\(", text)) or "aux.Enable" in text
+  # 有的靠 aux.Enable*Check 之类的共享 helper。这种情况下不能判成「无限制」，
+  # 但也不该由脚本猜语义——把证据原样列出来，交给 agent 复核。
+  flag_checks = [
+    f"Duel.GetFlagEffect({expr}) {op} {value}" for expr, op, value in FLAG_RE.findall(text)
+  ]
+  aux_helpers = sorted(set(AUX_RE.findall(text)))
+  custom_opt = bool(flag_checks) or bool(aux_helpers)
 
   return {
     "effects": effects,
     "restrictions": sorted(direct),
     "indirect_restrictions": sorted(indirect),
     "custom_opt": custom_opt,
+    "custom_evidence": {"flag_checks": flag_checks, "aux_helpers": aux_helpers},
   }
 
 
@@ -244,15 +252,16 @@ def main(argv: list[str] | None = None) -> int:
       continue
     facts = parse_card(text)
     summary = summarize_opt(facts)
-    cards.append(
-      {
-        "id": passcode,
-        "opt": summary,
-        "restrictions": facts["restrictions"],
-        "indirect_restrictions": facts["indirect_restrictions"],
-        "effects": facts["effects"],
-      }
-    )
+    card = {
+      "id": passcode,
+      "opt": summary,
+      "restrictions": facts["restrictions"],
+      "indirect_restrictions": facts["indirect_restrictions"],
+      "effects": facts["effects"],
+    }
+    if summary == "custom":
+      card["custom_evidence"] = facts["custom_evidence"]
+    cards.append(card)
 
   payload = {"cards": cards, "missing": missing}
   body = json.dumps(payload, ensure_ascii=False, indent=2)

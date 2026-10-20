@@ -29,6 +29,49 @@ description: 游戏王卡组结构解析 skill。接收 CLI 原始卡片数据�
 
 ## 解析流程
 
+### Step 0 — 脚本事实（必做）
+
+在分类之前，先把「这张卡在规则上到底怎么运作」从脚本里读出来，不要凭中文文本推断：
+
+```bash
+python skills/deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts -o script_facts.json
+```
+
+每张卡会得到：
+
+| 字段 | 含义 | 后续用途 |
+|---|---|---|
+| `opt` | `card_name_once` / `once_per_turn` / `unlimited` / `custom` | 直接作为 `once_per_turn_type` |
+| `effects[].kind` | `ignition` / `trigger_optional` / `quick_optional` / … | 区分 starter 与 handtrap |
+| `effects[].no_miss_timing` | `true` = 不会错过时点（等价「場合」） | 判断这条线会不会被前置处理挤掉（C2） |
+| `effects[].targets` | 是否取对象 | 判断对象抗性挡不挡（C6） |
+| `effects[].has_cost` | 这一步是否 cost | 判断能否被灰流丽响应（C5） |
+| `restrictions` | 效果里直接声明的自锁 | `self_lock_risk` |
+| `indirect_restrictions` | 结算时才挂载的自锁 | 同上 |
+
+规则判据的完整说明见 `ocg-rules` skill。
+
+#### `opt` 为 `custom` 时（必做）
+
+脚本里没有 `SetCountLimit`，次数限制是用 `Duel.GetFlagEffect` 或 `aux.Enable*` 实现的。工具会把证据原样列出：
+
+```json
+"custom_evidence": {
+  "flag_checks": ["Duel.GetFlagEffect(tp,84192580) <= 1"],
+  "aux_helpers": ["EnableMulcharmyGlobalCheck"]
+}
+```
+
+此时**不得直接归类**，必须：
+
+1. 读证据：flag 里用的是**哪张卡的 id**？如果是别人的 id，说明这是跨卡共享的限制，不是本卡的限制
+2. 判定本卡实际的次数限制
+3. 在 `deck_parsed.json` 里写 `once_per_turn_type` + `once_per_turn_source: "script_custom"`，并在 `effect_summary` 里写明依据
+
+> 例：欢聚友伴系列用 `GetFlagEffect(tp, 84192580)`（水母的 id）+ `EnableMulcharmyGlobalCheck`，实现的是**整个系列的回合限制**——单看山雀是 `card_name_once`，实际是跨卡互斥。
+
+---
+
 ### Step 1 — 卡片分类
 
 读取每张卡的效果文本，将每张卡归入以下类型。一张卡可以归入多个类型。
@@ -62,36 +105,22 @@ description: 游戏王卡组结构解析 skill。接收 CLI 原始卡片数据�
 
 ### 关于 once_per_turn_type
 
-读取每张卡的效果文本后，同时标注效果发动的频率限制：
+**取值来自 Step 0 的 `opt`，不要读文本猜。**
 
 | 值 | 定义 |
 |---|---|
-| `card_name_once` | 效果有卡名限制，同名卡在同一回合只能发动一次。多张同名的意义仅是提高起手率。 |
-| `once_per_turn` | 效果有一回合一次限制，但没有卡名绑定。在特定条件下（例如不同状态、不同位置）同一张卡可以多次发动，或多张同名可各自发动。 |
-| `unlimited` | 效果没有次数限制，理论上可以在同一回合内多次发动。塞勒涅、神圣魔皇后等靠计数器反复利用的卡属于此类。 |
+| `card_name_once` | 卡名限制：同名卡在同一回合只能发动一次。多张同名的意义仅是提高起手率。 |
+| `once_per_turn` | 有一回合一次限制，但没有卡名绑定。在特定条件下（不同状态、不同位置）同一张卡可以多次发动，或多张同名可各自发动。 |
+| `unlimited` | 没有次数限制，理论上可以在同一回合内多次发动。塞勒涅、神圣魔皇后等靠计数器反复利用的卡属于此类。 |
+
+`deck_parsed.json` 里**只允许这三个值**。脚本给出的 `custom` 必须先人工复核、改写成三态之一，并标注来源：
+
+| `once_per_turn_source` | 何时使用 |
+|---|---|
+| `script` | 直接取自脚本的 `SetCountLimit`（默认） |
+| `script_custom` | 脚本用 flag/aux 计数，经人工复核后判定 |
 
 `once_per_turn` 和 `unlimited` 的卡在资源堆叠上有特殊价值，deck-analyzer 会用这个信息分析资源上限。
-
-#### 别靠读文本猜，直接读脚本
-
-`once_per_turn_type` 不该凭中文效果文本推断——`ygopro-scripts` 里每张卡都有 `c<passcode>.lua`，次数限制是写死的：
-
-```bash
-python skills/deck-parser/scripts/script_facts.py --ydk deck.ydk --cache .cache/scripts -o facts.json
-```
-
-映射关系：
-
-| Lua 声明 | 对应取值 |
-|---|---|
-| `SetCountLimit(1, id)` | `card_name_once` |
-| `SetCountLimit(1)` | `once_per_turn` |
-| 两者都没有 | `unlimited` |
-| 没有 SetCountLimit，但有 `GetFlagEffect` / `aux.Enable*` | **`custom`** —— 限制换了写法，必须人工确认 |
-
-同一个工具还会输出 `no_miss_timing`（对应「時/場合」，见 `ocg-rules` 的 C2）、`targets`（C6）、`has_cost`（C5），以及 `restrictions` / `indirect_restrictions`（自锁）。详见 `ocg-rules` skill。
-
-> 实测：码丽丝那套牌 29 张可比对的卡里有 4 张与人工判断不符，其中 2 张是人工写错、2 张是 `custom`。
 
 ---
 

@@ -32,6 +32,7 @@ description: 游戏王卡组完整分析流程的 parent skill。当用户提供
 ├── banlist_check.txt    # Step 1.5 产物：禁限校验结果（含所用列表期号）
 ├── deck_raw.csv         # Step 2 产物：CLI 原始返回数据（CSV格式）
 ├── deck_raw.json        # Step 2 产物：同一份数据的 JSON 版（combo_scan 需要 archetypes 字段）
+├── script_facts.json    # Step 3 产物：效果硬事实（script_facts 输出）
 ├── combo_candidates.json # Step 3 产物：需求 → 满足者候选（combo_scan 输出）
 ├── combos.json          # Step 3 产物：人工确认后的动点规则（hand_matrix 输入）
 ├── deck_parsed.json     # Step 3 产物：deck-parser 输出
@@ -144,6 +145,16 @@ CLI 工具会将数据（CSV格式）完整 dump 到 `deck_raw.csv`。
 输入：`deck_raw.csv`
 输出：按 `deck-parser` skill 定义的 JSON schema 生成结果，dump 到 `deck_parsed.json`。
 
+#### 3.0 脚本事实（必做）
+
+先跑 `deck-parser` 的 Step 0，把效果硬事实落盘：
+
+```bash
+python ../deck-parser/scripts/script_facts.py --ydk {ydk} --cache .cache/ygopro-scripts -o script_facts.json
+```
+
+`deck_parsed.json` 的 `once_per_turn_type` 必须与 `script_facts.json` 的 `opt` 一致；脚本给 `custom` 的卡必须人工复核并标注 `once_per_turn_source: "script_custom"`。
+
 #### 3.1 动点矩阵（必做，不能只靠读卡）
 
 同样的数据再导一份 JSON（`combo_scan` 需要 `archetypes` 字段）：
@@ -219,6 +230,9 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 2. `dead_rate` > 15% 时，必须有 `combo_starters` 的复查记录；找不到就回去补，不允许直接写报告。
 3. 卡组里只要有一张卡的文本含「连接怪兽特殊召唤的场合」或「被除外的场合」，
    `combo_starters` 就必须逐条说明「最便宜的触发器是什么」，或者说明为什么不成立。
+4. **脚本事实一致性**：`script_facts.json` 里 `opt` 为 `custom` 的每一张卡，
+   `deck_parsed.json` 中都必须带 `once_per_turn_source: "script_custom"`；
+   其余卡要么与 `opt` 完全一致，要么在 `effect_summary` 里写明偏离原因。缺一条即 FAILED。
 
 完成后更新 `TODO.md`：
 ```markdown

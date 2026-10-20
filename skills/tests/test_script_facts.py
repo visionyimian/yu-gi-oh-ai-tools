@@ -78,6 +78,8 @@ def test_flag_based_limit_is_custom_not_unlimited():
 
   assert facts["custom_opt"] is True
   assert summarize_opt(facts) == "custom"
+  assert facts["custom_evidence"]["aux_helpers"] == ["EnableGlobalCheck"]
+  assert any("GetFlagEffect" in check for check in facts["custom_evidence"]["flag_checks"])
 
 
 def test_helper_functions_are_not_parsed():
