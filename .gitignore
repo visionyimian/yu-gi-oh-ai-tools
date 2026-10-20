@@ -7,3 +7,6 @@ ygo-db/bin/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+
+# 脚本缓存（script_facts.py 默认写到 .cache/ygopro-scripts）
+.cache/

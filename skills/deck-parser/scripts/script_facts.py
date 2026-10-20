@@ -65,7 +65,7 @@ def read_ydk_ids(path: Path) -> list[int]:
   seen: set[int] = set()
   for raw in path.read_text(encoding="utf-8").splitlines():
     line = raw.strip()
-    if not line or line.startswith("#") or line.startswith("!"):
+    if not line or line.startswith(("#", "!")):
       continue
     if not line.isdigit():
       continue
@@ -88,7 +88,8 @@ def fetch_script(passcode: int, cache: Path, urls: tuple[str, ...], offline: boo
     try:
       with urllib.request.urlopen(f"{base}/c{passcode}.lua", timeout=30) as response:
         text = response.read().decode("utf-8", errors="replace")
-    except Exception:
+    except OSError:
+      # URLError/HTTPError 都是 OSError 的子类，换下一个源
       continue
     cache.mkdir(parents=True, exist_ok=True)
     target.write_text(text, encoding="utf-8")
@@ -173,9 +174,7 @@ def parse_card(text: str) -> dict:
   for effect in effects:
     types = effect.get("types", [])
     flags = effect.get("flags", [])
-    effect["kind"] = next(
-      (kind for token, kind in KIND_ORDER if token in types), "other"
-    )
+    effect["kind"] = next((kind for token, kind in KIND_ORDER if token in types), "other")
     if "count_limit_key" in effect:
       effect["opt"] = "card_name" if effect["count_limit_key"] else "card"
     elif "count_limit" in effect:
@@ -187,9 +186,7 @@ def parse_card(text: str) -> dict:
     effect["has_cost"] = "cost" in effect
 
   direct = {
-    effect["event"]
-    for effect in effects
-    if (effect.get("event") or "").startswith("EFFECT_CANNOT")
+    effect["event"] for effect in effects if (effect.get("event") or "").startswith("EFFECT_CANNOT")
   }
   # 有些限制是在效果结算时才挂上去的（写在 helper 函数里），这里单独列出来
   indirect = set(RESTRICTION_RE.findall(text)) - direct

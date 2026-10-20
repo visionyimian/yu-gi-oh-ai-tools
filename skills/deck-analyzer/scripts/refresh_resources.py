@@ -141,8 +141,7 @@ def write_rows(path: Path, header: list[str], body: list[list[str]]) -> int:
   csv.writer(buffer, lineterminator="\r\n").writerows([header, *body])
 
   data = buffer.getvalue()
-  if data.endswith("\r\n"):
-    data = data[: -len("\r\n")]
+  data = data.removesuffix("\r\n")
 
   path.write_bytes(data.encode("utf-8"))
   return len(data)

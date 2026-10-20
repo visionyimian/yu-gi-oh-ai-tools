@@ -4,11 +4,8 @@ import json
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent / "deck-parser" / "scripts"))
 from script_facts import main, parse_card, read_ydk_ids, summarize_opt
-
 
 FIXTURES = Path(__file__).parent / "fixtures" / "scripts"
 
@@ -103,12 +100,21 @@ def test_read_ydk_ids_dedupes_and_skips_markers(tmp_path):
 def test_offline_run_reports_missing(tmp_path, capsys):
   out = tmp_path / "facts.json"
 
-  assert main([
-    "--ids", "10000001", "99999999",
-    "--cache", str(FIXTURES),
-    "--offline",
-    "-o", str(out),
-  ]) == 0
+  assert (
+    main(
+      [
+        "--ids",
+        "10000001",
+        "99999999",
+        "--cache",
+        str(FIXTURES),
+        "--offline",
+        "-o",
+        str(out),
+      ]
+    )
+    == 0
+  )
 
   payload = json.loads(out.read_text(encoding="utf-8"))
   assert [card["id"] for card in payload["cards"]] == [10000001]

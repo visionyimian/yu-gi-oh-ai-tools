@@ -9,7 +9,6 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent / "ocg-banlist" / "scripts"))
 from fetch_banlist import main, parse_lists, pick_list, read_ydk
 
-
 FIXTURES = Path(__file__).parent / "fixtures" / "banlist"
 LFLIST = FIXTURES / "lflist_sample.conf"
 

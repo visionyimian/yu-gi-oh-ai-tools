@@ -10,7 +10,6 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent / "deck-analyzer" / "scripts"))
 from refresh_resources import main
 
-
 HEADER_LINE = "name,desc,frequency,atk,def,level,race,attribute,type"
 ASH_ROW = (
   '灰流丽,"这个卡名的效果1回合只能使用1次。\r\n'

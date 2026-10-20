@@ -41,12 +41,12 @@ def load_text(urls: tuple[str, ...], path: Path | None) -> tuple[str, str]:
   if path is not None:
     return path.read_text(encoding="utf-8"), str(path)
 
-  last_error: Exception | None = None
+  last_error: OSError | None = None
   for url in urls:
     try:
       with urllib.request.urlopen(url, timeout=30) as response:
         return response.read().decode("utf-8"), url
-    except Exception as exc:  # 网络问题逐个源重试
+    except OSError as exc:  # 网络问题逐个源重试
       last_error = exc
   raise SystemExit(f"无法下载 lflist.conf：{last_error}")
 
