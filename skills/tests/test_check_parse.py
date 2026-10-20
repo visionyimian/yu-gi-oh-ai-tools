@@ -242,16 +242,32 @@ def test_field_value_peak_mismatch_fails(tmp_path, capsys):
   assert "峰值声明" in capsys.readouterr().out
 
 
-def test_field_value_drop_fails(tmp_path, capsys):
+def test_field_value_drop_needs_spend(tmp_path, capsys):
   paths = with_combo_line(
     build(tmp_path),
     field_line(
       [
         {"act": "NS", "field_value": 2},
-        {"act": "连接召唤", "field_value": 1, "gain": "打包"},
+        {"act": "连接召唤", "field_value": 1},
       ]
     ),
   )
 
   assert run(paths) == 1
-  assert "场值下降" in capsys.readouterr().out
+  assert "没写 spend" in capsys.readouterr().out
+
+
+def test_field_value_drop_with_spend_passes(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path),
+    field_line(
+      [
+        {"act": "白棋捆绑＋睡鼠（4 场值）", "field_value": 4},
+        {"act": "小男巫", "field_value": 2, "spend": "-2 换检索"},
+      ],
+      peak=4,
+    ),
+  )
+
+  assert run(paths) == 0
+  assert "场值账本" in capsys.readouterr().out

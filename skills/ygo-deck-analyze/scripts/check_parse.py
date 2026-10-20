@@ -213,10 +213,11 @@ def check_field_value(analysis: dict) -> tuple[bool, str]:
 
     for index in range(1, len(steps)):
       before, after = values[index - 1], values[index]
-      if after < before:
-        problems.append(f"{name}：第 {index + 1} 步场值下降（{before}→{after}）")
-      elif after != before and not steps[index].get("gain"):
+      if after > before and not steps[index].get("gain"):
         problems.append(f"{name}：第 {index + 1} 步场值 {before}→{after} 但没写 gain")
+      # 场值可以花掉：拿高标记的连接怪兽做低标记的素材时，差额要写明换到了什么
+      if after < before and not steps[index].get("spend"):
+        problems.append(f"{name}：第 {index + 1} 步场值 {before}→{after} 但没写 spend")
 
   detail = (
     f"{len(tracked)} 条" if not problems else f"{len(tracked)} 条  " + "；".join(problems[:3])
