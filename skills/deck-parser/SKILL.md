@@ -203,7 +203,22 @@ python ../starter-probability/scripts/starter_probability.py -d 40 -t 4 -a 17
 ```
 
 **（3）真实起手分布**：这是**唯一能回答「这套牌到底多大比例能动」的办法**。
-把 1 卡动点、二卡动点写成规则文件，穷举全部 5 张起手。
+
+动点规则**不要手写**，先自动推导：
+
+```bash
+python scripts/derive_combos.py deck_raw.json script_facts.json combo_candidates.json \
+  --cdb cards.cdb -o combos.json
+```
+
+推导只看机器可读的两样东西，不读中文语义：
+
+- `script_facts` 的 `categories`（`CATEGORY_SEARCH` / `SPECIAL_SUMMON` / `SSET`）判断「这张卡会不会产出资源」
+- `combo_scan` 的 `triggers[].self_trigger` 判断「它是不是要等外部事件」
+
+每条规则都带 `reason`，**逐条看一遍**：删掉明显不成立的（陷阱卡、需要前置场面的卡），补上漏掉的（`categories` 里没有、但文本上明显能启动的）。
+
+然后穷举：
 
 ```bash
 python scripts/hand_matrix.py deck_raw.json combos.json

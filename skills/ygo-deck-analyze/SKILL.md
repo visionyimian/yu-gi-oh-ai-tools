@@ -170,6 +170,14 @@ python ../deck-parser/scripts/combo_scan.py deck_raw.json -o combo_candidates.js
 按 `combo_scan` 的候选表逐条验证，把成立的二卡动点写成 `combos.json`，然后穷举起手：
 
 ```bash
+python ../deck-parser/scripts/derive_combos.py deck_raw.json script_facts.json \
+  combo_candidates.json --cdb {cards.cdb} -o combos.json
+```
+
+`derive_combos` 会给出带 `reason` 的草稿（单卡动按 `categories` 推、二卡动按 `self_trigger` 推）。
+逐条看 `reason`，删掉不成立的、补上漏掉的，再穷举：
+
+```bash
 python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 ```
 
