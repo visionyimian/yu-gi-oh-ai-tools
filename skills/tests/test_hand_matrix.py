@@ -186,3 +186,72 @@ class TestRender:
   def test_no_warning_below_threshold(self):
     text = render(self.result(5.0), 15.0)
     assert "⚠" not in text
+
+  def test_render_shows_resource_usage(self):
+    result = self.result(5.0)
+    result["rules"] = [
+      {
+        "label": "A单卡",
+        "kind": "one",
+        "consumes": {"normal_summon": 1},
+        "locks": ["extra_deck_link_only"],
+        "rate": 95.0,
+      }
+    ]
+    text = render(result, 15.0)
+
+    assert "资源占用" in text
+    assert "normal_summon×1" in text
+    assert "extra_deck_link_only" in text
+
+
+class TestResourceConsumes:
+  """consumes / locks：一回合只能用一次的资源不能超额。"""
+
+  def test_normal_summon_budget_is_enforced(self):
+    d = deck([card("A", 3)])
+    with pytest.raises(ValueError) as exc:
+      build_rules(
+        {"one_card": [{"label": "x", "cards": ["A"], "consumes": {"normal_summon": 2}}]},
+        d,
+      )
+
+    assert "normal_summon" in str(exc.value)
+
+  def test_negative_resource_raises(self):
+    d = deck([card("A", 3)])
+    with pytest.raises(ValueError):
+      build_rules(
+        {"one_card": [{"label": "x", "cards": ["A"], "consumes": {"normal_summon": -1}}]},
+        d,
+      )
+
+  def test_resources_flow_into_result(self):
+    d = deck([card("A", 2), card("B", 3)])
+    rules = build_rules(
+      {
+        "one_card": [
+          {"label": "A单卡", "cards": ["A"], "consumes": {"normal_summon": 1}},
+          {"label": "B单卡", "cards": ["B"], "consumes": {"normal_summon": 0}},
+        ]
+      },
+      d,
+    )
+    result = enumerate_hands(d, rules, hand_size=1)
+
+    by_label = {rule["label"]: rule for rule in result["rules"]}
+    assert by_label["A单卡"]["consumes"] == {"normal_summon": 1}
+    assert by_label["B单卡"]["consumes"] == {"normal_summon": 0}
+    assert by_label["A单卡"]["rate"] == pytest.approx(40.0)
+    assert by_label["B单卡"]["rate"] == pytest.approx(60.0)
+
+  def test_locks_are_reported(self):
+    d = deck([card("A", 3)])
+    rules = build_rules(
+      {"one_card": [{"label": "A", "cards": ["A"], "locks": ["extra_deck_link_only"]}]},
+      d,
+    )
+
+    result = enumerate_hands(d, rules, hand_size=1)
+
+    assert result["rules"][0]["locks"] == ["extra_deck_link_only"]

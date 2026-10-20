@@ -223,6 +223,25 @@ python scripts/hand_matrix.py deck_raw.json combos.json
 可用谓词：`link1_material`（手里有能当某只 Link-1 素材的怪）、`link2_material`、`ns_body`（手里有可通召的怪）。
 规则里的卡名必须来自主卡组；额外卡组怪兽用谓词表达，不能直接写名字。
 
+#### 资源字段（`consumes` / `locks`）
+
+规则可以声明这条线消耗了什么，脚本会校验预算、并把结果带进输出：
+
+```json
+{ "label": "白兔单卡", "cards": ["码丽丝<兵卒>白兔"],
+  "consumes": { "normal_summon": 1 },
+  "locks": ["extra_deck_link_only"] }
+```
+
+| 字段 | 含义 | 校验 |
+|---|---|---|
+| `consumes.normal_summon` | 这条线用掉几次通常召唤 | **> 1 直接报错**（一回合只有 1 次） |
+| `consumes.pendulum_summon` | 同上，P 召唤 | **> 1 直接报错** |
+| `consumes.<其它>` | 自定义资源计数 | 只要求非负整数 |
+| `locks` | 这条线带来的自锁 | 原样输出，供报告引用 |
+
+输出的 `rules[]` 会给出每条规则的 `consumes` / `locks` / `rate`，`render()` 末尾也会打印一张「资源占用」表。
+
 **（4）死手率自检**：脚本默认在死手率超过 15% 时告警。**看到告警不要直接写报告**——
 对一线卡组来说，>15% 通常意味着还有没识别的二卡动点，先回 Step 2.5 复查。加 `--strict` 可让它直接以失败结束。
 

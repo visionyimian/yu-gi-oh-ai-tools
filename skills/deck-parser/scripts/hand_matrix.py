@@ -47,6 +47,9 @@ PREDICATES = {
   "ns_body": "手里有可以通常召唤的怪兽",
 }
 
+# 一回合只能用一次的资源：规则里声明的次数不能超过这里的预算
+EXCLUSIVE_PER_TURN = {"normal_summon": 1, "pendulum_summon": 1}
+
 
 def _gate_names(deck: dict, max_rating: int) -> set[str]:
   names = set()
@@ -89,20 +92,49 @@ def build_rules(rules: dict, deck: dict) -> list[dict]:
       return resolve_predicate(rule[predicate_key], deck)
     raise ValueError("规则「{}」缺少 {} 或 {}".format(rule.get("label", "?"), key, predicate_key))
 
+  def resources_of(rule: dict) -> tuple[dict, list[str]]:
+    """解析并校验 consumes / locks：一回合只能做一次的资源不能超额。"""
+    label = rule.get("label", "?")
+    consumes = rule.get("consumes") or {}
+    if not isinstance(consumes, dict):
+      raise TypeError(f"规则「{label}」的 consumes 必须是对象")
+    for key, value in consumes.items():
+      if not isinstance(value, int) or value < 0:
+        raise ValueError(f"规则「{label}」的 consumes.{key} 必须是非负整数")
+      budget = EXCLUSIVE_PER_TURN.get(key)
+      if budget is not None and value > budget:
+        raise ValueError(f"规则「{label}」声明 {key}={value}，但一回合只能 {budget} 次")
+    locks = rule.get("locks") or []
+    if not isinstance(locks, list):
+      raise TypeError(f"规则「{label}」的 locks 必须是数组")
+    return consumes, list(locks)
+
   for rule in rules.get("one_card") or []:
+    consumes, locks = resources_of(rule)
     parsed.append(
       {
         "label": rule.get("label", "单卡动"),
         "first": names_of(rule, "cards", "predicate"),
         "second": None,
+        "consumes": consumes,
+        "locks": locks,
       }
     )
   for rule in rules.get("two_card") or []:
+    consumes, locks = resources_of(rule)
     first = names_of(rule, "first", "first_predicate")
     second = names_of(rule, "second", "second_predicate")
     if not second:
       raise ValueError("规则「{}」的 second 为空".format(rule.get("label", "?")))
-    parsed.append({"label": rule.get("label", "二卡动"), "first": first, "second": second})
+    parsed.append(
+      {
+        "label": rule.get("label", "二卡动"),
+        "first": first,
+        "second": second,
+        "consumes": consumes,
+        "locks": locks,
+      }
+    )
   return parsed
 
 
@@ -200,6 +232,16 @@ def enumerate_hands(deck: dict, parsed_rules: list[dict], hand_size: int = 5) ->
       "by_label": {label: pct(by_label[label]) for label in two_labels},
     },
     "startable": pct(one_total + two_total),
+    "rules": [
+      {
+        "label": rule["label"],
+        "kind": "one" if rule["second"] is None else "two",
+        "consumes": rule["consumes"],
+        "locks": rule["locks"],
+        "rate": pct(by_label[rule["label"]]),
+      }
+      for rule in parsed_rules
+    ],
     "dead": {
       "rate": pct(dead_total),
       "hands": dead_total,
@@ -226,6 +268,15 @@ def render(result: dict, threshold: float) -> str:
     lines.append(f"    {label:<28} {rate:5.2f}%")
   lines.append("能动合计  {:5.2f}%".format(result["startable"]))
   lines.append("不能动    {:5.2f}%".format(result["dead"]["rate"]))
+
+  if result.get("rules"):
+    lines.append("")
+    lines.append("资源占用：")
+    for rule in result["rules"]:
+      used = ", ".join(f"{key}×{value}" for key, value in rule["consumes"].items()) or "无"
+      locks = "，自锁：" + "/".join(rule["locks"]) if rule["locks"] else ""
+      lines.append(f"    {rule['label']:<28} {used}{locks}")
+
   if result["dead"]["rate"] > threshold:
     lines.append("")
     lines.append(
@@ -260,7 +311,7 @@ def main():
   try:
     parsed = build_rules(rules, deck)
     result = enumerate_hands(deck, parsed, args.hand_size)
-  except ValueError as error:
+  except (ValueError, TypeError) as error:
     print(f"错误：{error}", file=sys.stderr)
     return 1
 
