@@ -93,7 +93,7 @@ def build(tmp_path: Path, **overrides) -> list[str]:
 
 
 def run(paths: list[str]) -> int:
-  parsed, analysis, matrix, facts, cdb = paths
+  parsed, analysis, matrix, facts, cdb, *extra = paths
   return main(
     [
       "--parsed",
@@ -106,6 +106,7 @@ def run(paths: list[str]) -> int:
       facts,
       "--cdb",
       cdb,
+      *extra,
     ]
   )
 
@@ -147,3 +148,52 @@ def test_missing_script_block_fails(tmp_path, capsys):
   assert run(build(tmp_path, block=None)) == 1
 
   assert "缺 script 块" in capsys.readouterr().out
+
+
+def with_combo_line(paths: list[str], line: dict) -> list[str]:
+  analysis = json.loads(Path(paths[1]).read_text(encoding="utf-8"))
+  analysis["combo_lines"] = [line]
+  Path(paths[1]).write_text(json.dumps(analysis, ensure_ascii=False), encoding="utf-8")
+  return paths
+
+
+def with_rules(paths: list[str], cards: list[str]) -> list[str]:
+  rules = Path(paths[0]).parent / "combos.json"
+  rules.write_text(
+    json.dumps({"one_card": [{"label": "规则", "cards": cards}]}, ensure_ascii=False),
+    encoding="utf-8",
+  )
+  return paths + ["--rules", str(rules)]
+
+
+def test_combo_line_with_unknown_card_fails(tmp_path, capsys):
+  paths = with_combo_line(
+    build(tmp_path), {"name": "线A", "starter": "卡A", "cards_used": ["卡A", "不在卡组里的卡"]}
+  )
+
+  assert run(paths) == 1
+
+  assert "不在卡组里的卡" in capsys.readouterr().out
+
+
+def test_combo_line_starter_outside_rules_fails(tmp_path, capsys):
+  paths = with_rules(
+    with_combo_line(build(tmp_path), {"name": "线A", "starter": "卡A"}), ["别的卡"]
+  )
+
+  assert run(paths) == 1
+
+  assert "不在 combos.json 里" in capsys.readouterr().out
+
+
+def test_combo_line_with_starter_note_is_accepted(tmp_path, capsys):
+  paths = with_rules(
+    with_combo_line(
+      build(tmp_path),
+      {"name": "线A", "starter": "卡A", "cards_used": ["卡A"], "starter_note": "推导器漏了"},
+    ),
+    ["别的卡"],
+  )
+
+  assert run(paths) == 0
+  assert "标注了推导差异" in capsys.readouterr().out

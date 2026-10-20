@@ -242,6 +242,7 @@ python skills/ygo-deck-analyze/scripts/check_parse.py \
 | **hand_matrix** | `deck_parsed.json` 里的能动率/死手率必须与穷举结果一致 | 重新回填，不要手改数字 |
 | **脚本事实一致性** | `once_per_turn_type` 必须等于脚本的 `opt`；`custom` 的卡必须标 `once_per_turn_source: "script_custom"` | 看 Step 0 的 `custom_evidence` 重新判定 |
 | **script 块完整性** | 有脚本的卡必须带 `script: {kinds, targets, has_cost, no_miss_timing}` 且与脚本一致 | 说明没做 Step 0，回去补 |
+| **做场线** | 每条 `combo_lines` 里用到的卡必须在卡组里；起手必须在 `combos.json` 里 | 卡名写错就改；起手对不上就补 `starter_note` 说明为什么推导器漏了它 |
 
 脚本覆盖不到、仍需人工确认的两件事：
 
@@ -363,6 +364,25 @@ python skills/ygo-deck-analyze/scripts/verify.py {analysis} --cdb {cards.cdb}
 **自锁风险**：{self_lock_risk}
 
 > 如果终场类型为 `RESOURCE_DENIAL_BOARD`，在此说明对手的哪些资源会被破坏，以及通常在第几回合让对手断粮。
+
+---
+
+## 做场步骤
+
+{遍历 combo_lines，每条一个三级标题，标题必须与 JSON 里的 name 完全一致}
+
+### {combo_lines[].name}
+
+起手：**{hand_required}**
+
+1. {steps[0]}
+2. {steps[1]}
+
+终场：{endboard}（{interactions} 个干扰点）
+风险：{notes}
+
+> 开头必须写明「步骤依据卡片文本推导，未经模拟器验证」。
+> 如果某条线的起手不在 `combos.json` 里，在这里注明原因（对应 `starter_note`）。
 
 ---
 

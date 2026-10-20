@@ -124,6 +124,9 @@ def main(argv: list[str] | None = None) -> int:
       "--cdb",
       str(args.cdb),
     ]
+    rules = directory / "combos.json"
+    if rules.is_file():
+      sub_argv += ["--rules", str(rules)]
     ok, output = capture(check_parse.main, sub_argv)
     print("\n".join("  " + line for line in output.splitlines()))
     groups.append(("Step 4.5", ok))

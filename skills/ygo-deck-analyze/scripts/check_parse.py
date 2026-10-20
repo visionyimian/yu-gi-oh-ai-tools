@@ -144,6 +144,53 @@ def check_script_block(parsed: dict, facts_by_name: dict) -> tuple[bool, str]:
   return not problems, detail
 
 
+def check_combo_lines(parsed: dict, analysis: dict, rules: dict | None) -> tuple[bool, str]:
+  """做场线里提到的卡必须在卡组里；起手必须是 combos.json 认过的动点。"""
+  lines = analysis.get("combo_lines") or []
+  if not lines:
+    return True, "（未提供）"
+
+  deck_names = set()
+  for engine in parsed.get("engines") or []:
+    for card in engine.get("cards") or []:
+      deck_names.add(card["name"])
+  for card in parsed.get("extradeck_monsters") or []:
+    deck_names.add(card["name"])
+  for card in parsed.get("maindeck_endboard") or []:
+    deck_names.add(card["name"])
+
+  starters: set[str] = set()
+  if rules:
+    for rule in rules.get("one_card") or []:
+      starters.update(rule.get("cards") or [])
+    for rule in rules.get("two_card") or []:
+      starters.update(rule.get("first") or [])
+
+  problems = []
+  acknowledged = []
+  for line in lines:
+    name = line.get("name", "?")
+    for used in line.get("cards_used") or []:
+      if used not in deck_names:
+        problems.append(f"{name}：卡组里没有「{used}」")
+    for end in line.get("endboard") or []:
+      if end not in deck_names:
+        problems.append(f"{name}：终场「{end}」不在卡组里")
+    if starters and line.get("starter") not in starters:
+      # 推导器会漏掉某些动点；作者必须写明原因才算数，不能默默不一致
+      if line.get("starter_note"):
+        acknowledged.append(name)
+      else:
+        problems.append(f"{name}：起手「{line.get('starter')}」不在 combos.json 里")
+
+  detail = f"{len(lines)} 条"
+  if acknowledged:
+    detail += f"（{len(acknowledged)} 条标注了推导差异）"
+  if problems:
+    detail += "  " + "；".join(problems[:3])
+  return not problems, detail
+
+
 def main(argv: list[str] | None = None) -> int:
   parser = argparse.ArgumentParser(description="Step 4.5：校验 deck_parsed.json 的内部一致性。")
   parser.add_argument("--parsed", type=Path, required=True, help="deck_parsed.json")
@@ -151,12 +198,14 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--matrix", type=Path, required=True, help="hand_matrix.json")
   parser.add_argument("--facts", type=Path, required=True, help="script_facts.json")
   parser.add_argument("--cdb", type=Path, required=True, help="cards.cdb（用于 id → 卡名）")
+  parser.add_argument("--rules", type=Path, help="combos.json；提供时校验做场线的起手")
   args = parser.parse_args(argv)
 
   parsed = json.loads(args.parsed.read_text(encoding="utf-8"))
   analysis = json.loads(args.analysis.read_text(encoding="utf-8"))
   matrix = json.loads(args.matrix.read_text(encoding="utf-8"))
   facts = json.loads(args.facts.read_text(encoding="utf-8"))
+  rules = json.loads(args.rules.read_text(encoding="utf-8-sig")) if args.rules else None
 
   names = load_names(args.cdb)
   facts_by_name = {names.get(card["id"], ""): card for card in facts["cards"]}
@@ -166,6 +215,7 @@ def main(argv: list[str] | None = None) -> int:
     ("hand_matrix", *check_matrix(parsed, matrix)),
     ("脚本事实一致性", *check_facts(parsed, facts_by_name)),
     ("script 块完整性", *check_script_block(parsed, facts_by_name)),
+    ("做场线", *check_combo_lines(parsed, analysis, rules)),
   ]
 
   width = max(len(name) for name, _, _ in results)
@@ -185,7 +235,7 @@ def main(argv: list[str] | None = None) -> int:
   if failed:
     print(f"[VALIDATION FAILED] {failed} 项不通过")
     return 1
-  print("[VALIDATION PASSED] 4 项检查全部通过")
+  print(f"[VALIDATION PASSED] {len(results)} 项检查全部通过")
   return 0
 
 

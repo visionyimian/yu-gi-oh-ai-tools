@@ -43,6 +43,9 @@ def collect(analysis: dict) -> list[tuple[str, str]]:
   for tool in (analysis.get("going_second") or {}).get("board_breaking_tools") or []:
     items.append(("后攻工具", tool.get("card", "")))
 
+  for line in analysis.get("combo_lines") or []:
+    items.append(("做场步骤", line.get("name", "")))
+
   score = analysis.get("score") or {}
   for key in SCORE_KEYS:
     if key in score:
