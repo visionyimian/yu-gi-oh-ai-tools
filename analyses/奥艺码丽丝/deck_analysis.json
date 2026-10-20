@@ -1,0 +1,932 @@
+{
+  "resources_loaded": {
+    "handtraps_csv": true,
+    "boardbreakers_csv": true,
+    "note": "handtraps.csv 未收录「增殖的G」，已手动纳入分析；本卡组额外带了「耀圣之波诗 狄娜」，该卡不在 resources 表中"
+  },
+  "route_diversity": {
+    "starter_width": {
+      "independent_starter_count": 5,
+      "routes_are_distinct": false,
+      "reason": "白兔、柴郡猫、睡鼠、梦游地下界、星球改造五个入口都能独立启动，但它们最终都收敛到「除外区 → 码丽丝连接怪兽 → 盖放陷阱」同一条主线；「耀圣之波诗 狄娜」是额外的单卡身体，但不接码丽丝线路。"
+    },
+    "mid_combo_branching": {
+      "has_single_point_of_failure": true,
+      "single_point_card": "码丽丝<王后>白棋捆绑",
+      "branch_points": [
+        "白兔①可以盖 MTP-07 走检索线，也可以盖 TB-11 走直接特召线",
+        "备份员可以转向「协心代码语者@火灵天星」做效果无效"
+      ],
+      "reason": "所有码丽丝路线都要经过白棋捆绑把除外区资源转成场上资源；它被无效，后续的连接升级与盖陷阱会同时断掉。"
+    },
+    "endboard_accessibility": {
+      "full_combo_interactions": 4,
+      "partial_combo_interactions": 2,
+      "has_tiered_endboard": true,
+      "reason": "完整展开可做到红心加密＋米底丘利乌斯＋白棋捆绑＋梦游地下界共 4 个干扰点；只摸到单张动点时通常只剩 1 只连接怪兽加 1 张盖放陷阱。"
+    },
+    "overall_verdict": "multi_route",
+    "overall_reason": "起手入口有 5 种且互相独立，加上「耀圣之波诗 狄娜」这张免费身体，起手宽度足够；但中段只有一处必经节点，所以判为多路线而非多体系。"
+  },
+  "first_turn_board": {
+    "board_type": "MIXED_BOARD",
+    "typical_endboard": [
+      {
+        "card_name": "码丽丝<王后>红心加密",
+        "role": "每回合把除外区 1 张码丽丝卡回卡组并除外对方场上 1 张卡，所连接区有怪兽时发动与效果均不会被无效"
+      },
+      {
+        "card_name": "幻狱神 米底丘利乌斯",
+        "role": "连接区 2 只以上时不受对方发动的效果影响，1 回合 1 次无效对方全场表侧怪兽效果并减半攻击力"
+      },
+      {
+        "card_name": "码丽丝<王后>白棋捆绑",
+        "role": "特召时除外双方墓地最多 3 张，并每回合从卡组·墓地盖放 1 张码丽丝陷阱"
+      },
+      {
+        "card_name": "码丽丝梦游地下界",
+        "role": "3 种以上码丽丝陷阱在除外区时给连接怪兽 +3000 攻，并强制对方只能攻击码丽丝连接怪兽"
+      },
+      {
+        "card_name": "无垢大艺术-「黄昏之变幻」",
+        "role": "走无垢大艺术线时留场，让该系列的效果在对方回合也能发动"
+      },
+      {
+        "card_name": "协心代码语者@火灵天星",
+        "role": "备选：资源充裕时替换白棋捆绑，提供本卡组唯一的效果无效并除外"
+      },
+      {
+        "card_name": "S：P小夜骑士",
+        "role": "备选：素材不足时的连接 2 干扰点，可除外场上或墓地 1 张卡"
+      },
+      {
+        "card_name": "访问码语者",
+        "role": "备选：后手斩杀线，按连接标记数把攻击力堆到 5000 以上"
+      },
+      {
+        "card_name": "保护码语者",
+        "role": "备选：需要保护连接 4 以上怪兽时使用"
+      },
+      {
+        "card_name": "防火龙",
+        "role": "备选：手卡资源多时的中转，可把对方怪兽弹回手卡"
+      },
+      {
+        "card_name": "连环栗仔球",
+        "role": "备选：针对陷阱系卡组的窄解"
+      }
+    ],
+    "interaction_count": 4,
+    "interaction_profile": {
+      "monster_negate_count": 1,
+      "spell_trap_negate_count": 0,
+      "resistances": {
+        "targeting": false,
+        "destruction": true,
+        "battle": false,
+        "source": "persistent"
+      },
+      "lock_effects": [
+        {
+          "effect": "对方怪兽只能选择码丽丝连接怪兽作为攻击对象",
+          "source_card": "码丽丝梦游地下界"
+        }
+      ]
+    },
+    "board_completeness": {
+      "requires_full_combo": false,
+      "partial_board_possible": true,
+      "has_followup_resources": true,
+      "can_attack": true,
+      "self_lock_risk": "白兔/柴郡猫/睡鼠的③都附带「这个回合自己不是连接怪兽不能从额外卡组特殊召唤」；灵王的波动从手卡发动后本场不能发动光·地·风属性怪兽效果"
+    }
+  },
+  "endboard_vulnerability": {
+    "board_breaker_threats": [
+      {
+        "threat": "神圣心灵防护罩 -心灵之力-",
+        "effectiveness": "highly_effective",
+        "reason": "本卡组终场是多张表侧卡堆叠，容易满足对方场上有 5 张以上表侧卡的条件；该卡发动与效果都不会被无效。"
+      },
+      {
+        "threat": "天下独步之大义贼",
+        "effectiveness": "highly_effective",
+        "reason": "可在自己场上没有怪兽时解放对方场上的怪兽上级召唤，直接吃掉 2 只码丽丝连接怪兽，再用①无效手卡·墓地·除外状态的效果。"
+      },
+      {
+        "threat": "颉颃胜负",
+        "effectiveness": "partially_effective",
+        "reason": "能逼掉除米底丘利乌斯以外的全部场面，但剩下的单个打手下回合仍能重建。"
+      },
+      {
+        "threat": "闪电风暴",
+        "effectiveness": "partially_effective",
+        "reason": "怪兽模式能清连接怪兽、魔陷模式能清场地，但米底丘利乌斯不受影响。"
+      },
+      {
+        "threat": "冥王结界波",
+        "effectiveness": "partially_effective",
+        "reason": "无效全场怪兽效果可让红心加密与白棋捆绑哑火，但卡不离场，米底丘利乌斯也不受影响。"
+      },
+      {
+        "threat": "鹰身女妖的羽毛扫",
+        "effectiveness": "partially_effective",
+        "reason": "一次吹掉梦游地下界、黄昏之变幻和盖放的码丽丝陷阱，正好打断「3 种以上陷阱被除外」的加成。"
+      },
+      {
+        "threat": "禁忌的一滴",
+        "effectiveness": "partially_effective",
+        "reason": "可以无效红心加密等关键连接怪兽，但米底丘利乌斯不受对方效果影响。"
+      },
+      {
+        "threat": "月女神的至天",
+        "effectiveness": "partially_effective",
+        "reason": "可以按对方表侧怪兽数量支付 LP 无效多个效果，成本高且不能除去卡片本身。"
+      },
+      {
+        "threat": "天霆号 阿宙斯",
+        "effectiveness": "partially_effective",
+        "reason": "非指定清场威胁大，但米底丘利乌斯会独自留下。"
+      },
+      {
+        "threat": "灾厄之星 提·丰",
+        "effectiveness": "partially_effective",
+        "reason": "锁死 3000 攻以上怪兽的效果，正好封住米底丘利乌斯，但清不掉场面。"
+      },
+      {
+        "threat": "宇宙性飓风",
+        "effectiveness": "partially_effective",
+        "reason": "最多弹回 2 张，可拆掉关键组合，但弹回不等于除去。"
+      },
+      {
+        "threat": "超融合",
+        "effectiveness": "ineffective",
+        "reason": "本卡组额外卡组没有融合怪兽，对方找不到融合素材目标。"
+      },
+      {
+        "threat": "怠慢之壶",
+        "effectiveness": "ineffective",
+        "reason": "按对方场面抽牌的资源卡，不产生去除或封锁效果。"
+      }
+    ],
+    "biggest_threat": "神圣心灵防护罩 -心灵之力-",
+    "biggest_threat_reason": "唯一一张既能一换多、又不会被无效、还能绕过发动时点博弈的卡；本卡组靠多张表侧卡叠阻抗，正好符合它的发动条件。"
+  },
+  "systemic_vulnerabilities": [
+    {
+      "dependency": "高度依赖「把卡除外」这条资源循环",
+      "critical_cards_at_risk": [
+        "码丽丝<兵卒>白兔",
+        "码丽丝<兵卒>柴郡猫",
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝梦游地下界"
+      ],
+      "lock_type": "特定机制封锁",
+      "impact_if_countered": "古遗物-圣枪的「这个回合双方不能把卡除外」会让白兔的自跳、柴郡猫的抽滤自保、地下界的点火全部失效。",
+      "meta_prevalence": "uncommon"
+    },
+    {
+      "dependency": "依赖连接怪兽作为唯一输出与阻抗载体",
+      "critical_cards_at_risk": [
+        "码丽丝<王后>白棋捆绑",
+        "码丽丝<王后>红心加密",
+        "幻狱神 米底丘利乌斯"
+      ],
+      "lock_type": "额外卡组封锁",
+      "impact_if_countered": "额外卡组被封锁或宣言连接时，卡组只能靠主卡组小怪站着。",
+      "meta_prevalence": "uncommon"
+    },
+    {
+      "dependency": "依赖通常召唤权启动（白兔、睡鼠、备份员）",
+      "critical_cards_at_risk": [
+        "码丽丝<兵卒>白兔",
+        "码丽丝<兵卒>睡鼠",
+        "备份员@火灵天星"
+      ],
+      "lock_type": "召唤权干扰",
+      "impact_if_countered": "通召点被无效或被除去时，手牌里的三张代码陷阱没有可除外的码丽丝怪兽，盖放回合无法发动。",
+      "meta_prevalence": "common"
+    },
+    {
+      "dependency": "依赖卡组检索来补资源（MTP-07、备份员、星球改造、无垢大艺术检索）",
+      "critical_cards_at_risk": [
+        "码丽丝<代码>MTP-07",
+        "备份员@火灵天星",
+        "星球改造"
+      ],
+      "lock_type": "检索封锁",
+      "impact_if_countered": "小丑与锁鸟会让本回合所有检索失效，但白兔与睡鼠的「除外」路线不受影响。",
+      "meta_prevalence": "common"
+    }
+  ],
+  "handtrap_vulnerability": {
+    "analysis": [
+      {
+        "handtrap": "增殖的G",
+        "impact": "critical",
+        "timing": "第一次特殊召唤（白兔③／柴郡猫③／任意连接召唤）时",
+        "reason": "一回合要特召 5 次以上，让对方抽 5 张以上等于直接放弃这一局。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "原始生命态 尼比鲁",
+        "impact": "critical",
+        "timing": "第 5 次召唤·特殊召唤之后、白棋捆绑或红心加密出场前",
+        "reason": "第 5 次特召时还没有稳定的怪兽效果无效，尼比鲁会直接清空素材。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "古遗物-圣枪",
+        "impact": "critical",
+        "timing": "白兔盖放陷阱后准备除外自身、或梦游地下界发动时",
+        "reason": "「双方不能把卡除外」会让整条自我特召链断掉，是最彻底的一张。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "朔夜时雨",
+        "impact": "critical",
+        "timing": "白棋捆绑或红心加密特殊召唤成功、效果发动时",
+        "reason": "无效连接怪兽的效果并追加伤害，正好打断「把除外区转成资源」的关键一步。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "幽鬼兔",
+        "impact": "significant",
+        "timing": "红心加密或白棋捆绑的起动效果发动时",
+        "reason": "直接破坏发效果的连接怪兽，把已经投入的素材一次性废掉。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "无限泡影",
+        "impact": "significant",
+        "timing": "白棋捆绑或红心加密的效果发动时",
+        "reason": "无效关键连接怪兽的效果；打在白棋捆绑上会同时断掉盖陷阱与连接升级。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "效果遮蒙者",
+        "impact": "significant",
+        "timing": "任意码丽丝连接怪兽的效果发动时",
+        "reason": "与泡影同理但只持续到回合结束，仍能打断当回合的资源转换。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "小丑与锁鸟",
+        "impact": "significant",
+        "timing": "MTP-07、备份员或星球改造发动检索时",
+        "reason": "封锁双方从卡组加手卡，砍掉备份员与 MTP-07 两条补点路线。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "灰流丽",
+        "impact": "minor",
+        "timing": "MTP-07、备份员、星球改造或无垢大艺术发动检索时",
+        "reason": "本卡组的核心启动是「从卡组除外」而不是「加入手卡／特召／送墓」，灰流丽只能打断检索线。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "屋敷童",
+        "impact": "minor",
+        "timing": "GWC-06 从墓地·除外区特召时，或红心加密把除外区卡返回卡组时",
+        "reason": "只影响墓地与回收类效果，卡组的主要展开不依赖墓地。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "深渊之兽 玛格巨龙",
+        "impact": "negligible",
+        "timing": "以自己墓地的光·暗属性怪兽为对象发动时",
+        "reason": "本卡组反而希望自己的码丽丝怪兽被除外，被对手除外常常等于免费触发③。",
+        "has_counter": false,
+        "counter_card": null
+      },
+      {
+        "handtrap": "次元吸引者",
+        "impact": "negligible",
+        "timing": "自己准备阶段或主要阶段开始时",
+        "reason": "「被送去墓地的卡改为除外」对码丽丝是增益，白兔、柴郡猫、睡鼠的③更容易触发。",
+        "has_counter": false,
+        "counter_card": null
+      }
+    ]
+  },
+  "chokepoints": [
+    {
+      "step": "第一步：通常召唤「码丽丝<兵卒>白兔」并发动①盖放陷阱",
+      "card_involved": "码丽丝<兵卒>白兔",
+      "why_critical": "白兔是唯一能在通召当回合直接把陷阱铺到场上的入口，①被无效就没有可除外的对象。",
+      "vulnerable_to": [
+        "无限泡影",
+        "效果遮蒙者",
+        "朔夜时雨"
+      ],
+      "has_alternate_route": true,
+      "alternate_route_description": "可以改用柴郡猫除外自身抽 2，或直接发动梦游地下界从卡组除外同伴触发③。"
+    },
+    {
+      "step": "连接召唤「码丽丝<王后>白棋捆绑」并把除外区资源转成场上资源",
+      "card_involved": "码丽丝<王后>白棋捆绑",
+      "why_critical": "所有路线的必经中转，②每回合从卡组·墓地盖放码丽丝陷阱。",
+      "vulnerable_to": [
+        "无限泡影",
+        "效果遮蒙者",
+        "朔夜时雨",
+        "幽鬼兔"
+      ],
+      "has_alternate_route": false,
+      "alternate_route_description": null
+    },
+    {
+      "step": "连接召唤「幻狱神 米底丘利乌斯」并凑够 2 只以上所连接区怪兽",
+      "card_involved": "幻狱神 米底丘利乌斯",
+      "why_critical": "唯一的「不受对方发动效果影响」来源，凑不到 2 只连接区怪兽时抗性不存在。",
+      "vulnerable_to": [
+        "原始生命态 尼比鲁",
+        "灾厄之星 提·丰"
+      ],
+      "has_alternate_route": true,
+      "alternate_route_description": "资源不足时退而做「红心加密＋S：P小夜骑士」的两干扰场。"
+    },
+    {
+      "step": "凑齐 3 种以上码丽丝陷阱进入除外区，让梦游地下界②生效",
+      "card_involved": "码丽丝梦游地下界",
+      "why_critical": "没有这个加成，码丽丝连接怪兽只有 2300~2500 攻，斩杀线明显不足。",
+      "vulnerable_to": [
+        "鹰身女妖的羽毛扫",
+        "宇宙性飓风"
+      ],
+      "has_alternate_route": true,
+      "alternate_route_description": "可以用访问码语者叠连接标记数×1000 的攻击力来补足打点。"
+    }
+  ],
+  "going_second": {
+    "board_breaking_tools": [
+      {
+        "card": "宇宙性飓风",
+        "function": "弹回对方场上最多 2 张卡，处理指定抗性以外的场面"
+      },
+      {
+        "card": "天下独步之大义贼",
+        "function": "解放对方怪兽上级召唤，并无效手卡·墓地·除外状态的效果"
+      },
+      {
+        "card": "灵王的波动",
+        "function": "无效对方含特召效果的卡片效果，打断展开"
+      },
+      {
+        "card": "访问码语者",
+        "function": "除外连接怪兽破坏对方 1 张卡，兼作斩杀"
+      }
+    ],
+    "breaking_efficiency": "one_for_many",
+    "post_break_followup": "只要保住 1 只码丽丝怪兽，就能靠白棋捆绑与梦游地下界在当回合重建；这套牌的后攻不再依赖纯手坑，副卡组补进了 3 张天下独步之大义贼与 2 张宇宙性飓风。",
+    "otk_potential": "高：梦游地下界②给连接怪兽 +3000 攻，配合访问码语者可以单回合打出 8000 以上。"
+  },
+  "grind_game": {
+    "search_engine": "MTP-07 盖放回合检索、备份员检索电子界暗属性、星球改造检索场地、无垢大艺术三张怪兽的除外检索",
+    "graveyard_loop": "红心加密把除外区码丽丝卡返回卡组并除外对方卡片，白棋捆绑每回合从卡组·墓地盖放陷阱，GWC-06 从墓地·除外区反复特召",
+    "unlimited_effect_exploitation": "星球改造、封印之黄金柜、暗之诱惑与无限泡影都没有卡名限制；PSY骨架装备·γ 的限制是「同一连锁 1 次」而非每回合 1 次",
+    "turn3_viability": "强：除外区只增不减，红心加密与白棋捆绑每回合都能把除外区重新转成场面。",
+    "is_one_shot": false
+  },
+  "strengths": [
+    "对灰流丽的天然抗性：核心启动是「从卡组除外」而非「加入手卡」，灰流丽只能打到检索线",
+    "对次元吸引者免疫甚至受益：本卡组主动把卡除外",
+    "起手宽度足够：白兔／柴郡猫／睡鼠／梦游地下界／星球改造五种独立入口，穷举能动率 92.16%",
+    "米底丘利乌斯提供「不受对方发动效果影响」的高抗性，能独自对抗羽毛扫、阿宙斯、颉颃",
+    "副卡组补进 3 张天下独步之大义贼与 2 张宇宙性飓风，后攻不再只能靠手坑换回合"
+  ],
+  "weaknesses": [
+    "对增殖的G极度敏感：一回合 5 次以上特召，被丢 G 几乎等于直接输掉这一局",
+    "对古遗物-圣枪无解：双方不能除外会让白兔、柴郡猫、睡鼠的③与梦游地下界全部失效",
+    "终场形态怕神圣心灵防护罩：多张表侧卡堆叠正好满足其发动条件，且该卡不会被无效",
+    "额外卡组是唯一出口：被宣言连接或额外被封锁时没有替代方案",
+    "白棋捆绑是单点：它被打断后除外区资源无法转成场上阻抗"
+  ],
+  "score": {
+    "consistency": {
+      "value": 9,
+      "reason": "穷举全部 658,008 种起手：能动率 92.16%（单卡动 81.95% ＋ 二卡动 10.21%），死手率 7.84%，落在 9–10 分锚点「≥90%」。注意这是自动推导的上界，未逐条复核。"
+    },
+    "ceiling": {
+      "value": 8,
+      "reason": "完整终场为红心加密＋米底丘利乌斯＋白棋捆绑＋梦游地下界共 4 个干扰点，其中米底丘利乌斯带「不受对方发动效果影响」，属于 7–8 分的高质量终场。"
+    },
+    "resilience": {
+      "value": 6,
+      "reason": "对灰流丽、次元吸引者天然抗性；但对增殖的G与圣枪零应对，白棋捆绑被打断无替代路线。"
+    },
+    "going_second": {
+      "value": 7,
+      "reason": "副卡组有 3 张天下独步之大义贼、2 张宇宙性飓风、2 张屋敷童、2 张幽鬼兔，后攻有一换多的手段，比纯手坑换回合明显更好；主卡组本身仍无专用解场卡。"
+    },
+    "grind": {
+      "value": 9,
+      "reason": "除外区只增不减，红心加密与白棋捆绑每回合循环，GWC-06 可反复复活。"
+    },
+    "route_diversity": {
+      "value": 6,
+      "reason": "有 5 种独立起手但路线高度重合，中段必经白棋捆绑，对应 5–6 分锚点。"
+    }
+  },
+  "combo_lines": [
+    {
+      "name": "白兔线：1 张起手 → 7 场值循环",
+      "goal": "用「除外回场」把 1 只起手滚成 4 场值，再用白棋捆绑循环换取手牌，最后收成终场",
+      "starter": "码丽丝<兵卒>白兔",
+      "hand_required": [
+        "码丽丝<兵卒>白兔"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>白兔",
+        "码丽丝<代码>TB-11",
+        "码丽丝<兵卒>睡鼠",
+        "盛悴之致命毒蜥",
+        "码丽丝<兵卒>柴郡猫",
+        "码丽丝<王后>白棋捆绑",
+        "码丽丝<代码>MTP-07",
+        "码丽丝<兵卒>三月兔",
+        "电子界小男巫",
+        "连接解码员",
+        "备份员@火灵天星"
+      ],
+      "steps": [
+        {
+          "act": "通常召唤「码丽丝<兵卒>白兔」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "白兔①：从卡组盖放「码丽丝<代码>TB-11」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "TB-11 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白兔，从卡组特殊召唤睡鼠",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "note": "白兔离场、睡鼠上场，总数不变。睡鼠此时受 TB-11 限制，但它下一步就离场"
+        },
+        {
+          "act": "白兔③：支付 300 基本分回到场上",
+          "field_value": 2,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "白兔＋睡鼠连接召唤「盛悴之致命毒蜥」（卡名不同的怪兽 2 只）",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "note": "等值打包：2 场值 → Link-2。睡鼠进墓地，离场即解除 TB-11 的限制"
+        },
+        {
+          "act": "毒蜥的效果把墓地的睡鼠除外 → 睡鼠③ 支付 300 回到场上",
+          "field_value": 3,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "睡鼠①：从卡组把「码丽丝<兵卒>柴郡猫」除外",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "柴郡猫③：支付 300 基本分回到场上",
+          "field_value": 4,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "柴郡猫＋毒蜥连接召唤「码丽丝<王后>白棋捆绑」（包含码丽丝怪兽的怪兽 2 只以上，柴郡猫 1＋毒蜥 2＝3）",
+          "field_value": 4,
+          "gain": null,
+          "spend": null,
+          "note": "等值打包，睡鼠留在场上"
+        },
+        {
+          "act": "白棋捆绑②：从卡组盖放「码丽丝<代码>MTP-07」",
+          "field_value": 4,
+          "gain": null,
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "MTP-07 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白棋捆绑，检索「码丽丝<兵卒>三月兔」",
+          "field_value": 1,
+          "gain": null,
+          "spend": "-3（白棋捆绑作为 cost 离场）",
+          "note": null
+        },
+        {
+          "act": "白棋捆绑③：支付 900 基本分回到场上，并抽 1 张",
+          "field_value": 4,
+          "gain": "+3（③ 回场）",
+          "spend": null,
+          "note": "这一段净 0 场值，但净赚一张检索＋一张抽牌——白棋捆绑是循环引擎，不是终场件"
+        },
+        {
+          "act": "白棋捆绑＋睡鼠连接召唤「电子界小男巫」（电子界族 2 只）",
+          "field_value": 2,
+          "gain": null,
+          "spend": "-2（用 4 场值做 Link-2，差额换小男巫的检索）",
+          "note": null
+        },
+        {
+          "act": "三月兔①：从手卡起跳，把墓地的「码丽丝<代码>MTP-07」除外",
+          "field_value": 3,
+          "gain": "+1（三月兔上场）",
+          "spend": null,
+          "note": "MTP-07 是「码丽丝」卡，可以做三月兔① 的除外素材"
+        },
+        {
+          "act": "三月兔 → 「连接解码员」（Link-1，4 星以下电子界族 1 只）",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "note": "等值打包"
+        },
+        {
+          "act": "连接召唤触发小男巫①：除外墓地的三月兔，从卡组把「备份员@火灵天星」加入手牌",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "note": "三月兔进除外区，小男巫＋解码员留场；手牌多一张可通召的调整"
+        },
+        {
+          "act": "备份员①：以场上「连接解码员」（从额外卡组特召的电子界族）为条件，从手卡自我特殊召唤",
+          "field_value": 4,
+          "gain": "+1（不吃通召）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "备份员②：从卡组把「码丽丝<兵卒>柴郡猫」加入手卡，之后丢弃 1 张手卡",
+          "field_value": 4,
+          "gain": null,
+          "spend": null,
+          "note": "检索限定电子界族·暗属性，码丽丝全体符合；但要弃 1 张，净手牌不变"
+        },
+        {
+          "act": "柴郡猫①：把刚检索到的柴郡猫自身除外，抽 2 张 → 柴郡猫③ 支付 300 回到场上",
+          "field_value": 5,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "note": "柴郡猫① 的除外对象可以是它自己，所以「检索柴郡猫」等于「换一个身体＋抽 2」"
+        },
+        {
+          "act": "柴郡猫＋备份员连接召唤「码丽丝<王后>白棋捆绑」（柴郡猫 1＋备份员 1＝2）",
+          "field_value": 6,
+          "gain": "+1（Link-3 只用 2 只素材做出）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "白棋捆绑①：以双方墓地合计最多 3 张为对象除外；②：从卡组盖放「码丽丝<代码>GWC-06」",
+          "field_value": 6,
+          "gain": null,
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "GWC-06 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白棋捆绑",
+          "field_value": 3,
+          "gain": null,
+          "spend": "-3（白棋捆绑作为 cost 离场）",
+          "note": null
+        },
+        {
+          "act": "白棋捆绑③：支付 900 回到场上，抽 1 张",
+          "field_value": 6,
+          "gain": "+3（③ 回场）",
+          "spend": null,
+          "note": null
+        },
+        {
+          "act": "GWC-06①：从墓地特殊召唤「码丽丝<兵卒>睡鼠」（它先前作为小男巫的连接素材进了墓地）",
+          "field_value": 7,
+          "gain": "+1（墓地复活）",
+          "spend": null,
+          "note": "到此三张不同名陷阱（TB-11 / MTP-07 / GWC-06）各用过一次，本回合的陷阱循环结束"
+        }
+      ],
+      "peak_field_value": 7,
+      "endboard_options": [
+        {
+          "name": "A. 留场不动",
+          "board": [
+            "电子界小男巫",
+            "码丽丝<王后>白棋捆绑",
+            "码丽丝<兵卒>睡鼠",
+            "连接解码员"
+          ],
+          "cost": "0（7 场值全留）",
+          "interactions": 1,
+          "pros": "白棋捆绑② 下回合还能再盖一张陷阱，循环延续到下回合；小男巫不被战破·效破",
+          "cons": "本回合没有新干扰，等于把节奏让给对方"
+        },
+        {
+          "name": "B. 访问码语者＋白棋捆绑",
+          "board": [
+            "访问码语者",
+            "码丽丝<王后>白棋捆绑"
+          ],
+          "cost": "4（小男巫＋解码员＋睡鼠）",
+          "interactions": 3,
+          "pros": "访问① 除外墓地连接怪兽破坏对方 1 张，配合白棋捆绑② 仍能盖陷阱",
+          "cons": "访问只吃 4 场值，剩下 3 场值全锁在白棋捆绑里"
+        },
+        {
+          "name": "C. 米底丘利乌斯＋白棋捆绑＋解码员",
+          "board": [
+            "幻狱神 米底丘利乌斯",
+            "码丽丝<王后>白棋捆绑",
+            "连接解码员"
+          ],
+          "cost": "3（小男巫＋睡鼠）",
+          "interactions": 3,
+          "pros": "米底丘利乌斯在连接区 2 只以上时不受对方发动的效果影响，是这套牌唯一的抗性来源",
+          "cons": "要求凑够 2 只所连接区怪兽，位置被白棋捆绑和解码员占住时才算数"
+        },
+        {
+          "name": "D. 防火龙＋白棋捆绑",
+          "board": [
+            "防火龙",
+            "码丽丝<王后>白棋捆绑"
+          ],
+          "cost": "4（小男巫＋解码员＋睡鼠）",
+          "interactions": 3,
+          "pros": "防火龙把对方怪兽弹回手牌，且能从手卡特召电子界",
+          "cons": "打点与抗性都不如米底丘利乌斯"
+        },
+        {
+          "name": "E. 小男巫＋S：P小夜骑士＋白棋捆绑",
+          "board": [
+            "电子界小男巫",
+            "S：P小夜骑士",
+            "码丽丝<王后>白棋捆绑"
+          ],
+          "cost": "2（解码员＋睡鼠）",
+          "interactions": 3,
+          "pros": "三个独立干扰点，小男巫保留不被破坏，S：P 可除外场上或墓地 1 张",
+          "cons": "没有抗性，怕一次清场"
+        },
+        {
+          "name": "F. 米底丘利乌斯＋访问码语者（最大场面）",
+          "board": [
+            "幻狱神 米底丘利乌斯",
+            "访问码语者"
+          ],
+          "cost": "7（全部）",
+          "interactions": 4,
+          "pros": "7 场值全用光，米底丘利乌斯提供抗性，访问提供去除与打点",
+          "cons": "白棋捆绑被当素材送墓，下回合没有陷阱循环，续航断档"
+        },
+        {
+          "name": "G. 保护码语者＋白棋捆绑＋睡鼠",
+          "board": [
+            "保护码语者",
+            "码丽丝<王后>白棋捆绑",
+            "码丽丝<兵卒>睡鼠"
+          ],
+          "cost": "3（小男巫＋解码员）",
+          "interactions": 1,
+          "pros": "保护码语者给连接 4 以上怪兽取对象与战斗抗性",
+          "cons": "场上没有连接 4，保护对象不存在，基本是空转"
+        },
+        {
+          "name": "H. 红心加密（本线到不了）",
+          "board": [
+            "码丽丝<王后>红心加密"
+          ],
+          "cost": "3 只「码丽丝」怪兽",
+          "interactions": 0,
+          "pros": "红心加密是本卡组最强的单卡干扰（每回合除外对方 1 张且发动不会被无效）",
+          "cons": "本条线结束时场上只有白棋捆绑和睡鼠 2 只码丽丝，凑不出 3 只；需要另一条起手（如白兔＋柴郡猫）或额外手牌补第 3 只"
+        }
+      ],
+      "choice_reason": "白棋捆绑循环换来手牌后，场值可以重新滚起来；要不要在第 4 点就收手，取决于手里还有没有第二只码丽丝。",
+      "endboard": [
+        "码丽丝<王后>白棋捆绑",
+        "电子界小男巫"
+      ],
+      "interactions": 3,
+      "branches": [
+        {
+          "if": "白棋捆绑被无限泡影",
+          "then": "场值停在 4，但白棋捆绑③ 仍能自跳（③ 不是起动效果），循环不受影响"
+        },
+        {
+          "if": "MTP-07 被灰流丽",
+          "then": "检索被打断，三月兔上手失败，场值停在 1（白棋捆绑已作为 cost 除外），需要靠手牌补"
+        },
+        {
+          "if": "手牌没有第二只码丽丝给三月兔① 除外",
+          "then": "三月兔起不来，小男巫的检索也断了，终场停在 2 场值"
+        },
+        {
+          "if": "备份员检索时手牌不够弃",
+          "then": "② 是「加入手卡后弃 1 张」，手牌正好 1 张时仍可执行（弃掉检索到的那张），只是等于没检索"
+        },
+        {
+          "if": "墓地里没有可复活的码丽丝给 GWC-06",
+          "then": "这一步没有目标，循环净收益变成 0，场值停在 6"
+        }
+      ],
+      "notes": "真正在滚的是「陷阱循环」：白棋捆绑② 盖一张陷阱，那张陷阱以白棋捆绑为 cost 发动，白棋捆绑③ 再回场——净 0 场值，但每轮换到一次检索＋一次抽牌，而且陷阱自己还产出一个效果。一轮的净收益通常是 +1 场值（GWC-06 复活）或 +1 手牌（MTP-07 检索）。循环的上限是三张不同名陷阱各用一次（卡名 1 回合 1 次），所以这不是无限循环。",
+      "verdict": "推荐",
+      "verified": false
+    },
+    {
+      "name": "地下界线：不吃通召 → 3 场值",
+      "goal": "在不占用通常召唤的前提下起步，把 NS 留给备份员",
+      "starter": "码丽丝梦游地下界",
+      "hand_required": [
+        "码丽丝梦游地下界",
+        "任意「码丽丝」怪兽（给柴郡猫①当除外素材）"
+      ],
+      "cards_used": [
+        "码丽丝梦游地下界",
+        "码丽丝<兵卒>柴郡猫",
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝<王后>白棋捆绑"
+      ],
+      "steps": [
+        {
+          "act": "发动「码丽丝梦游地下界」，① 从卡组把「码丽丝<兵卒>柴郡猫」除外",
+          "field_value": 0,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "柴郡猫③：支付 300 基本分回到场上",
+          "field_value": 1,
+          "gain": "+1（③ 回场）",
+          "note": null
+        },
+        {
+          "act": "柴郡猫①：把手卡另 1 张「码丽丝」卡除去（这张必须是手牌里的第二张码丽丝），之后抽 2 张",
+          "field_value": 1,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "被除外的睡鼠触发③，支付 300 基本分回到场上",
+          "field_value": 2,
+          "gain": "+1（③ 回场）",
+          "note": null
+        },
+        {
+          "act": "睡鼠①：从卡组把「码丽丝<兵卒>三月兔」除外",
+          "field_value": 2,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "柴郡猫＋睡鼠连接召唤「码丽丝<王后>白棋捆绑」（包含码丽丝怪兽的怪兽 2 只以上）",
+          "field_value": 3,
+          "gain": "+1（Link-3 只用 2 只素材做出）",
+          "note": "白棋捆绑是 Link-3，2 只素材就够，标记数大于素材数，本身也是净增"
+        },
+        {
+          "act": "白棋捆绑①：除外双方墓地合计最多 3 张；②：从卡组盖放 1 张「码丽丝」陷阱",
+          "field_value": 3,
+          "gain": null,
+          "note": null
+        }
+      ],
+      "peak_field_value": 3,
+      "endboard_options": [
+        "白棋捆绑＋地下界（2 干扰点）",
+        "白棋捆绑再往上做 Link-4 需要手牌补第 4 点场值"
+      ],
+      "choice_reason": "这条线不吃通召，是把 NS 留给备份员或白兔的过渡方案。",
+      "endboard": [
+        "码丽丝<王后>白棋捆绑",
+        "码丽丝梦游地下界"
+      ],
+      "interactions": 2,
+      "branches": [
+        {
+          "if": "手里没有第二张码丽丝",
+          "then": "柴郡猫① 无法支付，场值停在 1，只能做 Link-2 收场"
+        }
+      ],
+      "notes": "不是单卡动点：柴郡猫① 的除外素材必须来自手牌，所以至少需要两张牌起步。",
+      "verdict": "备选",
+      "verified": false,
+      "starter_in_rules": false,
+      "starter_note": "自动推导没有把「码丽丝梦游地下界」算成动点：它的①只是「从卡组除外」，在 SetCategory 里是 CATEGORY_REMOVE，不在推导管用的产出类（检索/特召/盖放）里。"
+    },
+    {
+      "name": "无垢大艺术线：两次② 回场 → 4 场值",
+      "goal": "用副轴做出高抗性的米底丘利乌斯，不吃通召（除 Link-1 素材那一次）",
+      "starter": "无限与有限之无垢大艺术",
+      "hand_required": [
+        "无限与有限之无垢大艺术",
+        "可通召且攻击力 1000 以下的怪兽"
+      ],
+      "cards_used": [
+        "无限与有限之无垢大艺术",
+        "净化与腐败之无垢大艺术",
+        "结合与乖离之无垢大艺术",
+        "无垢大艺术-「黄昏之变幻」",
+        "转生炎兽 独角兔",
+        "幻狱神 米底丘利乌斯"
+      ],
+      "steps": [
+        {
+          "act": "「无限与有限」①：把这张卡从手卡除外，检索「净化与腐败之无垢大艺术」",
+          "field_value": 0,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "「净化与腐败」①：把这张卡从手卡除外，检索「无垢大艺术-「黄昏之变幻」」",
+          "field_value": 0,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "发动黄昏之变幻，② 检索「结合与乖离之无垢大艺术」",
+          "field_value": 0,
+          "gain": null,
+          "note": null
+        },
+        {
+          "act": "「结合与乖离」①：把这张卡从手卡除外，从除外状态把「无限与有限」特殊召唤",
+          "field_value": 1,
+          "gain": "+1（从除外区上场）",
+          "note": null
+        },
+        {
+          "act": "通常召唤手里那只攻击力 1000 以下的怪兽",
+          "field_value": 2,
+          "gain": "+1（通常召唤）",
+          "note": null
+        },
+        {
+          "act": "两只做「转生炎兽 独角兔」（Link-1，素材为通常召唤的攻击力 1000 以下怪兽 1 只）",
+          "field_value": 2,
+          "gain": null,
+          "note": "打包"
+        },
+        {
+          "act": "连接召唤触发「净化与腐败」②（超量·连接特召）与「结合与乖离」②（同调·连接特召），两只同时从除外状态回到场上",
+          "field_value": 4,
+          "gain": "+2（两次② 回场）",
+          "note": null
+        },
+        {
+          "act": "独角兔＋无限与有限＋净化与腐败连接召唤「幻狱神 米底丘利乌斯」（Link-3）",
+          "field_value": 4,
+          "gain": null,
+          "note": "打包：4 场值里取 3 做 Link-3，剩下结合与乖离"
+        }
+      ],
+      "peak_field_value": 4,
+      "endboard_options": [
+        "米底丘利乌斯＋结合与乖离＋黄昏之变幻",
+        "把结合与乖离也做成素材可上 Link-4，但会失去黄昏之变幻的持续效果"
+      ],
+      "choice_reason": "米底丘利乌斯提供「不受对方发动的效果影响」，是这套牌唯一的抗性来源。",
+      "endboard": [
+        "幻狱神 米底丘利乌斯",
+        "无垢大艺术-「黄昏之变幻」"
+      ],
+      "interactions": 2,
+      "branches": [
+        {
+          "if": "手里没有可通召的 ≤1000 攻击力怪兽",
+          "then": "做不出 Link-1，两次② 无法触发，停在 1 场值"
+        },
+        {
+          "if": "「无限与有限」① 被灰流丽",
+          "then": "整条线断在第一步，退回码丽丝主线"
+        }
+      ],
+      "notes": "三个无垢大艺术怪兽共享「除外状态 + 特定召唤触发回场」的结构，所以这条线靠两次② 一次加 2 点场值。",
+      "verdict": "备选",
+      "verified": false
+    }
+  ]
+}

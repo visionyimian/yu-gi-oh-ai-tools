@@ -1,0 +1,54 @@
+{
+  "one_card": [
+    {
+      "label": "白兔单卡",
+      "cards": ["码丽丝<兵卒>白兔"],
+      "consumes": { "normal_summon": 1 },
+      "locks": ["extra_deck_link_only"]
+    },
+    {
+      "label": "柴郡猫单卡",
+      "cards": ["码丽丝<兵卒>柴郡猫"],
+      "consumes": {},
+      "locks": ["extra_deck_link_only"]
+    },
+    {
+      "label": "睡鼠单卡",
+      "cards": ["码丽丝<兵卒>睡鼠"],
+      "consumes": { "normal_summon": 1 },
+      "locks": []
+    },
+    {
+      "label": "地下界单卡",
+      "cards": ["码丽丝梦游地下界"],
+      "consumes": {},
+      "locks": []
+    },
+    {
+      "label": "星球改造单卡",
+      "cards": ["星球改造"],
+      "consumes": {},
+      "locks": []
+    }
+  ],
+  "two_card": [
+    {
+      "label": "三月兔+码丽丝",
+      "first": ["码丽丝<兵卒>三月兔"],
+      "second": ["码丽丝<兵卒>白兔", "码丽丝<兵卒>柴郡猫", "码丽丝<兵卒>睡鼠"],
+      "consumes": {},
+      "locks": []
+    },
+    {
+      "label": "无垢大艺术+Link1身体",
+      "first": [
+        "无限与有限之无垢大艺术",
+        "净化与腐败之无垢大艺术",
+        "结合与乖离之无垢大艺术"
+      ],
+      "second_predicate": "link1_material",
+      "consumes": { "normal_summon": 1 },
+      "locks": []
+    }
+  ]
+}

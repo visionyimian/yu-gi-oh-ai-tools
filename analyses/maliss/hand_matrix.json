@@ -1,0 +1,142 @@
+{
+  "deck_size": 42,
+  "hand_size": 5,
+  "total_hands": 850668,
+  "one_card": {
+    "rate": 80.03,
+    "by_label": {
+      "白兔单卡": 32.32,
+      "柴郡猫单卡": 23.37,
+      "睡鼠单卡": 6.16,
+      "地下界单卡": 14.49,
+      "星球改造单卡": 3.7
+    }
+  },
+  "two_card": {
+    "rate": 13.22,
+    "by_label": {
+      "三月兔+码丽丝": 0.0,
+      "无垢大艺术+Link1身体": 13.22
+    }
+  },
+  "startable": 93.25,
+  "rules": [
+    {
+      "label": "白兔单卡",
+      "kind": "one",
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [
+        "extra_deck_link_only"
+      ],
+      "rate": 32.32
+    },
+    {
+      "label": "柴郡猫单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [
+        "extra_deck_link_only"
+      ],
+      "rate": 23.37
+    },
+    {
+      "label": "睡鼠单卡",
+      "kind": "one",
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [],
+      "rate": 6.16
+    },
+    {
+      "label": "地下界单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [],
+      "rate": 14.49
+    },
+    {
+      "label": "星球改造单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [],
+      "rate": 3.7
+    },
+    {
+      "label": "三月兔+码丽丝",
+      "kind": "two",
+      "consumes": {},
+      "locks": [],
+      "rate": 0.0
+    },
+    {
+      "label": "无垢大艺术+Link1身体",
+      "kind": "two",
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [],
+      "rate": 13.22
+    }
+  ],
+  "dead": {
+    "rate": 6.75,
+    "hands": 57420,
+    "examples": [
+      {
+        "cards": [
+          "备份员@火灵天星",
+          "无限泡影",
+          "灵王的波动",
+          "灵王的波动",
+          "码丽丝<兵卒>三月兔"
+        ],
+        "hands": 9
+      },
+      {
+        "cards": [
+          "无限泡影",
+          "灰流丽",
+          "灵王的波动",
+          "灵王的波动",
+          "码丽丝<兵卒>三月兔"
+        ],
+        "hands": 6
+      },
+      {
+        "cards": [
+          "备份员@火灵天星",
+          "灰流丽",
+          "灵王的波动",
+          "灵王的波动",
+          "码丽丝<兵卒>三月兔"
+        ],
+        "hands": 6
+      },
+      {
+        "cards": [
+          "无限泡影",
+          "欢聚友伴·抖抖海月水母",
+          "灵王的波动",
+          "灵王的波动",
+          "码丽丝<兵卒>三月兔"
+        ],
+        "hands": 6
+      },
+      {
+        "cards": [
+          "备份员@火灵天星",
+          "欢聚友伴·抖抖海月水母",
+          "灵王的波动",
+          "灵王的波动",
+          "码丽丝<兵卒>三月兔"
+        ],
+        "hands": 6
+      }
+    ],
+    "threshold": 15.0,
+    "over_threshold": false
+  }
+}

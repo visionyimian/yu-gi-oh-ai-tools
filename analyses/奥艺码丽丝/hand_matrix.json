@@ -1,0 +1,166 @@
+{
+  "deck_size": 40,
+  "hand_size": 5,
+  "total_hands": 658008,
+  "one_card": {
+    "rate": 81.95,
+    "by_label": {
+      "备份员@火灵天星单卡": 33.76,
+      "无垢大艺术-「黄昏之变幻」单卡": 8.95,
+      "星球改造单卡": 7.96,
+      "码丽丝<兵卒>三月兔单卡": 7.05,
+      "码丽丝<兵卒>柴郡猫单卡": 6.22,
+      "码丽丝<兵卒>白兔单卡": 14.41,
+      "码丽丝<兵卒>睡鼠单卡": 3.61
+    }
+  },
+  "two_card": {
+    "rate": 10.21,
+    "by_label": {
+      "净化与腐败之无垢大艺术＋触发件": 2.84,
+      "无限与有限之无垢大艺术＋触发件": 6.03,
+      "结合与乖离之无垢大艺术＋触发件": 1.34
+    }
+  },
+  "startable": 92.16,
+  "rules": [
+    {
+      "label": "备份员@火灵天星单卡",
+      "kind": "one",
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [],
+      "rate": 33.76
+    },
+    {
+      "label": "无垢大艺术-「黄昏之变幻」单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [],
+      "rate": 8.95
+    },
+    {
+      "label": "星球改造单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [],
+      "rate": 7.96
+    },
+    {
+      "label": "码丽丝<兵卒>三月兔单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [],
+      "rate": 7.05
+    },
+    {
+      "label": "码丽丝<兵卒>柴郡猫单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "rate": 6.22
+    },
+    {
+      "label": "码丽丝<兵卒>白兔单卡",
+      "kind": "one",
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "rate": 14.41
+    },
+    {
+      "label": "码丽丝<兵卒>睡鼠单卡",
+      "kind": "one",
+      "consumes": {},
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "rate": 3.61
+    },
+    {
+      "label": "净化与腐败之无垢大艺术＋触发件",
+      "kind": "two",
+      "consumes": {},
+      "locks": [],
+      "rate": 2.84
+    },
+    {
+      "label": "无限与有限之无垢大艺术＋触发件",
+      "kind": "two",
+      "consumes": {},
+      "locks": [],
+      "rate": 6.03
+    },
+    {
+      "label": "结合与乖离之无垢大艺术＋触发件",
+      "kind": "two",
+      "consumes": {},
+      "locks": [],
+      "rate": 1.34
+    }
+  ],
+  "dead": {
+    "rate": 7.84,
+    "hands": 51604,
+    "examples": [
+      {
+        "cards": [
+          "无限泡影",
+          "欢聚友伴·抖抖海月水母",
+          "灰流丽",
+          "码丽丝梦游地下界",
+          "耀圣之波诗 狄娜"
+        ],
+        "hands": 18
+      },
+      {
+        "cards": [
+          "欢聚友伴·抖抖海月水母",
+          "灰流丽",
+          "灵王的波动",
+          "码丽丝梦游地下界",
+          "耀圣之波诗 狄娜"
+        ],
+        "hands": 12
+      },
+      {
+        "cards": [
+          "欢聚友伴·抖抖海月水母",
+          "欢聚友伴·茸茸长尾山雀",
+          "灰流丽",
+          "码丽丝梦游地下界",
+          "耀圣之波诗 狄娜"
+        ],
+        "hands": 12
+      },
+      {
+        "cards": [
+          "无限泡影",
+          "欢聚友伴·抖抖海月水母",
+          "灰流丽",
+          "灵王的波动",
+          "耀圣之波诗 狄娜"
+        ],
+        "hands": 12
+      },
+      {
+        "cards": [
+          "无限泡影",
+          "欢聚友伴·抖抖海月水母",
+          "欢聚友伴·茸茸长尾山雀",
+          "灰流丽",
+          "耀圣之波诗 狄娜"
+        ],
+        "hands": 12
+      }
+    ],
+    "threshold": 15.0,
+    "over_threshold": false
+  }
+}

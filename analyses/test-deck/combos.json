@@ -1,0 +1,28 @@
+{
+  "one_card": [
+    {
+      "label": "带刻印者单卡",
+      "cards": ["带刻印者"],
+      "consumes": { "normal_summon": 1 },
+      "locks": []
+    },
+    {
+      "label": "王之遗宝单卡",
+      "cards": ["王之遗宝祭祀圣域"],
+      "consumes": {},
+      "locks": []
+    },
+    {
+      "label": "星球改造单卡",
+      "cards": ["星球改造"],
+      "consumes": {},
+      "locks": []
+    },
+    {
+      "label": "裁决阿努比斯单卡",
+      "cards": ["裁决的阿努比斯"],
+      "consumes": { "normal_summon": 1 },
+      "locks": []
+    }
+  ]
+}

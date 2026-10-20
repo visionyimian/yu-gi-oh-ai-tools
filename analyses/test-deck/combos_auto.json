@@ -1,0 +1,95 @@
+{
+  "one_card": [
+    {
+      "label": "天狱之王单卡",
+      "cards": [
+        "天狱之王"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SPECIAL_SUMMON']，kind=trigger_optional"
+    },
+    {
+      "label": "守护兽 塞勒凯特单卡",
+      "cards": [
+        "守护兽 塞勒凯特"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=ignition"
+    },
+    {
+      "label": "带刻印者单卡",
+      "cards": [
+        "带刻印者"
+      ],
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_DECKDES', 'CATEGORY_SEARCH', 'CATEGORY_TOGRAVE', 'CATEGORY_TOHAND']，kind=trigger_optional"
+    },
+    {
+      "label": "星球改造单卡",
+      "cards": [
+        "星球改造"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=activation"
+    },
+    {
+      "label": "王之遗宝祭祀圣域单卡",
+      "cards": [
+        "王之遗宝祭祀圣域"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_SSET', 'CATEGORY_TOHAND']，kind=activation"
+    },
+    {
+      "label": "王家的神殿单卡",
+      "cards": [
+        "王家的神殿"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SPECIAL_SUMMON']，kind=ignition"
+    },
+    {
+      "label": "裁决的阿努比斯单卡",
+      "cards": [
+        "裁决的阿努比斯"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=ignition"
+    },
+    {
+      "label": "超融合单卡",
+      "cards": [
+        "超融合"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_FUSION_SUMMON', 'CATEGORY_SPECIAL_SUMMON']，kind=activation"
+    },
+    {
+      "label": "金满而谦虚之壶单卡",
+      "cards": [
+        "金满而谦虚之壶"
+      ],
+      "consumes": {},
+      "locks": [
+        "EFFECT_CANNOT_DRAW"
+      ],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=activation"
+    }
+  ],
+  "two_card": [],
+  "derivation": {
+    "source": "script_facts.categories + combo_scan.triggers",
+    "main_cards": 25,
+    "deferred_to_two_card": []
+  }
+}

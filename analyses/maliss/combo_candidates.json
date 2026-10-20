@@ -1,0 +1,1853 @@
+{
+  "deck": {
+    "main": 42,
+    "extra": 15,
+    "side": 0
+  },
+  "link_monsters": [
+    {
+      "name": "转生炎兽 独角兔",
+      "link_rating": 1,
+      "material": "通常召唤的攻击力1000以下的怪兽1只",
+      "gate": {
+        "kind": "ns_max_atk",
+        "max_atk": 1000,
+        "count": 1,
+        "raw": "通常召唤的攻击力1000以下的怪兽1只"
+      },
+      "satisfier": {
+        "copies": 16,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "连接解码员",
+      "link_rating": 1,
+      "material": "4星以下的电子界族怪兽1只",
+      "gate": {
+        "kind": "race_level",
+        "level": 4,
+        "race": "电子界",
+        "count": 1,
+        "raw": "4星以下的电子界族怪兽1只"
+      },
+      "satisfier": {
+        "copies": 11,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "连环栗仔球",
+      "link_rating": 1,
+      "material": "4星以下的电子界族怪兽1只",
+      "gate": {
+        "kind": "race_level",
+        "level": 4,
+        "race": "电子界",
+        "count": 1,
+        "raw": "4星以下的电子界族怪兽1只"
+      },
+      "satisfier": {
+        "copies": 11,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "I：P百变莱娜",
+      "link_rating": 2,
+      "material": "连接怪兽以外的怪兽2只",
+      "gate": {
+        "kind": "nonlink",
+        "count": 2,
+        "raw": "连接怪兽以外的怪兽2只"
+      },
+      "satisfier": {
+        "copies": 27,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架驱动者",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "S：P小夜骑士",
+      "link_rating": 2,
+      "material": "效果怪兽2只",
+      "gate": {
+        "kind": "effect",
+        "count": 2,
+        "raw": "效果怪兽2只"
+      },
+      "satisfier": {
+        "copies": 26,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "电子界小男巫",
+      "link_rating": 2,
+      "material": "电子界族怪兽2只",
+      "gate": {
+        "kind": "race",
+        "race": "电子界",
+        "count": 2,
+        "raw": "电子界族怪兽2只"
+      },
+      "satisfier": {
+        "copies": 11,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "盛悴之致命毒蜥",
+      "link_rating": 2,
+      "material": "卡名不同的怪兽2只",
+      "gate": {
+        "kind": "different_names",
+        "count": 2,
+        "raw": "卡名不同的怪兽2只"
+      },
+      "satisfier": {
+        "copies": 27,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架驱动者",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "保护码语者",
+      "link_rating": 3,
+      "material": "效果怪兽2只以上",
+      "gate": {
+        "kind": "effect_min",
+        "count": 2,
+        "raw": "效果怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 26,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "幻狱神 米底丘利乌斯",
+      "link_rating": 3,
+      "material": "包含融合·同调·超量·连接怪兽的怪兽2只以上",
+      "gate": {
+        "kind": "ed_monster",
+        "count": 2,
+        "raw": "包含融合·同调·超量·连接怪兽的怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 15,
+        "cards": [
+          {
+            "name": "盛悴之致命毒蜥",
+            "copies": 1
+          },
+          {
+            "name": "保护码语者",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<王后>白棋捆绑",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<王后>红心加密",
+            "copies": 1
+          },
+          {
+            "name": "S：P小夜骑士",
+            "copies": 1
+          },
+          {
+            "name": "协心代码语者@火灵天星",
+            "copies": 1
+          },
+          {
+            "name": "访问码语者",
+            "copies": 1
+          },
+          {
+            "name": "连接解码员",
+            "copies": 1
+          },
+          {
+            "name": "禅那之追傩仪姬",
+            "copies": 1
+          },
+          {
+            "name": "幻狱神 米底丘利乌斯",
+            "copies": 1
+          },
+          {
+            "name": "I：P百变莱娜",
+            "copies": 1
+          },
+          {
+            "name": "连环栗仔球",
+            "copies": 1
+          },
+          {
+            "name": "防火龙",
+            "copies": 1
+          },
+          {
+            "name": "电子界小男巫",
+            "copies": 1
+          },
+          {
+            "name": "转生炎兽 独角兔",
+            "copies": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "码丽丝<王后>白棋捆绑",
+      "link_rating": 3,
+      "material": "包含「码丽丝」怪兽的怪兽2只以上",
+      "gate": {
+        "kind": "archetype_min",
+        "archetype": "码丽丝",
+        "count": 2,
+        "raw": "包含「码丽丝」怪兽的怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 8,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "码丽丝<王后>红心加密",
+      "link_rating": 3,
+      "material": "包含「码丽丝」怪兽的怪兽3只",
+      "gate": {
+        "kind": "archetype",
+        "archetype": "码丽丝",
+        "count": 3,
+        "raw": "包含「码丽丝」怪兽的怪兽3只"
+      },
+      "satisfier": {
+        "copies": 8,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "访问码语者",
+      "link_rating": 4,
+      "material": "效果怪兽2只以上",
+      "gate": {
+        "kind": "effect_min",
+        "count": 2,
+        "raw": "效果怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 26,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "防火龙",
+      "link_rating": 4,
+      "material": "怪兽2只以上",
+      "gate": {
+        "kind": "any_min",
+        "count": 2,
+        "raw": "怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 27,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架驱动者",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "协心代码语者@火灵天星",
+      "link_rating": 5,
+      "material": "效果怪兽3只以上",
+      "gate": {
+        "kind": "effect_min",
+        "count": 3,
+        "raw": "效果怪兽3只以上"
+      },
+      "satisfier": {
+        "copies": 26,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "禅那之追傩仪姬",
+      "link_rating": 5,
+      "material": "效果怪兽2只以上",
+      "gate": {
+        "kind": "effect_min",
+        "count": 2,
+        "raw": "效果怪兽2只以上"
+      },
+      "satisfier": {
+        "copies": 26,
+        "cards": [
+          {
+            "name": "码丽丝<兵卒>三月兔",
+            "copies": 1
+          },
+          {
+            "name": "灰流丽",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>白兔",
+            "copies": 3
+          },
+          {
+            "name": "无限与有限之无垢大艺术",
+            "copies": 3
+          },
+          {
+            "name": "增殖的G",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·抖抖海月水母",
+            "copies": 2
+          },
+          {
+            "name": "码丽丝<兵卒>柴郡猫",
+            "copies": 3
+          },
+          {
+            "name": "码丽丝<兵卒>睡鼠",
+            "copies": 1
+          },
+          {
+            "name": "净化与腐败之无垢大艺术",
+            "copies": 2
+          },
+          {
+            "name": "结合与乖离之无垢大艺术",
+            "copies": 1
+          },
+          {
+            "name": "小丑与锁鸟",
+            "copies": 1
+          },
+          {
+            "name": "PSY骨架装备·γ",
+            "copies": 1
+          },
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 2
+          },
+          {
+            "name": "备份员@火灵天星",
+            "copies": 3
+          }
+        ]
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "card": "无限与有限之无垢大艺术",
+      "copies": 3,
+      "section": "main",
+      "kind": "fusion_link_summon",
+      "text": "融合·连接怪兽特殊召唤的场合",
+      "snippet": "神」连接怪兽的原本攻击力变成3倍。\r ②：这张卡是除外状态，融合·连接怪兽特殊召唤的场合才能发动。这张卡特殊召唤。\r ③：自己场上有「狱神」连接怪兽",
+      "self_trigger": false,
+      "weak": false,
+      "enabler_count": 15,
+      "enablers": [
+        {
+          "card": "转生炎兽 独角兔",
+          "link_rating": 1,
+          "material": "通常召唤的攻击力1000以下的怪兽1只",
+          "satisfier_copies": 16,
+          "note": "转生炎兽 独角兔 做连接召唤即可触发"
+        },
+        {
+          "card": "连接解码员",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连接解码员 做连接召唤即可触发"
+        },
+        {
+          "card": "连环栗仔球",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连环栗仔球 做连接召唤即可触发"
+        },
+        {
+          "card": "I：P百变莱娜",
+          "link_rating": 2,
+          "material": "连接怪兽以外的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "I：P百变莱娜 做连接召唤即可触发"
+        },
+        {
+          "card": "盛悴之致命毒蜥",
+          "link_rating": 2,
+          "material": "卡名不同的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "盛悴之致命毒蜥 做连接召唤即可触发"
+        },
+        {
+          "card": "S：P小夜骑士",
+          "link_rating": 2,
+          "material": "效果怪兽2只",
+          "satisfier_copies": 26,
+          "note": "S：P小夜骑士 做连接召唤即可触发"
+        },
+        {
+          "card": "电子界小男巫",
+          "link_rating": 2,
+          "material": "电子界族怪兽2只",
+          "satisfier_copies": 11,
+          "note": "电子界小男巫 做连接召唤即可触发"
+        },
+        {
+          "card": "保护码语者",
+          "link_rating": 3,
+          "material": "效果怪兽2只以上",
+          "satisfier_copies": 26,
+          "note": "保护码语者 做连接召唤即可触发"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<兵卒>柴郡猫",
+      "copies": 3,
+      "section": "main",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "码丽丝」连接怪兽战斗破坏的怪兽不去墓地而除外。\r ③：这张卡被除外的场合，支付300基本分才能发动。这张卡特殊召唤。这个回合，自己不",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>睡鼠",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<兵卒>白兔",
+      "copies": 3,
+      "section": "main",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "」连接怪兽的战斗发生的对自己的战斗伤害变成0。\r ③：这张卡被除外的场合，支付300基本分才能发动。这张卡特殊召唤。这个回合，自己不",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>睡鼠",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "净化与腐败之无垢大艺术",
+      "copies": 2,
+      "section": "main",
+      "kind": "xyz_link_summon",
+      "text": "超量·连接怪兽特殊召唤的场合",
+      "snippet": "1回合各有最多3次不会被战斗破坏。\r ②：这张卡是除外状态，超量·连接怪兽特殊召唤的场合才能发动。这张卡特殊召唤。\r ③：以最多有自己场上的「狱神」",
+      "self_trigger": false,
+      "weak": false,
+      "enabler_count": 15,
+      "enablers": [
+        {
+          "card": "转生炎兽 独角兔",
+          "link_rating": 1,
+          "material": "通常召唤的攻击力1000以下的怪兽1只",
+          "satisfier_copies": 16,
+          "note": "转生炎兽 独角兔 做连接召唤即可触发"
+        },
+        {
+          "card": "连接解码员",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连接解码员 做连接召唤即可触发"
+        },
+        {
+          "card": "连环栗仔球",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连环栗仔球 做连接召唤即可触发"
+        },
+        {
+          "card": "I：P百变莱娜",
+          "link_rating": 2,
+          "material": "连接怪兽以外的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "I：P百变莱娜 做连接召唤即可触发"
+        },
+        {
+          "card": "盛悴之致命毒蜥",
+          "link_rating": 2,
+          "material": "卡名不同的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "盛悴之致命毒蜥 做连接召唤即可触发"
+        },
+        {
+          "card": "S：P小夜骑士",
+          "link_rating": 2,
+          "material": "效果怪兽2只",
+          "satisfier_copies": 26,
+          "note": "S：P小夜骑士 做连接召唤即可触发"
+        },
+        {
+          "card": "电子界小男巫",
+          "link_rating": 2,
+          "material": "电子界族怪兽2只",
+          "satisfier_copies": 11,
+          "note": "电子界小男巫 做连接召唤即可触发"
+        },
+        {
+          "card": "保护码语者",
+          "link_rating": 3,
+          "material": "效果怪兽2只以上",
+          "satisfier_copies": 26,
+          "note": "保护码语者 做连接召唤即可触发"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<兵卒>三月兔",
+      "copies": 1,
+      "section": "main",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "于所连接区的「码丽丝」连接怪兽作为效果的对象。\r ③：这张卡被除外的场合，支付300基本分，以自己的除外状态的1只「码丽丝」怪兽为对",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>睡鼠",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<兵卒>睡鼠",
+      "copies": 1,
+      "section": "main",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "于所连接区的「码丽丝」连接怪兽不会被效果破坏。\r ③：这张卡被除外的场合，支付300基本分才能发动。这张卡特殊召唤。这个回合，自己不",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "结合与乖离之无垢大艺术",
+      "copies": 1,
+      "section": "main",
+      "kind": "synchro_link_summon",
+      "text": "同调·连接怪兽特殊召唤的场合",
+      "snippet": "战斗阶段中最多3次可以向怪兽攻击。\r ②：这张卡是除外状态，同调·连接怪兽特殊召唤的场合才能发动。这张卡特殊召唤。\r ③：从自己墓地把1张「无垢大艺",
+      "self_trigger": false,
+      "weak": false,
+      "enabler_count": 15,
+      "enablers": [
+        {
+          "card": "转生炎兽 独角兔",
+          "link_rating": 1,
+          "material": "通常召唤的攻击力1000以下的怪兽1只",
+          "satisfier_copies": 16,
+          "note": "转生炎兽 独角兔 做连接召唤即可触发"
+        },
+        {
+          "card": "连接解码员",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连接解码员 做连接召唤即可触发"
+        },
+        {
+          "card": "连环栗仔球",
+          "link_rating": 1,
+          "material": "4星以下的电子界族怪兽1只",
+          "satisfier_copies": 11,
+          "note": "连环栗仔球 做连接召唤即可触发"
+        },
+        {
+          "card": "I：P百变莱娜",
+          "link_rating": 2,
+          "material": "连接怪兽以外的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "I：P百变莱娜 做连接召唤即可触发"
+        },
+        {
+          "card": "盛悴之致命毒蜥",
+          "link_rating": 2,
+          "material": "卡名不同的怪兽2只",
+          "satisfier_copies": 27,
+          "note": "盛悴之致命毒蜥 做连接召唤即可触发"
+        },
+        {
+          "card": "S：P小夜骑士",
+          "link_rating": 2,
+          "material": "效果怪兽2只",
+          "satisfier_copies": 26,
+          "note": "S：P小夜骑士 做连接召唤即可触发"
+        },
+        {
+          "card": "电子界小男巫",
+          "link_rating": 2,
+          "material": "电子界族怪兽2只",
+          "satisfier_copies": 11,
+          "note": "电子界小男巫 做连接召唤即可触发"
+        },
+        {
+          "card": "保护码语者",
+          "link_rating": 3,
+          "material": "效果怪兽2只以上",
+          "satisfier_copies": 26,
+          "note": "保护码语者 做连接召唤即可触发"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<王后>白棋捆绑",
+      "copies": 1,
+      "section": "extra",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "组·墓地把1张「码丽丝」陷阱卡在自己场上盖放。\r ③：这张卡被除外的场合，支付900基本分才能发动。这张卡特殊召唤。那之后，自己可以",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<王后>红心加密",
+      "copies": 1,
+      "section": "extra",
+      "kind": "banished",
+      "text": "被除外的场合",
+      "snippet": "会被无效化）。那张卡回到卡组，场上1张卡除外。\r ②：这张卡被除外的场合，支付900基本分才能发动。这张卡的攻击力变成2倍特殊召唤。",
+      "self_trigger": true,
+      "weak": false,
+      "enabler_count": 24,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝梦游地下界",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "封印之黄金柜",
+          "copies": 1,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「除外」，可能可以作为除外来源"
+        }
+      ]
+    },
+    {
+      "card": "备份员@火灵天星",
+      "copies": 3,
+      "section": "main",
+      "kind": "normal_special_summon",
+      "text": "召唤·特殊召唤的场合",
+      "snippet": "场上存在的场合才能发动。这张卡从手卡特殊召唤。\r ②：这张卡召唤·特殊召唤的场合才能发动。从卡组把「备份员@火灵天星」以外的1只电子界族·暗",
+      "self_trigger": true,
+      "weak": true,
+      "enabler_count": 15,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灵王的波动",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灰流丽",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "增殖的G",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "欢聚友伴·抖抖海月水母",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        }
+      ]
+    },
+    {
+      "card": "码丽丝<兵卒>白兔",
+      "copies": 3,
+      "section": "main",
+      "kind": "normal_special_summon",
+      "text": "召唤·特殊召唤的场合",
+      "snippet": "这个卡名的①③的效果1回合各能使用1次。\r ①：这张卡召唤·特殊召唤的场合才能发动。同名卡不在自己墓地存在的1张「码丽丝」陷阱卡从卡组",
+      "self_trigger": true,
+      "weak": true,
+      "enabler_count": 15,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灵王的波动",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灰流丽",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "增殖的G",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "欢聚友伴·抖抖海月水母",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<兵卒>柴郡猫",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        }
+      ]
+    },
+    {
+      "card": "电子界小男巫",
+      "copies": 1,
+      "section": "extra",
+      "kind": "any_summon",
+      "text": "怪兽特殊召唤的场合",
+      "snippet": "果破坏。\r ③：这张卡在怪兽区域存在的状态，这张卡所连接区有怪兽特殊召唤的场合，从自己墓地把1只电子界族怪兽除外才能发动。从卡组把1只电子",
+      "self_trigger": true,
+      "weak": true,
+      "enabler_count": 16,
+      "enablers": [
+        {
+          "card": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灵王的波动",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灰流丽",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "增殖的G",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "欢聚友伴·抖抖海月水母",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        }
+      ]
+    },
+    {
+      "card": "防火龙",
+      "copies": 1,
+      "section": "extra",
+      "kind": "sent_to_gy",
+      "text": "被送去墓地的场合",
+      "snippet": "兽回到手卡。\r ②：这张卡所连接区的怪兽被战斗破坏的场合或者被送去墓地的场合才能发动。从手卡把1只电子界族怪兽特殊召唤。",
+      "self_trigger": false,
+      "weak": true,
+      "enabler_count": 4,
+      "enablers": [
+        {
+          "card": "灰流丽",
+          "copies": 2,
+          "note": "文本含「送去墓地」"
+        },
+        {
+          "card": "增殖的G",
+          "copies": 1,
+          "note": "文本含「送去墓地」"
+        },
+        {
+          "card": "暗之诱惑",
+          "copies": 1,
+          "note": "文本含「送去墓地」"
+        },
+        {
+          "card": "小丑与锁鸟",
+          "copies": 1,
+          "note": "文本含「送去墓地」"
+        }
+      ]
+    }
+  ],
+  "candidate_pairs": [
+    {
+      "trigger_card": "码丽丝<兵卒>三月兔",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>三月兔",
+      "enabler_card": "码丽丝<兵卒>白兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>三月兔",
+      "enabler_card": "码丽丝<代码>MTP-07",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "灵王的波动",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "灰流丽",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>白兔",
+      "enabler_card": "码丽丝<代码>MTP-07",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "无限与有限之无垢大艺术",
+      "enabler_card": "转生炎兽 独角兔",
+      "kind": "fusion_link_summon",
+      "evidence": "转生炎兽 独角兔 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "无限与有限之无垢大艺术",
+      "enabler_card": "连接解码员",
+      "kind": "fusion_link_summon",
+      "evidence": "连接解码员 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "无限与有限之无垢大艺术",
+      "enabler_card": "连环栗仔球",
+      "kind": "fusion_link_summon",
+      "evidence": "连环栗仔球 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>柴郡猫",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>柴郡猫",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>柴郡猫",
+      "enabler_card": "码丽丝<兵卒>白兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>睡鼠",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>睡鼠",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<兵卒>睡鼠",
+      "enabler_card": "码丽丝<兵卒>白兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "净化与腐败之无垢大艺术",
+      "enabler_card": "转生炎兽 独角兔",
+      "kind": "xyz_link_summon",
+      "evidence": "转生炎兽 独角兔 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "净化与腐败之无垢大艺术",
+      "enabler_card": "连接解码员",
+      "kind": "xyz_link_summon",
+      "evidence": "连接解码员 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "净化与腐败之无垢大艺术",
+      "enabler_card": "连环栗仔球",
+      "kind": "xyz_link_summon",
+      "evidence": "连环栗仔球 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "结合与乖离之无垢大艺术",
+      "enabler_card": "转生炎兽 独角兔",
+      "kind": "synchro_link_summon",
+      "evidence": "转生炎兽 独角兔 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "结合与乖离之无垢大艺术",
+      "enabler_card": "连接解码员",
+      "kind": "synchro_link_summon",
+      "evidence": "连接解码员 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "结合与乖离之无垢大艺术",
+      "enabler_card": "连环栗仔球",
+      "kind": "synchro_link_summon",
+      "evidence": "连环栗仔球 做连接召唤即可触发"
+    },
+    {
+      "trigger_card": "备份员@火灵天星",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "备份员@火灵天星",
+      "enabler_card": "灵王的波动",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "备份员@火灵天星",
+      "enabler_card": "灰流丽",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "码丽丝<王后>白棋捆绑",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<王后>白棋捆绑",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<王后>白棋捆绑",
+      "enabler_card": "码丽丝<兵卒>白兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<王后>红心加密",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<王后>红心加密",
+      "enabler_card": "码丽丝梦游地下界",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "码丽丝<王后>红心加密",
+      "enabler_card": "码丽丝<兵卒>白兔",
+      "kind": "banished",
+      "evidence": "文本含「除外」，可能可以作为除外来源"
+    },
+    {
+      "trigger_card": "防火龙",
+      "enabler_card": "灰流丽",
+      "kind": "sent_to_gy",
+      "evidence": "文本含「送去墓地」"
+    },
+    {
+      "trigger_card": "防火龙",
+      "enabler_card": "增殖的G",
+      "kind": "sent_to_gy",
+      "evidence": "文本含「送去墓地」"
+    },
+    {
+      "trigger_card": "防火龙",
+      "enabler_card": "暗之诱惑",
+      "kind": "sent_to_gy",
+      "evidence": "文本含「送去墓地」"
+    },
+    {
+      "trigger_card": "电子界小男巫",
+      "enabler_card": "码丽丝<兵卒>三月兔",
+      "kind": "any_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "电子界小男巫",
+      "enabler_card": "灵王的波动",
+      "kind": "any_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "电子界小男巫",
+      "enabler_card": "灰流丽",
+      "kind": "any_summon",
+      "evidence": "文本含「特殊召唤」"
+    }
+  ],
+  "notes": [
+    "本报告只做机械联结，不是结论：候选组合仍需按卡片文本逐条验证。",
+    "CSV 输入不含 archetypes 字段，按卡名包含关系近似匹配；需要精确匹配请用 JSON 输入。"
+  ]
+}

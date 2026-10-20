@@ -1,0 +1,2334 @@
+{
+  "cards": [
+    {
+      "id": 60411677,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CANNOT_DISABLE",
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EFFECT_SPSUMMON_CONDITION",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CANNOT_DISABLE",
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EFFECT_SPSUMMON_PROC",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_SEARCH",
+            "CATEGORY_TOHAND"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "cost": "s.thcost",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET",
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_DESTROYED",
+          "categories": [
+            "CATEGORY_DESTROY"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+o",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 97522863,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_SEARCH",
+            "CATEGORY_TOHAND",
+            "CATEGORY_DECKDES",
+            "CATEGORY_TOGRAVE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_SEARCH",
+            "CATEGORY_TOHAND",
+            "CATEGORY_DECKDES",
+            "CATEGORY_TOGRAVE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "cloned_from": 1,
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EFFECT_INDESTRUCTABLE_BATTLE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EFFECT_INDESTRUCTABLE_EFFECT",
+          "cloned_from": 3,
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 5,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EFFECT_INDESTRUCTABLE_EFFECT",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 34926568,
+      "opt": "mixed",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EFFECT_SPSUMMON_PROC",
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "continuous",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_TOHAND",
+            "CATEGORY_SEARCH"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "ignition",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [],
+          "event": "EVENT_BATTLE_START",
+          "categories": [
+            "CATEGORY_DESTROY",
+            "CATEGORY_ATKCHANGE"
+          ],
+          "kind": "trigger_optional",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 9822220,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 42141493,
+      "opt": "custom",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DRAW"
+          ],
+          "cost": "s.drcost",
+          "kind": "quick_optional",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ],
+      "custom_evidence": {
+        "flag_checks": [
+          "Duel.GetFlagEffect(tp,84192580) <= 1",
+          "Duel.GetFlagEffect(tp,id+o) > 0"
+        ],
+        "aux_helpers": [
+          "EnableMulcharmyGlobalCheck"
+        ]
+      }
+    },
+    {
+      "id": 14558128,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_DISABLE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "14558127",
+          "cost": "c14558127.discost",
+          "kind": "quick_optional",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 27204311,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_TOKEN"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "27204311",
+          "kind": "quick_optional",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_SUMMON_SUCCESS",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "cloned_from": 2,
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 29762407,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_SET_AVAILABLE"
+          ],
+          "event": "EFFECT_TRAP_ACT_IN_SET_TURN",
+          "count_limit": 1,
+          "count_limit_key": "29762407",
+          "kind": "continuous",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "29762408",
+          "cost": "c29762407.cost",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 69299029,
+      "opt": "mixed",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_TOHAND",
+            "CATEGORY_SEARCH"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "ignition",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 73628505,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_TOHAND",
+            "CATEGORY_SEARCH"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 48130397,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_FUSION_SUMMON"
+          ],
+          "cost": "c48130397.cost",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 98829635,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_ATTACK",
+        "EFFECT_CANNOT_BE_FUSION_MATERIAL",
+        "EFFECT_CANNOT_BE_LINK_MATERIAL",
+        "EFFECT_CANNOT_BE_SYNCHRO_MATERIAL",
+        "EFFECT_CANNOT_BE_XYZ_MATERIAL"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DISABLE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 84211599,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_DRAW"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_TOHAND",
+            "CATEGORY_SEARCH"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "84211599+EFFECT_COUNT_CODE_OATH",
+          "cost": "c84211599.cost",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_CONTINUOUS",
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EVENT_DRAW",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 25311006,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "count_limit": 1,
+          "count_limit_key": "25311006+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 65681983,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_REMOVE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "65681983+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 24224830,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_REMOVE"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 10045474,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DISABLE"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [],
+          "event": "EFFECT_TRAP_ACT_IN_HAND",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 15693423,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_REMOVE"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [],
+          "event": "EFFECT_TRAP_ACT_IN_HAND",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 30748475,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_POSITION",
+            "CATEGORY_TOGRAVE",
+            "CATEGORY_MSET"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 31849106,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 40605147,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_NEGATE",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c40605147.cost",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_SPSUMMON",
+          "categories": [
+            "CATEGORY_DISABLE_SUMMON",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c40605147.cost",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 40366667,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_ACTIVATE"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_DISABLE",
+            "CATEGORY_DESTROY"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [],
+          "event": "EFFECT_TRAP_ACT_IN_HAND",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 23626223,
+      "opt": "unlimited",
+      "restrictions": [
+        "EFFECT_CANNOT_BE_EFFECT_TARGET"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_SINGLE_RANGE"
+          ],
+          "event": "EFFECT_CANNOT_BE_EFFECT_TARGET",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET",
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_DESTROY"
+          ],
+          "kind": "trigger_optional",
+          "opt": "none",
+          "no_miss_timing": true,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 85888377,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_DISABLE"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 95561146,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_SSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_TO_GRAVE",
+          "categories": [
+            "CATEGORY_SEARCH",
+            "CATEGORY_TOHAND"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+o",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 97800311,
+      "opt": "once_per_turn",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CANNOT_DISABLE",
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EFFECT_SPSUMMON_CONDITION",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CANNOT_DISABLE",
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EFFECT_SPSUMMON_PROC",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": null,
+          "categories": [
+            "CATEGORY_SSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "ignition",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": false
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY",
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_DESTROY"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "trigger_optional",
+          "opt": "card",
+          "no_miss_timing": true,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 54757758,
+      "opt": "once_per_turn",
+      "restrictions": [
+        "EFFECT_CANNOT_BE_EFFECT_TARGET"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_SINGLE_RANGE"
+          ],
+          "event": "EFFECT_CANNOT_BE_EFFECT_TARGET",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_IGNORE_IMMUNE"
+          ],
+          "event": "EFFECT_CANNOT_BE_EFFECT_TARGET",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "quick_optional",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 11765832,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [],
+          "event": "EFFECT_CHANGE_INVOLVING_BATTLE_DAMAGE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY",
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EVENT_TO_GRAVE",
+          "categories": [
+            "CATEGORY_DRAW"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "11765832",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 69946549,
+      "opt": "once_per_turn",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_COUNTER"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "quick_optional",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAIN_SOLVING",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 90448279,
+      "opt": "once_per_turn",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_TOGRAVE"
+          ],
+          "cost": "c90448279.tgcost",
+          "kind": "quick_optional",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY",
+            "EFFECT_FLAG_DAMAGE_STEP"
+          ],
+          "event": "EVENT_DESTROYED",
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "trigger_optional",
+          "opt": "card",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_BATTLED",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 93039339,
+      "opt": "once_per_turn",
+      "restrictions": [
+        "EFFECT_CANNOT_ACTIVATE"
+      ],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON",
+        "EFFECT_CANNOT_SUMMON"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [
+            "EFFECT_FLAG_UNCOPYABLE",
+            "EFFECT_FLAG_CANNOT_DISABLE"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_ACTIVATE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_TOHAND"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "cost": "s.thcost",
+          "kind": "ignition",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 32530043,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_TOHAND",
+            "CATEGORY_SEARCH"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "32530043",
+          "cost": "c32530043.cost",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_MSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "32530043",
+          "cost": "c32530043.cost",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 99666430,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_ATTACK_ANNOUNCE",
+        "EFFECT_CANNOT_TRIGGER"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": null,
+          "categories": [
+            "CATEGORY_CONTROL"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "99666430",
+          "cost": "c99666430.ctrcost",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_RELEASE",
+            "CATEGORY_DESTROY"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "99666431",
+          "kind": "ignition",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 55285840,
+      "opt": "mixed",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [],
+          "event": "EVENT_PHASE+PHASE_STANDBY",
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "trigger_optional",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DRAW"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "55285840",
+          "kind": "quick_optional",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 90590304,
+      "opt": "once_per_turn",
+      "restrictions": [
+        "EFFECT_CANNOT_BE_EFFECT_TARGET"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CANNOT_DISABLE",
+            "EFFECT_FLAG_UNCOPYABLE"
+          ],
+          "event": "EVENT_PHASE+PHASE_STANDBY",
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "continuous",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_SINGLE_RANGE"
+          ],
+          "event": "EFFECT_CANNOT_BE_EFFECT_TARGET",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [
+            "EFFECT_FLAG_SINGLE_RANGE"
+          ],
+          "event": "EFFECT_INDESTRUCTABLE_EFFECT",
+          "cloned_from": 2,
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EFFECT_SET_POSITION",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 5,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAIN_SOLVING",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 98978921,
+      "opt": "once_per_turn",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_IGNITION"
+          ],
+          "flags": [],
+          "event": null,
+          "categories": [
+            "CATEGORY_SPECIAL_SUMMON"
+          ],
+          "count_limit": 1,
+          "count_limit_key": null,
+          "kind": "ignition",
+          "opt": "card",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 1528054,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_BE_LINK_MATERIAL"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_SSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EFFECT_INDESTRUCTABLE_BATTLE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET",
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_DESTROY"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+o",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 29301450,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_DIRECT_ATTACK"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_SINGLE",
+            "EFFECT_TYPE_TRIGGER_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET",
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_SPSUMMON_SUCCESS",
+          "categories": [
+            "CATEGORY_REMOVE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id",
+          "kind": "trigger_optional",
+          "opt": "card_name",
+          "no_miss_timing": true,
+          "targets": true,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_SINGLE"
+          ],
+          "flags": [],
+          "event": "EFFECT_MATERIAL_CHECK",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_CARD_TARGET"
+          ],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_REMOVE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+o",
+          "kind": "quick_optional",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": true,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 94145021,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_DRAW",
+        "EFFECT_CANNOT_TO_HAND"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [
+            "EFFECT_FLAG_DELAY"
+          ],
+          "event": "EVENT_CUSTOM+94145021",
+          "cost": "c94145021.cost",
+          "kind": "quick_optional",
+          "opt": "none",
+          "no_miss_timing": true,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_TO_HAND",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 84192580,
+      "opt": "custom",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_QUICK_O"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DRAW"
+          ],
+          "cost": "s.drcost",
+          "kind": "quick_optional",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ],
+      "custom_evidence": {
+        "flag_checks": [
+          "Duel.GetFlagEffect(tp,84192580) <= 1",
+          "Duel.GetFlagEffect(tp,id+o) > 0"
+        ],
+        "aux_helpers": [
+          "EnableMulcharmyGlobalCheck"
+        ]
+      }
+    },
+    {
+      "id": 18144507,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DESTROY"
+          ],
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 33017964,
+      "opt": "custom",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_DESTROY",
+            "CATEGORY_SPECIAL_SUMMON",
+            "CATEGORY_GRAVE_SPSUMMON"
+          ],
+          "cost": "s.cost",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ],
+      "custom_evidence": {
+        "flag_checks": [
+          "Duel.GetFlagEffect(tp,id) == 0",
+          "Duel.GetFlagEffect(tp,id) > 0"
+        ],
+        "aux_helpers": []
+      }
+    },
+    {
+      "id": 35269904,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [
+        "EFFECT_CANNOT_TRIGGER"
+      ],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "categories": [
+            "CATEGORY_SEARCH",
+            "CATEGORY_TOHAND",
+            "CATEGORY_SSET"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 58921041,
+      "opt": "unlimited",
+      "restrictions": [
+        "EFFECT_CANNOT_ACTIVATE"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_ACTIVATE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [],
+          "event": "EVENT_SSET",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 41420027,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_SUMMON",
+          "categories": [
+            "CATEGORY_DISABLE_SUMMON",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c41420027.cost1",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FLIP_SUMMON",
+          "categories": [
+            "CATEGORY_DISABLE_SUMMON",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c41420027.cost1",
+          "cloned_from": 1,
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_SPSUMMON",
+          "categories": [
+            "CATEGORY_DISABLE_SUMMON",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c41420027.cost1",
+          "cloned_from": 1,
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_NEGATE",
+            "CATEGORY_DESTROY"
+          ],
+          "cost": "c41420027.cost2",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": true
+        }
+      ]
+    },
+    {
+      "id": 53334471,
+      "opt": "unlimited",
+      "restrictions": [
+        "EFFECT_CANNOT_FLIP_SUMMON",
+        "EFFECT_CANNOT_SUMMON"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD",
+            "EFFECT_TYPE_CONTINUOUS"
+          ],
+          "flags": [
+            "EFFECT_FLAG_IGNORE_IMMUNE"
+          ],
+          "event": "EVENT_ADJUST",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 3,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_LIMIT_SPECIAL_SUMMON_POSITION",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 4,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_SUMMON",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 5,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_FLIP_SUMMON",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 27581098,
+      "opt": "unlimited",
+      "restrictions": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_SPECIAL_SUMMON",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 99735427,
+      "opt": "unlimited",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_CONTINUOUS",
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAIN_SOLVING",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 29549364,
+      "opt": "unlimited",
+      "restrictions": [
+        "EFFECT_CANNOT_RELEASE"
+      ],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_FREE_CHAIN",
+          "kind": "activation",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        },
+        {
+          "index": 2,
+          "types": [
+            "EFFECT_TYPE_FIELD"
+          ],
+          "flags": [
+            "EFFECT_FLAG_PLAYER_TARGET"
+          ],
+          "event": "EFFECT_CANNOT_RELEASE",
+          "kind": "continuous",
+          "opt": "none",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    },
+    {
+      "id": 59576447,
+      "opt": "card_name_once",
+      "restrictions": [],
+      "indirect_restrictions": [],
+      "effects": [
+        {
+          "index": 1,
+          "types": [
+            "EFFECT_TYPE_ACTIVATE"
+          ],
+          "flags": [],
+          "event": "EVENT_CHAINING",
+          "categories": [
+            "CATEGORY_NEGATE",
+            "CATEGORY_DESTROY",
+            "CATEGORY_DAMAGE"
+          ],
+          "count_limit": 1,
+          "count_limit_key": "id+EFFECT_COUNT_CODE_OATH",
+          "kind": "activation",
+          "opt": "card_name",
+          "no_miss_timing": false,
+          "targets": false,
+          "has_cost": false
+        }
+      ]
+    }
+  ],
+  "missing": [],
+  "vanilla": [],
+  "aliased": [
+    {
+      "id": 14558128,
+      "alias": 14558127
+    },
+    {
+      "id": 90590304,
+      "alias": 90590303
+    },
+    {
+      "id": 18144507,
+      "alias": 18144506
+    }
+  ]
+}

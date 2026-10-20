@@ -1,0 +1,879 @@
+{
+  "deck_profile": {
+    "archetype": "码丽丝（Maliss）+ 无垢大艺术",
+    "deck_type": "combo",
+    "difficulty": "high"
+  },
+  "deck_structure": {
+    "main": 40,
+    "extra": 15,
+    "side": 13
+  },
+  "engines": [
+    {
+      "name": "码丽丝引擎",
+      "role": "primary",
+      "cards": [
+        {
+          "name": "码丽丝<兵卒>白兔",
+          "copies": 3,
+          "types": [
+            "starter"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "召唤·特召时从卡组盖放 1 张码丽丝陷阱；被除外时支付 300 自我特召",
+          "script": {
+            "kinds": [
+              "trigger_optional",
+              "trigger_optional",
+              "continuous",
+              "continuous",
+              "trigger_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "码丽丝<兵卒>柴郡猫",
+          "copies": 1,
+          "types": [
+            "starter"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "除外手卡 1 张码丽丝抽 2；被除外时支付 300 自我特召",
+          "script": {
+            "kinds": [
+              "ignition",
+              "continuous",
+              "trigger_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "码丽丝<兵卒>睡鼠",
+          "copies": 1,
+          "types": [
+            "starter",
+            "engine_core"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "从卡组除外 1 只码丽丝并给自己场上 +600 攻；被除外时回收除外区 1 只码丽丝",
+          "script": {
+            "kinds": [
+              "ignition",
+              "continuous",
+              "trigger_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "码丽丝<兵卒>三月兔",
+          "copies": 1,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "除外手卡·墓地另一张码丽丝自我特召；为连接区的码丽丝提供对象抗性",
+          "script": {
+            "kinds": [
+              "quick_optional",
+              "continuous",
+              "trigger_optional"
+            ],
+            "targets": true,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "码丽丝<代码>MTP-07",
+          "copies": 1,
+          "types": [
+            "extender",
+            "engine_core"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "除外自己场上 1 只码丽丝即可在盖放回合发动，检索 1 只码丽丝怪兽",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "码丽丝<代码>GWC-06",
+          "copies": 1,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "从墓地·除外区特召 1 只码丽丝怪兽并按攻击力回复 LP",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "码丽丝<代码>TB-11",
+          "copies": 1,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "从卡组特召 1 只码丽丝怪兽；对方场上有 3 张以上时可直接出连接怪兽",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "码丽丝梦游地下界",
+          "copies": 3,
+          "types": [
+            "starter",
+            "endboard"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": "3 种以上码丽丝陷阱在除外区时，码丽丝连接怪兽 +3000 攻，并强制对方只能攻击连接怪兽",
+          "effect_summary": "场地魔法，发动时从手卡·卡组·墓地除外 1 张码丽丝，是整条除外引擎的点火器",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous",
+              "continuous",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "星球改造",
+          "copies": 1,
+          "types": [
+            "starter"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "功能性产出「码丽丝梦游地下界」",
+          "endboard_role": null,
+          "effect_summary": "检索 1 张场地魔法，等效于多 3 张「码丽丝梦游地下界」",
+          "script": {
+            "kinds": [
+              "activation"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        }
+      ],
+      "normal_summon_dependent": true,
+      "resource_conflicts": "与无垢大艺术引擎争夺额外卡组的连接怪兽位置"
+    },
+    {
+      "name": "无垢大艺术引擎",
+      "role": "secondary",
+      "cards": [
+        {
+          "name": "无限与有限之无垢大艺术",
+          "copies": 3,
+          "types": [
+            "extender",
+            "engine_core"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "手卡除外自身检索无垢大艺术怪兽；除外状态时，连接·融合特召可自我特召",
+          "script": {
+            "kinds": [
+              "ignition",
+              "trigger_optional",
+              "ignition",
+              "quick_optional"
+            ],
+            "targets": true,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "净化与腐败之无垢大艺术",
+          "copies": 1,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "手卡除外自身检索无垢大艺术魔陷；除外状态时连接·超量特召可自我特召",
+          "script": {
+            "kinds": [
+              "ignition",
+              "trigger_optional",
+              "ignition",
+              "quick_optional"
+            ],
+            "targets": true,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "结合与乖离之无垢大艺术",
+          "copies": 1,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "手卡除外自身从墓地·除外区特召无垢大艺术怪兽",
+          "script": {
+            "kinds": [
+              "ignition",
+              "trigger_optional",
+              "ignition",
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": true
+          }
+        },
+        {
+          "name": "无垢大艺术-「黄昏之变幻」",
+          "copies": 1,
+          "types": [
+            "engine_core",
+            "endboard"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": "场上有狱神连接怪兽时，无垢大艺术怪兽的效果变成对方回合也能发动，并每回合检索 1 只米底乌斯或无垢大艺术怪兽",
+          "effect_summary": "永续魔法，把无垢大艺术从一次展开升级为对方回合的持续阻抗",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous",
+              "ignition"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        }
+      ],
+      "normal_summon_dependent": false,
+      "resource_conflicts": "需要额外卡组的狱神连接怪兽位置"
+    },
+    {
+      "name": "火灵天星接线",
+      "role": "package",
+      "cards": [
+        {
+          "name": "备份员@火灵天星",
+          "copies": 3,
+          "types": [
+            "extender"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "召唤·特召时检索 1 只电子界暗属性怪兽并弃 1 张，是码丽丝与连接怪兽之间的桥梁",
+          "script": {
+            "kinds": [
+              "ignition",
+              "trigger_optional",
+              "trigger_optional"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": true
+          }
+        }
+      ],
+      "normal_summon_dependent": true,
+      "resource_conflicts": "与码丽丝争夺通常召唤权"
+    },
+    {
+      "name": "泛用卡与手坑包",
+      "role": "package",
+      "cards": [
+        {
+          "name": "耀圣之波诗 狄娜",
+          "copies": 1,
+          "types": [
+            "starter"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "可从手卡直接特召到中央主怪兽区；②检索「耀圣」永续魔法（本卡组无对应卡），③对方回合换位并随机除外对方 1 张手卡",
+          "script": {
+            "kinds": [
+              "continuous",
+              "ignition",
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "封印之黄金柜",
+          "copies": 1,
+          "types": [
+            "utility"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "从卡组除外 1 张卡，第 2 次自己准备阶段加入手卡",
+          "script": {
+            "kinds": [
+              "activation"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "暗之诱惑",
+          "copies": 1,
+          "types": [
+            "utility"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "抽 2 张，之后除外 1 只暗属性怪兽或把手卡全部送去墓地",
+          "script": {
+            "kinds": [
+              "activation"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "PSY骨架驱动者",
+          "copies": 1,
+          "types": [
+            "engine_core"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "通常怪兽，PSY骨架装备·γ 的素材"
+        },
+        {
+          "name": "PSY骨架装备·γ",
+          "copies": 1,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "空场时无效对方怪兽效果的发动并破坏",
+          "script": {
+            "kinds": [
+              "continuous",
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "灰流丽",
+          "copies": 2,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "无效从卡组加入手卡/特召/送墓的效果",
+          "script": {
+            "kinds": [
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "增殖的G",
+          "copies": 1,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "对方每次特召自己抽 1 张",
+          "script": {
+            "kinds": [
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "小丑与锁鸟",
+          "copies": 1,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "封锁双方从卡组加手卡",
+          "script": {
+            "kinds": [
+              "quick_optional",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "无限泡影",
+          "copies": 3,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "unlimited",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "空场手发，无效对方 1 只怪兽的效果",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous"
+            ],
+            "targets": true,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "灵王的波动",
+          "copies": 2,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "无效包含特召效果的卡片效果",
+          "script": {
+            "kinds": [
+              "activation",
+              "continuous"
+            ],
+            "targets": false,
+            "has_cost": false,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "欢聚友伴·抖抖海月水母",
+          "copies": 2,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script_custom",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "空场时丢弃，对方每次从手卡召唤·特召自己抽 1 张",
+          "script": {
+            "kinds": [
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        },
+        {
+          "name": "欢聚友伴·茸茸长尾山雀",
+          "copies": 2,
+          "types": [
+            "handtrap"
+          ],
+          "once_per_turn_type": "card_name_once",
+          "once_per_turn_source": "script_custom",
+          "join_reason": "archetype字段匹配",
+          "endboard_role": null,
+          "effect_summary": "空场时丢弃，对方每次从卡组·额外特召自己抽 1 张",
+          "script": {
+            "kinds": [
+              "quick_optional"
+            ],
+            "targets": false,
+            "has_cost": true,
+            "no_miss_timing": null
+          }
+        }
+      ],
+      "normal_summon_dependent": false,
+      "resource_conflicts": null
+    }
+  ],
+  "starters": {
+    "cards": [
+      {
+        "name": "码丽丝<兵卒>白兔",
+        "copies": 3,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "召唤·特召时从卡组盖放 1 张码丽丝陷阱；被除外时支付 300 自我特召"
+      },
+      {
+        "name": "码丽丝<兵卒>柴郡猫",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "除外手卡 1 张码丽丝抽 2；被除外时支付 300 自我特召"
+      },
+      {
+        "name": "码丽丝<兵卒>睡鼠",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "从卡组除外 1 只码丽丝并给自己场上 +600 攻；被除外时回收除外区 1 只码丽丝"
+      },
+      {
+        "name": "码丽丝梦游地下界",
+        "copies": 3,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "场地魔法，发动时从手卡·卡组·墓地除外 1 张码丽丝，是整条除外引擎的点火器"
+      },
+      {
+        "name": "星球改造",
+        "copies": 1,
+        "once_per_turn_type": "unlimited",
+        "effect_summary": "检索 1 张场地魔法，等效于多 3 张「码丽丝梦游地下界」"
+      },
+      {
+        "name": "耀圣之波诗 狄娜",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "可从手卡直接特召到中央主怪兽区；②检索「耀圣」永续魔法（本卡组无对应卡），③对方回合换位并随机除外对方 1 张手卡"
+      }
+    ],
+    "total_copies": 10
+  },
+  "extenders": {
+    "cards": [
+      {
+        "name": "码丽丝<兵卒>三月兔",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "除外手卡·墓地另一张码丽丝自我特召；为连接区的码丽丝提供对象抗性"
+      },
+      {
+        "name": "码丽丝<代码>MTP-07",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "除外自己场上 1 只码丽丝即可在盖放回合发动，检索 1 只码丽丝怪兽"
+      },
+      {
+        "name": "码丽丝<代码>GWC-06",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "从墓地·除外区特召 1 只码丽丝怪兽并按攻击力回复 LP"
+      },
+      {
+        "name": "码丽丝<代码>TB-11",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "从卡组特召 1 只码丽丝怪兽；对方场上有 3 张以上时可直接出连接怪兽"
+      },
+      {
+        "name": "无限与有限之无垢大艺术",
+        "copies": 3,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "手卡除外自身检索无垢大艺术怪兽；除外状态时，连接·融合特召可自我特召"
+      },
+      {
+        "name": "净化与腐败之无垢大艺术",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "手卡除外自身检索无垢大艺术魔陷；除外状态时连接·超量特召可自我特召"
+      },
+      {
+        "name": "结合与乖离之无垢大艺术",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "手卡除外自身从墓地·除外区特召无垢大艺术怪兽"
+      },
+      {
+        "name": "备份员@火灵天星",
+        "copies": 3,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "召唤·特召时检索 1 只电子界暗属性怪兽并弃 1 张，是码丽丝与连接怪兽之间的桥梁"
+      }
+    ],
+    "total_copies": 12
+  },
+  "handtraps": {
+    "cards": [
+      {
+        "name": "PSY骨架装备·γ",
+        "copies": 1,
+        "once_per_turn_type": "unlimited",
+        "effect_summary": "空场时无效对方怪兽效果的发动并破坏"
+      },
+      {
+        "name": "灰流丽",
+        "copies": 2,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "无效从卡组加入手卡/特召/送墓的效果"
+      },
+      {
+        "name": "增殖的G",
+        "copies": 1,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "对方每次特召自己抽 1 张"
+      },
+      {
+        "name": "小丑与锁鸟",
+        "copies": 1,
+        "once_per_turn_type": "unlimited",
+        "effect_summary": "封锁双方从卡组加手卡"
+      },
+      {
+        "name": "无限泡影",
+        "copies": 3,
+        "once_per_turn_type": "unlimited",
+        "effect_summary": "空场手发，无效对方 1 只怪兽的效果"
+      },
+      {
+        "name": "灵王的波动",
+        "copies": 2,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "无效包含特召效果的卡片效果"
+      },
+      {
+        "name": "欢聚友伴·抖抖海月水母",
+        "copies": 2,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "空场时丢弃，对方每次从手卡召唤·特召自己抽 1 张"
+      },
+      {
+        "name": "欢聚友伴·茸茸长尾山雀",
+        "copies": 2,
+        "once_per_turn_type": "card_name_once",
+        "effect_summary": "空场时丢弃，对方每次从卡组·额外特召自己抽 1 张"
+      }
+    ],
+    "total_copies": 14
+  },
+  "boardbreakers_and_floodgates": {
+    "cards": []
+  },
+  "extradeck_monsters": [
+    {
+      "name": "码丽丝<王后>红心加密",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "每回合把除外区 1 张码丽丝回卡组并除外对方场上 1 张卡"
+    },
+    {
+      "name": "码丽丝<王后>白棋捆绑",
+      "copies": 1,
+      "role": "both",
+      "effect_summary": "特召时除外双方墓地最多 3 张，并每回合从卡组·墓地盖放码丽丝陷阱"
+    },
+    {
+      "name": "幻狱神 米底丘利乌斯",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "连接区 2 只以上时不受对方发动的效果影响，1 回合 1 次无效对方全场怪兽效果"
+    },
+    {
+      "name": "协心代码语者@火灵天星",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "解放所连接区 1 只连接怪兽，无效并除外对方的效果发动"
+    },
+    {
+      "name": "S：P小夜骑士",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "除外场上·墓地 1 张卡，或把 2 只怪兽直到结束阶段除外"
+    },
+    {
+      "name": "连环栗仔球",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "解放自身无效并除外对方的陷阱"
+    },
+    {
+      "name": "访问码语者",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "高打点终结者，可除外连接怪兽破坏对方卡片"
+    },
+    {
+      "name": "保护码语者",
+      "copies": 1,
+      "role": "endboard",
+      "effect_summary": "让连接 4 以上怪兽不被取对象且不被战斗破坏"
+    },
+    {
+      "name": "防火龙",
+      "copies": 1,
+      "role": "both",
+      "effect_summary": "把对方怪兽弹回手卡，并从手卡特召电子界怪兽"
+    },
+    {
+      "name": "电子界小男巫",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "连接召唤后不被破坏，并从卡组检索电子界调整"
+    },
+    {
+      "name": "禅那之追傩仪姬",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "连接召唤时从卡组堆 1 只怪兽"
+    },
+    {
+      "name": "I：P百变莱娜",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "对方主要阶段用自身为素材连接召唤"
+    },
+    {
+      "name": "连接解码员",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "作 2300 攻以上连接怪兽素材后自我特召"
+    },
+    {
+      "name": "转生炎兽 独角兔",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "解放自身给 1 只怪兽破坏抗性，并从墓地自我特召"
+    },
+    {
+      "name": "盛悴之致命毒蜥",
+      "copies": 1,
+      "role": "mid_material",
+      "effect_summary": "除外攻击力 2000 以下怪兽改变对方攻击力"
+    }
+  ],
+  "maindeck_endboard": [
+    {
+      "name": "码丽丝梦游地下界",
+      "copies": 3,
+      "card_type": "field_spell",
+      "once_per_turn_type": "card_name_once",
+      "endboard_role": "3 种以上码丽丝陷阱在除外区时给连接怪兽 +3000 攻，并强制对方只能攻击连接怪兽",
+      "effect_summary": "场地魔法"
+    },
+    {
+      "name": "无垢大艺术-「黄昏之变幻」",
+      "copies": 1,
+      "card_type": "continuous_spell",
+      "once_per_turn_type": "card_name_once",
+      "endboard_role": "让无垢大艺术怪兽的效果在对方回合也能发动",
+      "effect_summary": "永续魔法"
+    }
+  ],
+  "hand_matrix": {
+    "hand_size": 5,
+    "total_hands": 658008,
+    "one_card_rate": "81.95%",
+    "two_card_rate": "10.21%",
+    "startable_rate": "92.16%",
+    "dead_rate": "7.84%",
+    "dead_over_threshold": false,
+    "by_label": {
+      "备份员@火灵天星单卡": "33.76%",
+      "无垢大艺术-「黄昏之变幻」单卡": "8.95%",
+      "星球改造单卡": "7.96%",
+      "码丽丝<兵卒>三月兔单卡": "7.05%",
+      "码丽丝<兵卒>柴郡猫单卡": "6.22%",
+      "码丽丝<兵卒>白兔单卡": "14.41%",
+      "码丽丝<兵卒>睡鼠单卡": "3.61%",
+      "净化与腐败之无垢大艺术＋触发件": "2.84%",
+      "无限与有限之无垢大艺术＋触发件": "6.03%",
+      "结合与乖离之无垢大艺术＋触发件": "1.34%"
+    }
+  }
+}

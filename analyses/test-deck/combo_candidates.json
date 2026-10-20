@@ -1,0 +1,188 @@
+{
+  "deck": {
+    "main": 43,
+    "extra": 15,
+    "side": 15
+  },
+  "link_monsters": [
+    {
+      "name": "连接蜘蛛",
+      "link_rating": 1,
+      "material": "通常怪兽1只",
+      "gate": {
+        "kind": "unknown",
+        "count": 1,
+        "raw": "通常怪兽1只"
+      },
+      "satisfier": {
+        "copies": 0,
+        "cards": []
+      }
+    },
+    {
+      "name": "S：P小夜骑士",
+      "link_rating": 2,
+      "material": "效果怪兽2只",
+      "gate": {
+        "kind": "effect",
+        "count": 2,
+        "raw": "效果怪兽2只"
+      },
+      "satisfier": {
+        "copies": 15,
+        "cards": [
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 3
+          },
+          {
+            "name": "灰流丽",
+            "copies": 3
+          },
+          {
+            "name": "原始生命态 尼比鲁",
+            "copies": 2
+          },
+          {
+            "name": "裁决的阿努比斯",
+            "copies": 2
+          },
+          {
+            "name": "守护兽 塞勒凯特",
+            "copies": 1
+          },
+          {
+            "name": "天狱之王",
+            "copies": 1
+          },
+          {
+            "name": "带刻印者",
+            "copies": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "影法师 大礼帽野兔",
+      "link_rating": 2,
+      "material": "效果怪兽2只",
+      "gate": {
+        "kind": "effect",
+        "count": 2,
+        "raw": "效果怪兽2只"
+      },
+      "satisfier": {
+        "copies": 15,
+        "cards": [
+          {
+            "name": "欢聚友伴·茸茸长尾山雀",
+            "copies": 3
+          },
+          {
+            "name": "灰流丽",
+            "copies": 3
+          },
+          {
+            "name": "原始生命态 尼比鲁",
+            "copies": 2
+          },
+          {
+            "name": "裁决的阿努比斯",
+            "copies": 2
+          },
+          {
+            "name": "守护兽 塞勒凯特",
+            "copies": 1
+          },
+          {
+            "name": "天狱之王",
+            "copies": 1
+          },
+          {
+            "name": "带刻印者",
+            "copies": 3
+          }
+        ]
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "card": "带刻印者",
+      "copies": 3,
+      "section": "main",
+      "kind": "normal_special_summon",
+      "text": "召唤·特殊召唤的场合",
+      "snippet": "这个卡名的①的效果1回合只能使用1次。\r ①：这张卡召唤·特殊召唤的场合才能发动。从卡组选1张「王家的神殿」或者有那个卡名记述的魔法",
+      "self_trigger": true,
+      "weak": true,
+      "enabler_count": 12,
+      "enablers": [
+        {
+          "card": "欢聚友伴·茸茸长尾山雀",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "灰流丽",
+          "copies": 3,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "原始生命态 尼比鲁",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "裁决的阿努比斯",
+          "copies": 2,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "神之通告",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "苦纹样的土像",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "守护兽 塞勒凯特",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        },
+        {
+          "card": "天狱之王",
+          "copies": 1,
+          "note": "文本含「特殊召唤」"
+        }
+      ]
+    }
+  ],
+  "candidate_pairs": [
+    {
+      "trigger_card": "带刻印者",
+      "enabler_card": "欢聚友伴·茸茸长尾山雀",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "带刻印者",
+      "enabler_card": "灰流丽",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    },
+    {
+      "trigger_card": "带刻印者",
+      "enabler_card": "原始生命态 尼比鲁",
+      "kind": "normal_special_summon",
+      "evidence": "文本含「特殊召唤」"
+    }
+  ],
+  "notes": [
+    "本报告只做机械联结，不是结论：候选组合仍需按卡片文本逐条验证。",
+    "CSV 输入不含 archetypes 字段，按卡名包含关系近似匹配；需要精确匹配请用 JSON 输入。"
+  ]
+}

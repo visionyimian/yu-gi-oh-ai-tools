@@ -1,0 +1,118 @@
+{
+  "one_card": [
+    {
+      "label": "备份员@火灵天星单卡",
+      "cards": [
+        "备份员@火灵天星"
+      ],
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_HANDES_SELF', 'CATEGORY_SEARCH', 'CATEGORY_SPECIAL_SUMMON', 'CATEGORY_TOHAND']，kind=ignition"
+    },
+    {
+      "label": "无垢大艺术-「黄昏之变幻」单卡",
+      "cards": [
+        "无垢大艺术-「黄昏之变幻」"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=ignition"
+    },
+    {
+      "label": "星球改造单卡",
+      "cards": [
+        "星球改造"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_SEARCH', 'CATEGORY_TOHAND']，kind=activation"
+    },
+    {
+      "label": "码丽丝<兵卒>三月兔单卡",
+      "cards": [
+        "码丽丝<兵卒>三月兔"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "产出类效果 ['CATEGORY_TOHAND']，kind=trigger_optional"
+    },
+    {
+      "label": "码丽丝<兵卒>柴郡猫单卡",
+      "cards": [
+        "码丽丝<兵卒>柴郡猫"
+      ],
+      "consumes": {},
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "reason": "产出类效果 ['CATEGORY_SPECIAL_SUMMON']，kind=trigger_optional"
+    },
+    {
+      "label": "码丽丝<兵卒>白兔单卡",
+      "cards": [
+        "码丽丝<兵卒>白兔"
+      ],
+      "consumes": {
+        "normal_summon": 1
+      },
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "reason": "产出类效果 ['CATEGORY_SPECIAL_SUMMON', 'CATEGORY_SSET']，kind=trigger_optional"
+    },
+    {
+      "label": "码丽丝<兵卒>睡鼠单卡",
+      "cards": [
+        "码丽丝<兵卒>睡鼠"
+      ],
+      "consumes": {},
+      "locks": [
+        "EFFECT_CANNOT_SPECIAL_SUMMON"
+      ],
+      "reason": "产出类效果 ['CATEGORY_SPECIAL_SUMMON']，kind=trigger_optional"
+    }
+  ],
+  "two_card": [
+    {
+      "label": "净化与腐败之无垢大艺术＋触发件",
+      "first": [
+        "净化与腐败之无垢大艺术"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "需求「超量·连接怪兽特殊召唤的场合」由 8 种卡满足（统一为 link1_material）",
+      "second_predicate": "link1_material"
+    },
+    {
+      "label": "无限与有限之无垢大艺术＋触发件",
+      "first": [
+        "无限与有限之无垢大艺术"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "需求「融合·连接怪兽特殊召唤的场合」由 8 种卡满足（统一为 link1_material）",
+      "second_predicate": "link1_material"
+    },
+    {
+      "label": "结合与乖离之无垢大艺术＋触发件",
+      "first": [
+        "结合与乖离之无垢大艺术"
+      ],
+      "consumes": {},
+      "locks": [],
+      "reason": "需求「同调·连接怪兽特殊召唤的场合」由 8 种卡满足（统一为 link1_material）",
+      "second_predicate": "link1_material"
+    }
+  ],
+  "derivation": {
+    "source": "script_facts.categories + combo_scan.triggers",
+    "main_cards": 26,
+    "deferred_to_two_card": [
+      "净化与腐败之无垢大艺术",
+      "无限与有限之无垢大艺术",
+      "结合与乖离之无垢大艺术"
+    ]
+  }
+}
