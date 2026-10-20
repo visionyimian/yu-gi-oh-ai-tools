@@ -28,15 +28,19 @@ The `ygo-deck-analyze` skill orchestrates a 4-step process:
 ```
 .ydk file
     ↓
-Step 1: Get raw card data → deck_raw.json
+Step 1.5: Banlist check → banlist_check.txt          (ocg-banlist)
     ↓
-Step 2: Parse deck structure → deck_parsed.json
+Step 2: Get raw card data → deck_raw.csv / deck_raw.json
+    ↓
+Step 3: Parse deck structure → deck_parsed.json
         + combo_scan.py   找出「需求 → 满足者」候选（二卡动点）
         + hand_matrix.py  穷举 5 张手牌，得到真实的能动率 / 死手率
     ↓
-Step 3: Gameplay analysis → deck_analysis.json
+Step 4: Gameplay analysis → deck_analysis.json
     ↓
-Step 4: Generate report → report.md
+Step 4.5: Consistency validation (endboard coverage, hand_matrix)
+    ↓
+Step 5: Generate report → report.md
 ```
 
 > 二卡动点（combo starter）不能靠读卡发现。`combo_scan.py` 扫描每张卡的
@@ -47,6 +51,7 @@ Step 4: Generate report → report.md
 ## Output Format
 
 Each analysis generates:
+- `banlist_check.txt` - Legality check against the OCG/TCG limit list, plus the list version used
 - `deck_raw.json` - Raw card data
 - `deck_parsed.json` - Structured deck information (engines, starters, extenders, hand traps)
 - `deck_analysis.json` - Comprehensive gameplay analysis with 6-dimensional scoring

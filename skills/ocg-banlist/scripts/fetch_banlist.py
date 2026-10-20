@@ -125,12 +125,17 @@ def read_ydk(path: Path) -> Counter:
 
 
 def check_deck(
-  deck_path: Path, list_name: str, cards: dict[int, tuple[int, str]]
+  deck_path: Path,
+  list_name: str,
+  cards: dict[int, tuple[int, str]],
+  source: str | None = None,
 ) -> int:
   """校验一副牌相对该列表是否超限，返回退出码。"""
   counts = read_ydk(deck_path)
   total = sum(counts.values())
-  print(f"{deck_path}：{total} 张，对照列表 {list_name}")
+  origin = f"（来源 {source}）" if source else ""
+  print(f"{deck_path}：{total} 张")
+  print(f"列表：{list_name}{origin}")
 
   violations: list[tuple[int, int, int, str]] = []
   for passcode, count in sorted(counts.items()):
@@ -179,7 +184,7 @@ def main(argv: list[str] | None = None) -> int:
   is_tcg = "tcg" in list_name.lower()
 
   if args.check is not None:
-    return check_deck(args.check, list_name, cards)
+    return check_deck(args.check, list_name, cards, source)
 
   if args.format == "json":
     payload = {

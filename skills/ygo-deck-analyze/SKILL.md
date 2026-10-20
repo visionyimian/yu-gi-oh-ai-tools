@@ -29,13 +29,14 @@ description: 游戏王卡组完整分析流程的 parent skill。当用户提供
 ```
 {deck_name}_analysis/
 ├── TODO.md              # 进度追踪，每步完成后更新
-├── deck_raw.csv         # Step 1 产物：CLI 原始返回数据（CSV格式）
-├── deck_raw.json        # Step 1 产物：同一份数据的 JSON 版（combo_scan 需要 archetypes 字段）
-├── combo_candidates.json # Step 2 产物：需求 → 满足者候选（combo_scan 输出）
-├── combos.json          # Step 2 产物：人工确认后的动点规则（hand_matrix 输入）
-├── deck_parsed.json     # Step 2 产物：deck-parser 输出
-├── deck_analysis.json   # Step 3 产物：deck-analyzer 输出
-└── report.md            # Step 4 产物：最终人类可读报告
+├── banlist_check.txt    # Step 1.5 产物：禁限校验结果（含所用列表期号）
+├── deck_raw.csv         # Step 2 产物：CLI 原始返回数据（CSV格式）
+├── deck_raw.json        # Step 2 产物：同一份数据的 JSON 版（combo_scan 需要 archetypes 字段）
+├── combo_candidates.json # Step 3 产物：需求 → 满足者候选（combo_scan 输出）
+├── combos.json          # Step 3 产物：人工确认后的动点规则（hand_matrix 输入）
+├── deck_parsed.json     # Step 3 产物：deck-parser 输出
+├── deck_analysis.json   # Step 4 产物：deck-analyzer 输出
+└── report.md            # Step 5 产物：最终人类可读报告
 ```
 
 ---
@@ -67,16 +68,53 @@ mkdir -p {deck_name}_analysis && touch {deck_name}_analysis/TODO.md
 
 ## 文件
 - ydk: {ydk_filename}
+- 禁限列表: {banlist}（校验时填写）
 - 开始时间: {timestamp}
 
 ## 步骤
-- [ ] Step 1: 获取原始卡片数据 → deck_raw.csv
-- [ ] Step 2: 解析卡组结构 → deck_parsed.json
-- [ ] Step 3: 对局分析 → deck_analysis.json
-- [ ] Step 4: 生成报告 → report.md
+- [ ] Step 1.5: 禁限校验 → banlist_check.txt
+- [ ] Step 2: 获取原始卡片数据 → deck_raw.csv / deck_raw.json
+- [ ] Step 3: 解析卡组结构 → deck_parsed.json（含 hand_matrix）
+- [ ] Step 4: 对局分析 → deck_analysis.json
+- [ ] Step 4.5: 一致性校验 → PASSED / FAILED+修正
+- [ ] Step 5: 生成报告 → report.md
 ```
 
-3. 在 `TODO.md` 中将 Step 1 标记为进行中。
+3. 在 `TODO.md` 中将 Step 1.5 标记为进行中。
+
+---
+
+### Step 1.5 — 禁限校验（Legality）
+
+在花时间解析之前，先确认这副牌在目标环境里能不能打。
+
+以下命令**在仓库根目录执行**，`{analysis}` 指 `{deck_name}_analysis/`：
+
+```bash
+python skills/ocg-banlist/scripts/fetch_banlist.py --check {ydk} > {analysis}/banlist_check.txt 2>&1
+echo "exit=$?" >> {analysis}/banlist_check.txt
+```
+
+（若工作目录就在 `skills/` 下，改成 `python ../ocg-banlist/scripts/fetch_banlist.py` 并去掉 `skills/` 前缀即可。）
+
+- 默认对照**最新 OCG 列表**；用户指定 TCG、或卡组明显是 TCG 环境时加 `--tcg`
+- 需要固定某一期时加 `--list 2026.10`
+- `banlist_check.txt` 里必须留有**所用列表的期号**（例如 `2026.10`），否则报告无法复现
+
+**判定**：退出码 `0` = 通过；`1` = 有超限。
+
+禁限不通过**不中止流程**——用户可能就是在测一副违规卡组，或者打的是别的规则。处理方式：
+
+1. 在 `TODO.md` 里标 `[!] Step 1.5: 禁限校验 → N 处超限（列表 {banlist}）`
+2. 在报告开头的「构筑合法性」里写明
+3. 继续执行 Step 2
+
+只有当卡库能正常查询、但禁限脚本自身报错（网络失败、列表名不存在）时，才算这一步失败，按「错误处理」中止。
+
+完成后更新 `TODO.md`：
+```markdown
+- [x] Step 1.5: 禁限校验 → 通过（列表 2026.10）
+```
 
 ---
 
@@ -213,7 +251,8 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 # {archetype} 卡组分析报告
 
 **卡组类型**：{deck_type} ｜ **操作难度**：{difficulty}  
-**主卡组**：{main}张 ｜ **额外卡组**：{extra}张 ｜ **副卡组**：{side}张
+**主卡组**：{main}张 ｜ **额外卡组**：{extra}张 ｜ **副卡组**：{side}张  
+**禁限校验**：{banlist_status}
 
 ---
 
@@ -223,6 +262,13 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 
 **主引擎**：{primary_engine}  
 **副引擎 / Package**：{secondary_engines}
+
+---
+
+## 构筑合法性
+
+{对照的列表期号 + 结论。通过时一句话带过；有超限时逐条列出：卡名 / 实际张数 / 限制数。
+若用户明确说「按 TCG 打」或「不管禁限」，在这里注明前提。}
 
 ---
 
@@ -341,3 +387,7 @@ python ../deck-parser/scripts/hand_matrix.py deck_raw.json combos.json
 如果某个步骤失败：
 1. 停止执行，告知用户哪步失败、失败原因、以及已保存的产物文件路径
 2. 用户下次重新触发时，从失败步骤重新开始
+
+**不算失败的情况**：
+- Step 1.5 的禁限超限（退出码 `1`）：这是分析结论的一部分，记录后在报告中说明，继续执行
+- Step 4.5 的 `[VALIDATION FAILED]`：不是失败，但在修正前不得进入 Step 5
