@@ -1,4 +1,4 @@
-﻿# simulator/
+# simulator/
 
 用 ygopro-core 验证做场线是否**真的能执行**。目前只有不需要引擎的部分。
 
@@ -24,7 +24,29 @@
 | M2 | `OCG_DuelNewCard` 装完卡组 | ✅ **完成**（55 张：主 40 / 额外 15）|
 | M3 | 卡脚本能加载 | ✅ **完成**（3 个全局脚本 + 40 个卡脚本，引擎日志 0 报错）|
 | M4 | 解析消息流 | ✅ **完成**（`MSG_DRAW player=0 抽 5 张`）|
-| M5 | 按 24 步剧本驱动 | ⬜ 下一步 |
+| **M5a** | 通召白兔 | ✅ **完成**（`seed=8`，引擎接受动作并回了 `MSG_SUMMONED`）|
+| M5b | `MSG_SELECT_CHAIN`：发动效果、处理连锁 | ⬜ |
+| M5c | `MSG_SELECT_CARD` / `MSG_SELECT_POSITION` | ⬜ |
+| M5d | 剧本匹配器，走完 24 步 | ⬜ |
+
+## M5a 踩到的坑
+
+**4. 引擎自己「不洗牌」。** `Startup` 处理器直接从 `main.back()` 抽，顺序就是
+`OCG_DuelNewCard` 的插入顺序（`seq` 越大越先抽到）。洗牌是**客户端**职责——
+用 `random.Random(seed).shuffle(main)` 自己做，种子固定即可复现。
+
+症状：双方抽到一模一样的 5 张，而且正好是主卡组末尾那 5 张。
+
+**5. `MSG_SELECT_PLACE` 的 `flag` 是「禁用掩码」。** 置位表示**不可用**：
+
+```
+uint8  player
+uint8  count
+uint32 flag     0xffffffe0 → 0~4 号怪兽区可用（低 5 位是 0）
+```
+
+回应是每个选择 3 字节 `(player, location, sequence)`。按「置位=可用」解析会选到
+被禁用的格子，然后无限收到 `MSG_RETRY`。
 
 ## M1~M4 踩到的坑
 
