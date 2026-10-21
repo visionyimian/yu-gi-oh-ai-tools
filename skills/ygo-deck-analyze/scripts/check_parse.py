@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Step 4.5 的机械化实现：校验 deck_parsed.json 与各产物的内部一致性。
 
 Step 4.5 原先是一段要 agent 手工执行的检查清单，漏做也没人发现。这个脚本把它变成
