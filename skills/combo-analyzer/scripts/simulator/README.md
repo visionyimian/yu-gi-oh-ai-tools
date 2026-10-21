@@ -174,6 +174,20 @@ describe(0x0C, LOCATIONS)   # → 'LOCATION_MZONE|LOCATION_SZONE (LOCATION_ONFIE
 上游更新时重跑一次即可；`skills/tests/test_ocg_constants.py` 会校验
 `MSG_SELECT_IDLECMD` 等 13 个关键值没变。
 
+## 分析产物从哪来
+
+模拟器要读 `deck_analysis.json`，但它不在 `main` 上（生成物，不进主分支）。
+取回：
+
+`ash
+python fetch_analysis.py --list                        # 看分支上有哪些卡组
+python fetch_analysis.py --deck 奥艺码丽丝              # 默认取到 ./奥艺码丽丝_analysis
+python fetch_analysis.py --deck 奥艺码丽丝 --out ../decks/奥艺码丽丝_analysis
+`
+
+它用 `git show <rev>:<path>` 取 blob 的原始字节，不经过 PowerShell 的编码转换
+（否则中文 JSON 会被加 BOM 或改成 CRLF，`json.load` 直接报错）。
+
 ## 接引擎时的顺序
 
 1. 编译（`premake5 gmake2` 或 `scripts/generate.bat`），产出 `ocgcore.dll`
