@@ -19,7 +19,7 @@
 
 | 关卡 | 内容 | 状态 |
 |---|---|---|
-| M0 | 编译出 `ocgcore.dll` | ⬜ 未开始 |
+| M0 | 编译出 `ocgcore.dll` | ✅ **完成**（1444 KB，`OCG_GetVersion` → 11.0，10 个函数全部导出）|
 | M1 | `OCG_CreateDuel` 成功（ctypes 结构体对齐） | ⬜ |
 | M2 | `OCG_DuelNewCard` 装完 55 张卡 | ⬜ |
 | M3 | 卡脚本能加载（`constant.lua` + `utility.lua` + `c<code>.lua`） | ⬜ |
@@ -29,6 +29,32 @@
 **已完成（不需要引擎）**：
 
 - ✅ `gen_constants.py` / `ocg_constants.py` —— 374 个常量，11 个分组
+
+## 怎么编译（M0）
+
+不需要 premake5。`premake5.lua` 已经把源文件和编译选项列全了，`build_ocgcore.bat`
+把它们翻译成直接的 `cl` / `lib` / `link` 调用。
+
+```bat
+build_ocgcore.bat <源码目录> <输出目录>
+build_ocgcore.bat D:\vendor\ygopro-core-src D:\vendor\build
+```
+
+前置条件：
+
+1. **Visual Studio 带 C++ 工具链**（`vswhere -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64` 能查到）。
+   脚本自己用 `vswhere` 找 `vcvars64.bat`，不写死路径。
+2. **Lua 源码**放在 `<源码目录>\lua\src`。用 [lua/lua](https://github.com/lua/lua) 的
+   **v5.4.7** tag（`interpreter.cpp` 里有 `#if LUA_VERSION_NUM <= 503` 分支，5.3/5.4 都支持；
+   5.5 不要用）。
+3. ygopro-core 源码从 `codeload.github.com/edo9300/ygopro-core/zip/refs/heads/master` 下载解压
+   （zip 不含子模块，所以 lua 要单独下）。
+
+编译选项照着 `premake5.lua` 抄：C++17、`/MT` 静态运行库、`WIN32/_WIN32/NOMINMAX`、
+共享库加 `OCGCORE_EXPORT_FUNCTIONS`；Lua 的 `.c` 文件要**按 C++ 编译**（`/TP`）并强制
+包含 `luaconf-customize.h`。
+
+> `.bat` 文件必须**纯 ASCII**——cmd 按 OEM 代码页解析，中文注释会乱码到解析失败。
 
 ## `gen_constants.py`
 
