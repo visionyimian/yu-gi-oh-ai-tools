@@ -11,6 +11,7 @@ A collection of AI skills for analyzing Yu-Gi-Oh! decks using Claude Code.
 | **ygo-deck-analyze** | Main orchestrator that coordinates the complete deck analysis pipeline. Accepts `.ydk` files and generates human-readable reports. |
 | **deck-parser** | Parses raw card data to identify engines, starters, extenders, hand traps, and calculates opening probabilities. Performs fact extraction only, no gameplay judgment. |
 | **deck-analyzer** | Performs comprehensive gameplay analysis including combo diversity, first-turn endboard quality, weaknesses, handtrap sensitivity, chokepoints, going-second capability, and resource sustainability. Outputs 6-dimensional scores. |
+| **combo-analyzer** | Turns combo lines into machine-checkable data: effect declarations (once-per-turn budget, categories, field-value delta) and a coverage report of which value-producing cards are never exercised by the written lines. |
 
 ### Utility Skills
 
@@ -90,6 +91,13 @@ An advanced skill using ygopro-core to simulate combos:
 - [ ] Calculate turn 1 board probabilities
 - [ ] Find alternative routes when interrupted
 - [ ] Generate visual combo maps
+
+**Progress without the engine** (the `combo-analyzer` skill):
+
+- [x] Effect declarations per deck (`effects.json`): once-per-turn budget, trigger event, categories
+- [x] Field-value ledger for every combo line (non-Link = 1, Link = its rating; packing vs. gaining vs. spending)
+- [x] Coverage report: which value-producing cards never appear in any line
+- [ ] Everything that needs actual simulation — verifying a line executes, not just that it adds up
 
 ## Notes
 
