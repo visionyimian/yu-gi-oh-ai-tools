@@ -160,9 +160,10 @@ def main(argv: list[str] | None = None) -> int:
     return 1
 
   # 全局脚本要自己加载：引擎不会通过 scriptReader 索要它们，
-  # 而所有卡脚本的第一行 `local s,id=GetID()` 都依赖 utility.lua。
+  # 而卡脚本第一行 `local s,id=GetID()` 依赖 utility.lua，
+  # 连接怪兽的 `aux.AddLinkProcedure` 依赖 procedure.lua。顺序不能颠倒。
   if args.scripts:
-    for name in ("constant.lua", "utility.lua"):
+    for name in ("constant.lua", "utility.lua", "procedure.lua"):
       path = args.scripts / name
       if not path.is_file():
         print(f"[M3] 缺少全局脚本 {name}（{args.scripts}）")
