@@ -25,9 +25,42 @@
 | M3 | 卡脚本能加载 | ✅ **完成**（3 个全局脚本 + 40 个卡脚本，引擎日志 0 报错）|
 | M4 | 解析消息流 | ✅ **完成**（`MSG_DRAW player=0 抽 5 张`）|
 | **M5a** | 通召白兔 | ✅ **完成**（`seed=8`，引擎接受动作并回了 `MSG_SUMMONED`）|
-| M5b | `MSG_SELECT_CHAIN`：发动效果、处理连锁 | ⬜ |
-| M5c | `MSG_SELECT_CARD` / `MSG_SELECT_POSITION` | ⬜ |
+| **M5b** | 连锁窗口里发动白兔① | ✅ **完成**（`SELECT_EFFECTYN` → `CHAIN_SOLVING` → 选陷阱 → `MSG_SET`）|
+| M5c | 其余选卡/选位置消息 | ⬜ |
 | M5d | 剧本匹配器，走完 24 步 | ⬜ |
+
+## M5b 踩到的坑
+
+**6. `setcodes` 不给，效果会「静默消失」。** 白兔① 的 target 用 `s.setfilter` 判断卡组里
+有没有码丽丝陷阱，而 `Card.IsSetCard` 依赖 cardReader 填的 `setcodes`。填成 NULL 时：
+
+- 引擎不报错、Lua 不报错
+- 连锁窗口里**根本不会出现这张卡的效果**
+
+cdb 的 `setcode` 是整数（码丽丝是 `447` = 0x1BF），要拆成最多 4 个 uint16、
+以 0 结尾传给引擎。
+
+**7. 诱发效果走 `MSG_SELECT_EFFECTYN`，不是 `MSG_SELECT_CHAIN`。**
+「要不要发动这个效果」是单独一条消息：
+
+```
+uint8 player, uint32 code, loc_info(10), uint64 description
+```
+
+回应是 int32 的 0/1。它后面才接 `MSG_CHAINING`/`MSG_CHAINED`。
+
+**8. `MSG_SELECT_CARD` 的回应是「类型 + 个数 + 下标」。**
+
+```
+int32  type     0 = uint32 下标，1 = uint16，2 = uint8，3 = 位图，-1 = 取消
+uint32 count
+uint32 index × count
+```
+
+选卡列表里的 `index` 是**排序后**的位置，不是 `sequence`。
+
+**9. 盖放魔陷会再问一次 `MSG_SELECT_PLACE`**，这次可用区在 `flag` 的 bit 8~12
+（序号 8~12 对应魔陷区 1~5），回应里的 `sequence` 要减 8。
 
 ## M5a 踩到的坑
 

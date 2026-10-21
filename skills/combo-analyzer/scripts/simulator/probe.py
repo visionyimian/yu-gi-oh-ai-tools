@@ -71,7 +71,18 @@ def make_card_reader(table: CardTable, keep: list):
     data.contents.lscale = row["lscale"] if "lscale" in keys else 0
     data.contents.rscale = row["rscale"] if "rscale" in keys else 0
     data.contents.link_marker = row["link_marker"] if "link_marker" in keys else 0
-    data.contents.setcodes = None
+
+    # setcodes 是卡组的「系列字段」，`Card.IsSetCard` 靠它判断。
+    # 不给的话，所有依赖 Setcode 的 target 判定都会失败，效果既不报错也不进连锁窗口。
+    raw = row["setcode"] if "setcode" in keys else 0
+    values = [(raw >> (16 * index)) & 0xFFFF for index in range(4)]
+    values = [value for value in values if value]
+    if values:
+      buffer = (ctypes.c_uint16 * (len(values) + 1))(*values, 0)
+      keep.append(buffer)
+      data.contents.setcodes = ctypes.cast(buffer, ctypes.POINTER(ctypes.c_uint16))
+    else:
+      data.contents.setcodes = None
 
   return reader
 

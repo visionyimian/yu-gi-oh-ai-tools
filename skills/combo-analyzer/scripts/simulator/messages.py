@@ -196,3 +196,119 @@ def zones_from_flag(flag: int) -> list[int]:
 def encode_place_response(player: int, location: int, sequence: int) -> bytes:
   """SELECT_PLACE 的回应：每个选择 3 字节 (player, location, sequence)。"""
   return bytes([player & 0xFF, location & 0xFF, sequence & 0xFF])
+
+
+def decode_chain(message: Message) -> dict:
+  """MSG_SELECT_CHAIN（playerop.cpp 的 SelectChain::step 0）。
+
+  布局：
+
+      uint8  player
+      uint8  spe_count       这张卡的「特别」效果数量（不考虑时点也能发的）
+      uint8  forced          1 = 必须选一个，不能放弃
+      uint32 hint_timing_self
+      uint32 hint_timing_opp
+      uint32 count
+      count × (uint32 code,
+               loc_info（uint8 ctrl, uint8 loc, uint32 seq, uint32 pos）,
+               uint64 description, uint8 client_mode)
+
+  注意 `loc_info` 是按字段逐个写的，共 10 字节，**没有对齐填充**。
+  """
+  payload = message.payload
+  player, spe_count, forced = struct.unpack_from("<BBB", payload, 0)
+  hint_self, hint_opp, count = struct.unpack_from("<III", payload, 3)
+  offset = 15
+  chains = []
+  for _ in range(count):
+    code = struct.unpack_from("<I", payload, offset)[0]
+    controller, location = struct.unpack_from("<BB", payload, offset + 4)
+    sequence, position = struct.unpack_from("<II", payload, offset + 6)
+    description = struct.unpack_from("<Q", payload, offset + 14)[0]
+    client_mode = payload[offset + 22]
+    offset += 23
+    chains.append(
+      {
+        "code": code,
+        "controller": controller,
+        "location": location,
+        "sequence": sequence,
+        "position": position,
+        "description": description,
+        "client_mode": client_mode,
+      }
+    )
+  return {
+    "player": player,
+    "spe_count": spe_count,
+    "forced": bool(forced),
+    "hint_timing_self": hint_self,
+    "hint_timing_opp": hint_opp,
+    "chains": chains,
+  }
+
+
+def encode_chain_response(index: int) -> bytes:
+  """SELECT_CHAIN 的回应：int32，-1 表示放弃。"""
+  return struct.pack("<i", index)
+
+
+def decode_effectyn(message: Message) -> dict:
+  """MSG_SELECT_EFFECTYN：uint8 player, uint32 code, loc_info, uint64 description。"""
+  payload = message.payload
+  player = payload[0]
+  code = struct.unpack_from("<I", payload, 1)[0]
+  controller, location = struct.unpack_from("<BB", payload, 5)
+  sequence, position = struct.unpack_from("<II", payload, 7)
+  description = struct.unpack_from("<Q", payload, 15)[0]
+  return {
+    "player": player,
+    "code": code,
+    "controller": controller,
+    "location": location,
+    "sequence": sequence,
+    "position": position,
+    "description": description,
+  }
+
+
+def encode_yes_no(value: bool) -> bytes:
+  """SELECT_EFFECTYN / SELECT_YESNO 的回应：int32 的 0 或 1。"""
+  return struct.pack("<i", 1 if value else 0)
+
+
+def decode_select_card(message: Message) -> dict:
+  """MSG_SELECT_CARD：uint8 player, uint8 cancelable, uint32 min, uint32 max, uint32 count,
+  count × (uint32 code, loc_info)。"""
+  payload = message.payload
+  player, cancelable = struct.unpack_from("<BB", payload, 0)
+  minimum, maximum, count = struct.unpack_from("<III", payload, 2)
+  offset = 14
+  cards = []
+  for _ in range(count):
+    code = struct.unpack_from("<I", payload, offset)[0]
+    controller, location = struct.unpack_from("<BB", payload, offset + 4)
+    sequence, position = struct.unpack_from("<II", payload, offset + 6)
+    offset += 14
+    cards.append(
+      {
+        "code": code,
+        "controller": controller,
+        "location": location,
+        "sequence": sequence,
+        "position": position,
+      }
+    )
+  return {
+    "player": player,
+    "cancelable": bool(cancelable),
+    "min": minimum,
+    "max": maximum,
+    "cards": cards,
+  }
+
+
+def encode_card_response(indices: list[int]) -> bytes:
+  """SELECT_CARD 的回应：int32 类型 0（uint32 下标）＋ uint32 个数 ＋ 各下标。"""
+  body = struct.pack("<iI", 0, len(indices))
+  return body + b"".join(struct.pack("<I", index) for index in indices)
