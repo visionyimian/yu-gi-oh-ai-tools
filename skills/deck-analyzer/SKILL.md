@@ -99,6 +99,15 @@ description: 游戏王卡组对局分析 skill。接收 deck_raw.csv 和 deck_pa
 
 场值**不是只能涨**。典型例子：Link-3 的「白棋捆绑」加 1 只怪共 4 场值，做出来的「电子界小男巫」只有 Link-2，差额 2 点是花掉的，买的是小男巫的检索。写 `steps` 时用 `spend` 记这笔支出，用 `gain` 记净增；任何一步场值变了都必须解释。
 
+**每一步还要能被机器认出来。** 除了自然语言的 `act`，加上两个结构化字段：
+
+- `action`：这一步是什么动作（`normal_summon` / `special_summon` / `link_summon` / `activate` / `resolve`）
+- `uses`：这一步消耗了哪些效果，写成 `[{ "card": "卡名", "effect": "①" }]`
+
+有了 `uses`，模拟器才知道该去引擎给的选项里找哪一个；没有它，24 步就只是散文。
+一步里可以引用多个效果（例如「毒蜥① 除外睡鼠 → 睡鼠③ 回场」是两处引用），
+而「同一个效果在后续步骤里结算」不算新的引用，用 `action: "resolve"` 标出来。
+
 **循环是有上限的。** 碰到「陷阱把连接怪兽当 cost 除外 → 连接怪兽③ 自跳回场」这类结构时，先找它的天花板：只要这些卡都是「卡名 1 回合 1 次」，循环次数就等于**不同名卡的数量**，不是无限的。码丽丝里是 TB-11 / MTP-07 / GWC-06 三张，所以一轮最多转三次。写 `notes` 时把上限写清楚，别让读者以为可以一直滚。
 
 写 `combo_lines` 时逐步记 `field_value`，就能一眼看出这条线到底涨了几点、哪一步是白赚、哪一步只是打包。
@@ -418,10 +427,16 @@ G 不打断展开，而是制造"继续展开=给对手抽牌"的困境。分析
       "cards_used": ["整条线用到的卡，用来校验这些卡真的在卡组里"],
       "steps": [
         { "act": "NS 白兔", "field_value": 1, "gain": null, "spend": null,
+          "action": "normal_summon",
+          "uses": [],
           "note": "gain 写净增，spend 写花掉——场值不是只能涨" },
         { "act": "TB-11 除外白兔，从卡组拉睡鼠", "field_value": 1, "gain": null, "spend": null,
+          "action": "activate",
+          "uses": [{ "card": "码丽丝<代码>TB-11", "effect": "①" }],
           "note": "白兔离场、睡鼠上场，总数不变" },
-        { "act": "白兔③ 支付 300 回场", "field_value": 2, "gain": "+1（③ 回场）", "spend": null }
+        { "act": "白兔③ 支付 300 回场", "field_value": 2, "gain": "+1（③ 回场）", "spend": null,
+          "action": "special_summon",
+          "uses": [{ "card": "码丽丝<兵卒>白兔", "effect": "③" }] }
       ],
       "peak_field_value": 4,
       "endboard_options": [

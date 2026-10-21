@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Step 4.5 的机械化实现：校验 deck_parsed.json 与各产物的内部一致性。
 
 Step 4.5 原先是一段要 agent 手工执行的检查清单，漏做也没人发现。这个脚本把它变成
@@ -176,6 +176,12 @@ def check_combo_lines(parsed: dict, analysis: dict, rules: dict | None) -> tuple
     for end in line.get("endboard") or []:
       if end not in deck_names:
         problems.append(f"{name}：终场「{end}」不在卡组里")
+    # 结构化引用（steps[].uses）里提到的卡必须在卡组里——匹配器要按它去认引擎给的选项
+    for index, step in enumerate(line.get("steps") or [], start=1):
+      for use in step.get("uses") or []:
+        card = use.get("card")
+        if card and card not in deck_names:
+          problems.append(f"{name}：第 {index} 步引用了卡组里没有的「{card}」")
     if starters and line.get("starter") not in starters:
       # 推导器会漏掉某些动点；作者必须写明原因才算数，不能默默不一致
       if line.get("starter_note"):
@@ -235,10 +241,10 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--rules", type=Path, help="combos.json；提供时校验做场线的起手")
   args = parser.parse_args(argv)
 
-  parsed = json.loads(args.parsed.read_text(encoding="utf-8"))
-  analysis = json.loads(args.analysis.read_text(encoding="utf-8"))
-  matrix = json.loads(args.matrix.read_text(encoding="utf-8"))
-  facts = json.loads(args.facts.read_text(encoding="utf-8"))
+  parsed = json.loads(args.parsed.read_text(encoding="utf-8-sig"))
+  analysis = json.loads(args.analysis.read_text(encoding="utf-8-sig"))
+  matrix = json.loads(args.matrix.read_text(encoding="utf-8-sig"))
+  facts = json.loads(args.facts.read_text(encoding="utf-8-sig"))
   rules = json.loads(args.rules.read_text(encoding="utf-8-sig")) if args.rules else None
 
   names = load_names(args.cdb)
