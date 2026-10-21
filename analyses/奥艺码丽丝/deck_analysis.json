@@ -466,168 +466,313 @@
           "field_value": 1,
           "gain": null,
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "normal_summon",
+          "uses": []
         },
         {
           "act": "白兔①：从卡组盖放「码丽丝<代码>TB-11」",
           "field_value": 1,
           "gain": null,
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "TB-11 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白兔，从卡组特殊召唤睡鼠",
           "field_value": 1,
           "gain": null,
           "spend": null,
-          "note": "白兔离场、睡鼠上场，总数不变。睡鼠此时受 TB-11 限制，但它下一步就离场"
+          "note": "白兔离场、睡鼠上场，总数不变。睡鼠此时受 TB-11 限制，但它下一步就离场",
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<代码>TB-11",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "白兔③：支付 300 基本分回到场上",
           "field_value": 2,
           "gain": "+1（③ 回场）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "白兔＋睡鼠连接召唤「盛悴之致命毒蜥」（卡名不同的怪兽 2 只）",
           "field_value": 2,
           "gain": null,
           "spend": null,
-          "note": "等值打包：2 场值 → Link-2。睡鼠进墓地，离场即解除 TB-11 的限制"
+          "note": "等值打包：2 场值 → Link-2。睡鼠进墓地，离场即解除 TB-11 的限制",
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "毒蜥的效果把墓地的睡鼠除外 → 睡鼠③ 支付 300 回到场上",
           "field_value": 3,
           "gain": "+1（③ 回场）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "盛悴之致命毒蜥",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "睡鼠①：从卡组把「码丽丝<兵卒>柴郡猫」除外",
           "field_value": 3,
           "gain": null,
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "柴郡猫③：支付 300 基本分回到场上",
           "field_value": 4,
           "gain": "+1（③ 回场）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "柴郡猫＋毒蜥连接召唤「码丽丝<王后>白棋捆绑」（包含码丽丝怪兽的怪兽 2 只以上，柴郡猫 1＋毒蜥 2＝3）",
           "field_value": 4,
           "gain": null,
           "spend": null,
-          "note": "等值打包，睡鼠留在场上"
+          "note": "等值打包，睡鼠留在场上",
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "白棋捆绑②：从卡组盖放「码丽丝<代码>MTP-07」",
           "field_value": 4,
           "gain": null,
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "②"
+            }
+          ]
         },
         {
           "act": "MTP-07 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白棋捆绑，检索「码丽丝<兵卒>三月兔」",
           "field_value": 1,
           "gain": null,
           "spend": "-3（白棋捆绑作为 cost 离场）",
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<代码>MTP-07",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "白棋捆绑③：支付 900 基本分回到场上，并抽 1 张",
           "field_value": 4,
           "gain": "+3（③ 回场）",
           "spend": null,
-          "note": "这一段净 0 场值，但净赚一张检索＋一张抽牌——白棋捆绑是循环引擎，不是终场件"
+          "note": "这一段净 0 场值，但净赚一张检索＋一张抽牌——白棋捆绑是循环引擎，不是终场件",
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "白棋捆绑＋睡鼠连接召唤「电子界小男巫」（电子界族 2 只）",
           "field_value": 2,
           "gain": null,
           "spend": "-2（用 4 场值做 Link-2，差额换小男巫的检索）",
-          "note": null
+          "note": null,
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "三月兔①：从手卡起跳，把墓地的「码丽丝<代码>MTP-07」除外",
           "field_value": 3,
           "gain": "+1（三月兔上场）",
           "spend": null,
-          "note": "MTP-07 是「码丽丝」卡，可以做三月兔① 的除外素材"
+          "note": "MTP-07 是「码丽丝」卡，可以做三月兔① 的除外素材",
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>三月兔",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "三月兔 → 「连接解码员」（Link-1，4 星以下电子界族 1 只）",
           "field_value": 3,
           "gain": null,
           "spend": null,
-          "note": "等值打包"
+          "note": "等值打包",
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "连接召唤触发小男巫①：除外墓地的三月兔，从卡组把「备份员@火灵天星」加入手牌",
           "field_value": 3,
           "gain": null,
           "spend": null,
-          "note": "三月兔进除外区，小男巫＋解码员留场；手牌多一张可通召的调整"
+          "note": "三月兔进除外区，小男巫＋解码员留场；手牌多一张可通召的调整",
+          "action": "activate",
+          "uses": [
+            {
+              "card": "电子界小男巫",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "备份员①：以场上「连接解码员」（从额外卡组特召的电子界族）为条件，从手卡自我特殊召唤",
           "field_value": 4,
           "gain": "+1（不吃通召）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "备份员@火灵天星",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "备份员②：从卡组把「码丽丝<兵卒>柴郡猫」加入手卡，之后丢弃 1 张手卡",
           "field_value": 4,
           "gain": null,
           "spend": null,
-          "note": "检索限定电子界族·暗属性，码丽丝全体符合；但要弃 1 张，净手牌不变"
+          "note": "检索限定电子界族·暗属性，码丽丝全体符合；但要弃 1 张，净手牌不变",
+          "action": "activate",
+          "uses": [
+            {
+              "card": "备份员@火灵天星",
+              "effect": "②"
+            }
+          ]
         },
         {
           "act": "柴郡猫①：把刚检索到的柴郡猫自身除外，抽 2 张 → 柴郡猫③ 支付 300 回到场上",
           "field_value": 5,
           "gain": "+1（③ 回场）",
           "spend": null,
-          "note": "柴郡猫① 的除外对象可以是它自己，所以「检索柴郡猫」等于「换一个身体＋抽 2」"
+          "note": "柴郡猫① 的除外对象可以是它自己，所以「检索柴郡猫」等于「换一个身体＋抽 2」",
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "柴郡猫＋备份员连接召唤「码丽丝<王后>白棋捆绑」（柴郡猫 1＋备份员 1＝2）",
           "field_value": 6,
           "gain": "+1（Link-3 只用 2 只素材做出）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "白棋捆绑①：以双方墓地合计最多 3 张为对象除外；②：从卡组盖放「码丽丝<代码>GWC-06」",
           "field_value": 6,
           "gain": null,
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "②"
+            }
+          ]
         },
         {
           "act": "GWC-06 以「除外自己场上 1 只表侧码丽丝」在盖放回合发动：除外白棋捆绑",
           "field_value": 3,
           "gain": null,
           "spend": "-3（白棋捆绑作为 cost 离场）",
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<代码>GWC-06",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "白棋捆绑③：支付 900 回到场上，抽 1 张",
           "field_value": 6,
           "gain": "+3（③ 回场）",
           "spend": null,
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "GWC-06①：从墓地特殊召唤「码丽丝<兵卒>睡鼠」（它先前作为小男巫的连接素材进了墓地）",
           "field_value": 7,
           "gain": "+1（墓地复活）",
           "spend": null,
-          "note": "到此三张不同名陷阱（TB-11 / MTP-07 / GWC-06）各用过一次，本回合的陷阱循环结束"
+          "note": "到此三张不同名陷阱（TB-11 / MTP-07 / GWC-06）各用过一次，本回合的陷阱循环结束",
+          "action": "resolve",
+          "uses": []
         }
       ],
       "peak_field_value": 7,
@@ -778,43 +923,86 @@
           "act": "发动「码丽丝梦游地下界」，① 从卡组把「码丽丝<兵卒>柴郡猫」除外",
           "field_value": 0,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": []
         },
         {
           "act": "柴郡猫③：支付 300 基本分回到场上",
           "field_value": 1,
           "gain": "+1（③ 回场）",
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "柴郡猫①：把手卡另 1 张「码丽丝」卡除去（这张必须是手牌里的第二张码丽丝），之后抽 2 张",
           "field_value": 1,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "被除外的睡鼠触发③，支付 300 基本分回到场上",
           "field_value": 2,
           "gain": "+1（③ 回场）",
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "③"
+            }
+          ]
         },
         {
           "act": "睡鼠①：从卡组把「码丽丝<兵卒>三月兔」除外",
           "field_value": 2,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "柴郡猫＋睡鼠连接召唤「码丽丝<王后>白棋捆绑」（包含码丽丝怪兽的怪兽 2 只以上）",
           "field_value": 3,
           "gain": "+1（Link-3 只用 2 只素材做出）",
-          "note": "白棋捆绑是 Link-3，2 只素材就够，标记数大于素材数，本身也是净增"
+          "note": "白棋捆绑是 Link-3，2 只素材就够，标记数大于素材数，本身也是净增",
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "白棋捆绑①：除外双方墓地合计最多 3 张；②：从卡组盖放 1 张「码丽丝」陷阱",
           "field_value": 3,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<王后>白棋捆绑",
+              "effect": "②"
+            }
+          ]
         }
       ],
       "peak_field_value": 3,
@@ -861,49 +1049,94 @@
           "act": "「无限与有限」①：把这张卡从手卡除外，检索「净化与腐败之无垢大艺术」",
           "field_value": 0,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "无限与有限之无垢大艺术",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "「净化与腐败」①：把这张卡从手卡除外，检索「无垢大艺术-「黄昏之变幻」」",
           "field_value": 0,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "净化与腐败之无垢大艺术",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "发动黄昏之变幻，② 检索「结合与乖离之无垢大艺术」",
           "field_value": 0,
           "gain": null,
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "无垢大艺术-「黄昏之变幻」",
+              "effect": "②"
+            }
+          ]
         },
         {
           "act": "「结合与乖离」①：把这张卡从手卡除外，从除外状态把「无限与有限」特殊召唤",
           "field_value": 1,
           "gain": "+1（从除外区上场）",
-          "note": null
+          "note": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "结合与乖离之无垢大艺术",
+              "effect": "①"
+            }
+          ]
         },
         {
           "act": "通常召唤手里那只攻击力 1000 以下的怪兽",
           "field_value": 2,
           "gain": "+1（通常召唤）",
-          "note": null
+          "note": null,
+          "action": "normal_summon",
+          "uses": []
         },
         {
           "act": "两只做「转生炎兽 独角兔」（Link-1，素材为通常召唤的攻击力 1000 以下怪兽 1 只）",
           "field_value": 2,
           "gain": null,
-          "note": "打包"
+          "note": "打包",
+          "action": "link_summon",
+          "uses": []
         },
         {
           "act": "连接召唤触发「净化与腐败」②（超量·连接特召）与「结合与乖离」②（同调·连接特召），两只同时从除外状态回到场上",
           "field_value": 4,
           "gain": "+2（两次② 回场）",
-          "note": null
+          "note": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "净化与腐败之无垢大艺术",
+              "effect": "②"
+            },
+            {
+              "card": "结合与乖离之无垢大艺术",
+              "effect": "②"
+            }
+          ]
         },
         {
           "act": "独角兔＋无限与有限＋净化与腐败连接召唤「幻狱神 米底丘利乌斯」（Link-3）",
           "field_value": 4,
           "gain": null,
-          "note": "打包：4 场值里取 3 做 Link-3，剩下结合与乖离"
+          "note": "打包：4 场值里取 3 做 Link-3，剩下结合与乖离",
+          "action": "link_summon",
+          "uses": []
         }
       ],
       "peak_field_value": 4,
