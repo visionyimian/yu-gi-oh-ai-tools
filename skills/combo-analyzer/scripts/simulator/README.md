@@ -1,4 +1,4 @@
-# simulator/
+﻿# simulator/
 
 用 ygopro-core 验证做场线是否**真的能执行**。目前只有不需要引擎的部分。
 
@@ -26,7 +26,7 @@
 | M4 | 解析消息流 | ✅ **完成**（`MSG_DRAW player=0 抽 5 张`）|
 | **M5a** | 通召白兔 | ✅ **完成**（`seed=8`，引擎接受动作并回了 `MSG_SUMMONED`）|
 | **M5b** | 连锁窗口里发动白兔① | ✅ **完成**（`SELECT_EFFECTYN` → `CHAIN_SOLVING` → 选陷阱 → `MSG_SET`）|
-| M5c | 其余选卡/选位置消息 | ⬜ |
+| **M5c** | 发动 TB-11（主阶段动作）| ✅ **完成**（`SELECT_IDLECMD.activate` → cost 选卡 → `SPSUMMONED`）|
 | M5d | 剧本匹配器，走完 24 步 | ⬜ |
 
 ## M5b 踩到的坑

@@ -312,3 +312,14 @@ def encode_card_response(indices: list[int]) -> bytes:
   """SELECT_CARD 的回应：int32 类型 0（uint32 下标）＋ uint32 个数 ＋ 各下标。"""
   body = struct.pack("<iI", 0, len(indices))
   return body + b"".join(struct.pack("<I", index) for index in indices)
+
+
+def decode_position(message: Message) -> dict:
+  """MSG_SELECT_POSITION：uint8 player, uint8 code, uint8 positions（可选的位掩码）。"""
+  player, code, positions = struct.unpack_from("<BBB", message.payload, 0)
+  return {"player": player, "code": code, "positions": positions}
+
+
+def encode_position(value: int) -> bytes:
+  """SELECT_POSITION 的回应：int32 的位置位（POS_FACEUP_ATTACK = 0x1 等），不是下标。"""
+  return struct.pack("<i", value)
