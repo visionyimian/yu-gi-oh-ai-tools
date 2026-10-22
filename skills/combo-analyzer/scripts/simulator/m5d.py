@@ -34,6 +34,7 @@ from ocg_constants import (
   MSG_CHAINING,
   MSG_LPUPDATE,
   MSG_MOVE,
+  MSG_PAY_LPCOST,
   MSG_SELECT_CARD,
   MSG_SELECT_CHAIN,
   MSG_SELECT_EFFECTYN,
@@ -118,6 +119,42 @@ def short_name(name: str) -> str:
 
 def describe_location(value: int) -> str:
   return LOCATION_NAMES.get(value, hex(value))
+
+
+def describe_card(card: dict, deck: Deck) -> str:
+  """「白兔@MZONE1」——比只写卡名多一个「在哪」，选错地方时一眼看出。"""
+  name = deck.names.get(card["code"], card["code"])
+  return f"{name}@{describe_location(card['location'])}{card['sequence']}"
+
+
+def target_codes(step: dict, deck: Deck) -> list[int]:
+  """这一步要「选」的那张卡：`uses` 里除第一个（发动源/主角）以外的条目。
+
+  选卡时必须用这个而不是整串：步骤写成「发动梦游地下界：除外睡鼠」时，
+  整串里排在前面的正是地下界自己，而地下界本身也是可以除外的码丽丝卡，
+  按整串匹配就会把地形自己除外掉。
+  """
+  uses = step.get("uses") or []
+  codes = [deck.code(use["card"]) for use in uses[1:]]
+  return [code for code in codes if code]
+
+
+def primary_codes(step: dict, deck: Deck) -> list[int]:
+  """这一步的「主角」：召唤目标，或 `uses` 第一条。
+
+  idle 里挑动作用它：`uses` 里可能同时写着「发动的卡」和「被检索/被除外的卡」，
+  而它们常常同在一张手牌里——按整串匹配会先撞上被检索的那张，把「发动星球改造」
+  干成「直接发动地形」。
+  """
+  if step.get("action") in ("normal_summon", "link_summon"):
+    # 召唤类步骤在 idle 里出现的是**要出场的怪兽**，素材只在选素材那一步才出现
+    return expected_codes(step, deck)[:1]
+  uses = step.get("uses") or []
+  if uses:
+    code = deck.code(uses[0]["card"])
+    if code:
+      return [code]
+  return expected_codes(step, deck)
 
 
 def expected_codes(step: dict, deck: Deck) -> list[int]:
@@ -231,7 +268,9 @@ def run(args) -> int:
             return 0
           step = steps[index]
           action = step.get("action")
-          codes = expected_codes(step, deck)
+          # idle 里挑动作按「主角」匹配；选卡/选素材时才用整串 codes
+          codes = primary_codes(step, deck)
+          all_codes = expected_codes(step, deck)
 
           chosen = None
           if action == "normal_summon":
@@ -263,7 +302,9 @@ def run(args) -> int:
 
           if chosen is None:
             print(f"[M5d] 第 {index + 1} 步不可行：{step['act'][:40]}")
-            print(f"       期望卡号 {codes}，引擎给的是 {describe_idle(idle)}")
+            print(
+              f"       期望卡号 {codes}（本步涉及 {all_codes}），引擎给的是 {describe_idle(idle)}"
+            )
             if session.logs:
               print(f"       引擎日志 {len(session.logs)} 条，最近 5 条：")
               for line in session.logs[-5:]:
@@ -303,6 +344,13 @@ def run(args) -> int:
           for candidate in order:
             if candidate >= len(steps):
               continue
+            # 写着 `"via": "idle"` 的步骤必须在主阶段空闲时发动，不能从连锁窗口插进去：
+            # 陷阱在「设置回合」发动时，只有走 idle 那条路才会收 SET_TURN 效果的费用
+            # （链锁窗口里引擎会把费用漏掉），从连锁里插队等于白嫖，得到的线是假的。
+            if steps[candidate].get("via") == "idle":
+              if args.trace:
+                print(f"        [连锁] 跳过步骤 {candidate + 1}：它是 idle 发动的")
+              continue
             codes = expected_codes(steps[candidate], deck)
             if not codes:
               continue
@@ -330,13 +378,16 @@ def run(args) -> int:
           selection = msg.decode_select_card(message)
           step = steps[index] if index < len(steps) else None
           codes = expected_codes(step, deck) if step else []
+          # 优先用「被选中的那张」，其次才退回整串
+          prefer = target_codes(step, deck) if step else []
           if step:
             print(
-              f"        [选卡] 步骤 {index + 1} 期望 {codes}，"
-              f"候选 {[deck.names.get(c['code'], c['code']) for c in selection['cards']]}"
+              f"        [选卡] 步骤 {index + 1} 期望 {prefer or codes}，"
+              f"候选 {[describe_card(card, deck) for card in selection['cards']]}"
             )
           preferred = next(
-            (i for i, card in enumerate(selection["cards"]) if card["code"] in codes), None
+            (i for i, card in enumerate(selection["cards"]) if card["code"] in (prefer or codes)),
+            None,
           )
           if preferred is None and step:
             # 步骤文本常用简称（「白兔」），库里是全名（「码丽丝<兵卒>白兔」），
@@ -415,6 +466,10 @@ def run(args) -> int:
         elif message.type == MSG_LPUPDATE and args.trace:
           player, lp = struct.unpack_from("<BI", message.payload, 0)
           print(f"        [LP] 玩家 {player} -> {lp}")
+
+        elif message.type == MSG_PAY_LPCOST and args.trace:
+          player, cost = struct.unpack_from("<BI", message.payload, 0)
+          print(f"        [LP] 玩家 {player} 支付 {cost}")
 
         elif message.type == MSG_MOVE:
           move = msg.decode_move(message)
