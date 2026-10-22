@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sqlite3
 import struct
 from pathlib import Path
@@ -86,6 +87,11 @@ LOCATION_NAMES = {
   0x40: "EXTRA",
   0x80: "OVERLAY",
 }
+
+
+def short_name(name: str) -> str:
+  """去掉 <系列> 前缀：「码丽丝<兵卒>白兔」→「白兔」。"""
+  return re.sub(r"^[^<]*<[^>]+>", "", name)
 
 
 def describe_location(value: int) -> str:
@@ -245,14 +251,14 @@ def run(args) -> int:
             (i for i, card in enumerate(selection["cards"]) if card["code"] in codes), None
           )
           if preferred is None and step:
-            # cost 这类选择不在 uses 里，但步骤文本会写「除外白兔」——
-            # 按文本里出现的卡名挑，比盲选第一个可靠
+            # 步骤文本常用简称（「白兔」），库里是全名（「码丽丝<兵卒>白兔」），
+            # 所以去掉 <系列> 前缀再比，否则会退回盲选第一个。
             text = step.get("act", "")
             preferred = next(
               (
                 i
                 for i, card in enumerate(selection["cards"])
-                if deck.names.get(card["code"], "") in text
+                if short_name(deck.names.get(card["code"], "")) in text
               ),
               None,
             )
@@ -298,7 +304,7 @@ def run(args) -> int:
           )
 
       if status == 0:
-        print(f"[M5d] 对局结束（走到第 {index + 1} 步）")
+        print(f"[M5d] status=0 对局结束（走到第 {index + 1} 步）")
         return 1
     return 1
   finally:
