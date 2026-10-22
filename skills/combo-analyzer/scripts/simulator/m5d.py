@@ -39,6 +39,7 @@ from ocg_constants import (
   MSG_SELECT_OPTION,
   MSG_SELECT_PLACE,
   MSG_SELECT_POSITION,
+  MSG_SELECT_YESNO,
 )
 
 
@@ -141,12 +142,16 @@ def run(args) -> int:
     for _ in range(2000):
       status, buffer = session.step()
       for message in msg.split(buffer):
+        if getattr(args, "all", False):
+          print("    .", message.name)
         if message.type == MSG_SELECT_IDLECMD:
           if started:
             print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
             index += 1
             started = False
           idle = msg.decode_idlecmd(message)
+          if args.trace:
+            print("        [空闲] " + describe_idle(idle))
           idle_seen += 1
           while index < len(steps) and steps[index].get("action") == "resolve":
             index += 1
@@ -287,6 +292,11 @@ def run(args) -> int:
           position = msg.decode_position(message)
           session.respond(msg.encode_position(0x1 if position["positions"] & 0x1 else 0x4))
 
+        elif message.type == MSG_SELECT_YESNO:
+          choice = msg.decode_yesno(message)
+          session.respond(msg.encode_yes_no(True))
+          if args.trace:
+            print(f"        [是否] 玩家 {choice['player']} -> 是（desc={choice['description']}）")
         elif message.type == MSG_SELECT_OPTION:
           session.respond(bytes([0]))
 
@@ -321,6 +331,7 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--line", default="白兔线")
   parser.add_argument("--seed", type=int, default=8)
   parser.add_argument("--trace", action="store_true", help="打印连锁/选卡的候选")
+  parser.add_argument("--all", action="store_true", help="打印全部消息名")
   return run(parser.parse_args(argv))
 
 

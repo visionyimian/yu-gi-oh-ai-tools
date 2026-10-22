@@ -272,6 +272,14 @@ def decode_effectyn(message: Message) -> dict:
   }
 
 
+def decode_yesno(message: Message) -> dict:
+  """MSG_SELECT_YESNO：uint8 player, uint64 description。"""
+  payload = message.payload
+  player = payload[0]
+  description = struct.unpack_from("<Q", payload, 1)[0]
+  return {"player": player, "description": description}
+
+
 def encode_yes_no(value: bool) -> bytes:
   """SELECT_EFFECTYN / SELECT_YESNO 的回应：int32 的 0 或 1。"""
   return struct.pack("<i", 1 if value else 0)
