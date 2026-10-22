@@ -110,12 +110,17 @@ def run(args) -> int:
 
   session = Session(args, args.seed)
   index = 0
+  started = False
   idle_seen = 0
   try:
     for _ in range(2000):
       status, buffer = session.step()
       for message in msg.split(buffer):
         if message.type == MSG_SELECT_IDLECMD:
+          if started:
+            print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
+            index += 1
+            started = False
           idle = msg.decode_idlecmd(message)
           idle_seen += 1
           while index < len(steps) and steps[index].get("action") == "resolve":
@@ -161,8 +166,7 @@ def run(args) -> int:
           step = steps[index] if index < len(steps) else None
           if step and choice["code"] in expected_codes(step, deck):
             session.respond(msg.encode_yes_no(True))
-            print(f"  {index + 1:2d}. ✓ {step['act'][:48]}（EFFECTYN）")
-            index += 1
+            started = True
           else:
             session.respond(msg.encode_yes_no(False))
 
@@ -181,8 +185,7 @@ def run(args) -> int:
             target = next((i for i, e in enumerate(chain["chains"]) if e["code"] in codes), None)
           if target is not None:
             session.respond(msg.encode_chain_response(target))
-            print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
-            index += 1
+            started = True
           elif chain["forced"]:
             session.respond(msg.encode_chain_response(0))
           else:
@@ -192,6 +195,11 @@ def run(args) -> int:
           selection = msg.decode_select_card(message)
           step = steps[index] if index < len(steps) else None
           codes = expected_codes(step, deck) if step else []
+          if step:
+            print(
+              f"        [选卡] 步骤 {index + 1} 期望 {codes}，"
+              f"候选 {[deck.names.get(c['code'], c['code']) for c in selection['cards']]}"
+            )
           preferred = next(
             (i for i, card in enumerate(selection["cards"]) if card["code"] in codes), None
           )
