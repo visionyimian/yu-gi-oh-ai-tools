@@ -48,7 +48,11 @@ pushd "%OUT%\objlua"
 for %%f in ("%SRC%\lua\src\*.c") do (
   set "NAME=%%~nf"
   set "SKIP="
-  for %%s in (lbitlib lcorolib ldblib linit loadlib loslib ltests lua luac lutf8lib onelua) do (
+  REM linit 由解释器自己接管；lutf8lib 不能跳过——mycard 版 ocgcore 的
+REM interpreter 会显式调用 luaopen_utf8（脚本里的 utf8.* 依赖它）。
+REM lua.c / luac.c / onelua.c 是命令行入口，lbitlib/lcorolib/ldblib/loadlib/
+REM loslib/ltests 是引擎用不到的标准库。
+for %%s in (lbitlib lcorolib ldblib linit loadlib loslib ltests lua luac onelua) do (
     if /I "!NAME!"=="%%s" set "SKIP=1"
   )
   if not defined SKIP (
@@ -63,12 +67,14 @@ popd
 echo === ocgcore === >> "%LOG%"
 pushd "%OUT%\obj"
 for %%f in ("%SRC%\*.cpp") do (
-  cl /nologo /c /std:c++17 /EHsc /MT /O2 /DWIN32 /D_WIN32 /DNOMINMAX /DOCGCORE_EXPORT_FUNCTIONS /I "%SRC%" /I "%SRC%\lua\src" "%%f" /Fo"%%~nf.obj" >> "%LOG%" 2>&1
+  cl /nologo /c /std:c++17 /EHsc /MT /O2 /DWIN32 /D_WIN32 /DNOMINMAX /D_CRT_SECURE_NO_WARNINGS /utf-8 /DOCGCORE_EXPORT_FUNCTIONS /I "%SRC%" /I "%SRC%\lua\src" "%%f" /Fo"%%~nf.obj" >> "%LOG%" 2>&1
   if errorlevel 1 echo CPP_FAIL %%f >> "%LOG%"
 )
-for %%f in ("%SRC%\RNG\*.cpp") do (
-  cl /nologo /c /std:c++17 /EHsc /MT /O2 /DWIN32 /D_WIN32 /DNOMINMAX /DOCGCORE_EXPORT_FUNCTIONS /I "%SRC%" /I "%SRC%\lua\src" "%%f" /Fo"rng_%%~nf.obj" >> "%LOG%" 2>&1
-  if errorlevel 1 echo CPP_FAIL %%f >> "%LOG%"
+if exist "%SRC%\RNG" (
+  for %%f in ("%SRC%\RNG\*.cpp") do (
+    cl /nologo /c /std:c++17 /EHsc /MT /O2 /DWIN32 /D_WIN32 /DNOMINMAX /D_CRT_SECURE_NO_WARNINGS /utf-8 /DOCGCORE_EXPORT_FUNCTIONS /I "%SRC%" /I "%SRC%\lua\src" "%%f" /Fo"rng_%%~nf.obj" >> "%LOG%" 2>&1
+    if errorlevel 1 echo CPP_FAIL %%f >> "%LOG%"
+  )
 )
 link /nologo /DLL /OUT:"%OUT%\ocgcore.dll" *.obj "%OUT%\lua.lib" >> "%LOG%" 2>&1
 if errorlevel 1 echo LINK_FAIL >> "%LOG%"

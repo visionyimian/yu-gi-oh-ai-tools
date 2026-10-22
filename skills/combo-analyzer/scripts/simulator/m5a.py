@@ -22,6 +22,7 @@ from pathlib import Path
 import messages as msg
 import ocgcore
 from ocg_constants import (
+  DUEL_MODE_MR5,
   LOCATION_MZONE,
   LOCATION_SZONE,
   MSG_SELECT_IDLECMD,
@@ -29,7 +30,7 @@ from ocg_constants import (
   MSG_SUMMONED,
   MSG_SUMMONING,
 )
-from probe import CardTable, make_card_reader, read_ydk
+from probe import COMPAT_SCRIPT, CardTable, make_card_reader, read_ydk
 
 BAI_TU = 69272449  # 码丽丝<兵卒>白兔
 DECK_LOC = 1
@@ -60,6 +61,10 @@ class Session:
       script_reader,
       log_handler,
       seed=(seed, seed, seed, seed),
+      # 规则必须给对：flags=0 等于「没有额外怪兽区」，那样朝下的箭头全部落空，
+      # 小男巫这类「指向的区域」效果永远不触发，连接召唤也只能站主要怪兽区。
+      # 录像头里的 masterRule 是 6（MDPro3 的 MR5），所以这里用 DUEL_MODE_MR5。
+      flags=DUEL_MODE_MR5,
     )
     status, duel = self.core.create_duel(options)
     if duel is None:
@@ -69,6 +74,10 @@ class Session:
     for name in ("constant.lua", "utility.lua", "procedure.lua"):
       data = (args.scripts / name).read_bytes()
       self.core.lib.OCG_LoadScript(duel, data, len(data), name.encode())
+    # 兼容层：补齐卡脚本要用、本版引擎没注册的判定函数（没有它就没有连接召唤）
+    if COMPAT_SCRIPT.is_file():
+      data = COMPAT_SCRIPT.read_bytes()
+      self.core.lib.OCG_LoadScript(duel, data, len(data), COMPAT_SCRIPT.name.encode())
 
     # 引擎自己**不洗牌**：Startup 直接从牌堆尾部抽牌，所以顺序就是我们插入的顺序。
     # 洗牌是客户端职责——这里用种子固定，保证可复现。

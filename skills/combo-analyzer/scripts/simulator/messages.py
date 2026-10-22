@@ -322,6 +322,67 @@ def encode_card_response(indices: list[int]) -> bytes:
   return body + b"".join(struct.pack("<I", index) for index in indices)
 
 
+def decode_select_unselect_card(message: Message) -> dict:
+  """MSG_SELECT_UNSELECT_CARD：一次选一张的循环式选择（连接/同调素材就靠它）。
+
+  uint8 player, uint8 finishable, uint8 cancelable, uint32 min, uint32 max,
+  uint32 nselect, nselect × (uint32 code, loc_info),
+  uint32 nunselect, nunselect × (uint32 code, loc_info)。
+
+  `select` 是还没选的候选，`unselect` 是已经选中、还可以反悔退回的卡。
+  """
+  payload = message.payload
+  player, finishable, cancelable = struct.unpack_from("<BBB", payload, 0)
+  minimum, maximum = struct.unpack_from("<II", payload, 3)
+  offset = 11
+
+  def read_cards(count: int) -> list[dict]:
+    nonlocal offset
+    cards = []
+    for _ in range(count):
+      code = struct.unpack_from("<I", payload, offset)[0]
+      controller, location = struct.unpack_from("<BB", payload, offset + 4)
+      sequence, position = struct.unpack_from("<II", payload, offset + 6)
+      offset += 14
+      cards.append(
+        {
+          "code": code,
+          "controller": controller,
+          "location": location,
+          "sequence": sequence,
+          "position": position,
+        }
+      )
+    return cards
+
+  select_count = struct.unpack_from("<I", payload, offset)[0]
+  offset += 4
+  select_cards = read_cards(select_count)
+  unselect_count = struct.unpack_from("<I", payload, offset)[0]
+  offset += 4
+  unselect_cards = read_cards(unselect_count)
+  return {
+    "player": player,
+    "finishable": bool(finishable),
+    "cancelable": bool(cancelable),
+    "min": minimum,
+    "max": maximum,
+    "select": select_cards,
+    "unselect": unselect_cards,
+  }
+
+
+def encode_unselect_card_response(index: int | None) -> bytes:
+  """回应的第一个 int32 是「1 = 选了下面那张卡 / -1 = 结束或取消」，第二个才是下标。
+
+  下标把 select 与 unselect 两段接起来数（unselect 从 len(select) 开始）。
+  返回 -1 时只发一个 int32。
+  """
+  if index is None:
+    return struct.pack("<i", -1)
+  return struct.pack("<ii", 1, index)
+
+
 def decode_position(message: Message) -> dict:
   """MSG_SELECT_POSITION：uint8 player, uint8 code, uint8 positions（可选的位掩码）。"""
   player, code, positions = struct.unpack_from("<BBB", message.payload, 0)
@@ -331,6 +392,26 @@ def decode_position(message: Message) -> dict:
 def encode_position(value: int) -> bytes:
   """SELECT_POSITION 的回应：int32 的位置位（POS_FACEUP_ATTACK = 0x1 等），不是下标。"""
   return struct.pack("<i", value)
+
+
+def decode_card_event(message: Message) -> dict:
+  """召唤/特殊召唤/连锁这一类「一张卡 + 位置」的消息。
+
+  MSG_SUMMONING / MSG_SUMMONED / MSG_SPSUMMONING / MSG_SPSUMMONED / MSG_CHAINING
+  的 payload 都以 uint32 code + loc_info（uint8 ctrl, uint8 loc, uint32 seq,
+  uint32 pos）开头，后面的字段各消息不同，这里只取开头够用的部分。
+  """
+  payload = message.payload
+  code = struct.unpack_from("<I", payload, 0)[0]
+  controller, location = struct.unpack_from("<BB", payload, 4)
+  sequence, position = struct.unpack_from("<II", payload, 6)
+  return {
+    "code": code,
+    "controller": controller,
+    "location": location,
+    "sequence": sequence,
+    "position": position,
+  }
 
 
 def decode_move(message: Message) -> dict:

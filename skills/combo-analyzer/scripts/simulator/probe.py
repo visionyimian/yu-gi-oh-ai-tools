@@ -27,10 +27,38 @@ from ocg_constants import (
   MSG_DRAW,
   MSG_NEW_PHASE,
   MSG_NEW_TURN,
+  TYPE_LINK,
 )
 
 DECK_LOC = LOCATION_DECK
 EXTRA_LOC = LOCATION_EXTRA
+
+# 顺序不能颠倒：卡脚本第一行 `local s,id=GetID()` 依赖 utility.lua，
+# 连接怪兽的 `aux.AddLinkProcedure` 依赖 procedure.lua，兼容层要最后加载
+# （它要覆盖/补充前面几个文件里没有的函数）。
+GLOBAL_SCRIPTS = ("constant.lua", "utility.lua", "procedure.lua")
+# 引擎自己不会索要这几个文件，所以由客户端显式加载。
+COMPAT_SCRIPT = Path(__file__).with_name("ocgcompat.lua")
+
+
+def load_global_scripts(core, duel, scripts: Path) -> tuple[list[str], list[str]]:
+  """加载全局脚本，返回 (已加载, 缺失或失败)。"""
+  loaded: list[str] = []
+  failed: list[str] = []
+  paths = [scripts / name for name in GLOBAL_SCRIPTS]
+  if COMPAT_SCRIPT.is_file():
+    paths.append(COMPAT_SCRIPT)
+  for path in paths:
+    if not path.is_file():
+      failed.append(path.name)
+      continue
+    data = path.read_bytes()
+    result = core.lib.OCG_LoadScript(duel, data, len(data), path.name.encode())
+    if result <= 0:
+      failed.append(path.name)
+    else:
+      loaded.append(path.name)
+  return loaded, failed
 
 
 def ocgcore_message_name(opcode: int) -> str:
@@ -52,6 +80,20 @@ class CardTable:
     return row
 
 
+def _link_marker(row, keys) -> int:
+  """连接标记位掩码（`LINK_MARKER_*` 的按位或）。
+
+  这一版 cards.cdb 的 datas 表没有 link_marker 列，连接怪兽的箭头存在 def 里
+  （def ≤ 0xFF，同时 level 存的是连接数值）。漏填这个字段的后果不是报错，而是
+  连接召唤永远不出现在命令列表里——引擎认为没有任何区域能放下这只怪兽。
+  """
+  if "link_marker" in keys:
+    return row["link_marker"] or 0
+  if (row["type"] or 0) & TYPE_LINK:
+    return row["def"] or 0
+  return 0
+
+
 def make_card_reader(table: CardTable, keep: list):
   """返回一个 cardReader 回调；setcodes 的内存挂在 keep 上，由 cardReaderDone 释放。"""
 
@@ -70,7 +112,7 @@ def make_card_reader(table: CardTable, keep: list):
     data.contents.defense = row["def"] or 0
     data.contents.lscale = row["lscale"] if "lscale" in keys else 0
     data.contents.rscale = row["rscale"] if "rscale" in keys else 0
-    data.contents.link_marker = row["link_marker"] if "link_marker" in keys else 0
+    data.contents.link_marker = _link_marker(row, keys)
 
     # setcodes 是卡组的「系列字段」，`Card.IsSetCard` 靠它判断。
     # 不给的话，所有依赖 Setcode 的 target 判定都会失败，效果既不报错也不进连锁窗口。
@@ -171,21 +213,15 @@ def main(argv: list[str] | None = None) -> int:
     return 1
 
   # 全局脚本要自己加载：引擎不会通过 scriptReader 索要它们，
-  # 而卡脚本第一行 `local s,id=GetID()` 依赖 utility.lua，
-  # 连接怪兽的 `aux.AddLinkProcedure` 依赖 procedure.lua。顺序不能颠倒。
+  # 而卡脚本第一行 `local s,id=GetID()` 依赖 utility.lua。
   if args.scripts:
-    for name in ("constant.lua", "utility.lua", "procedure.lua"):
-      path = args.scripts / name
-      if not path.is_file():
-        print(f"[M3] 缺少全局脚本 {name}（{args.scripts}）")
-        core.destroy_duel(duel)
-        return 1
-      data = path.read_bytes()
-      result = core.lib.OCG_LoadScript(duel, data, len(data), name.encode())
-      print(f"[M3] 加载全局脚本 {name} -> {result}")
-      if result <= 0:
-        core.destroy_duel(duel)
-        return 1
+    loaded_globals, failed_globals = load_global_scripts(core, duel, args.scripts)
+    for name in loaded_globals:
+      print(f"[M3] 加载全局脚本 {name}")
+    if failed_globals:
+      print(f"[M3] 全局脚本缺失或失败：{', '.join(failed_globals)}（{args.scripts}）")
+      core.destroy_duel(duel)
+      return 1
 
   deck_path = args.ydk or args.deck
   if not (args.cdb and deck_path):

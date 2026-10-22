@@ -1,6 +1,9 @@
-﻿# simulator/
+# simulator/
 
-用 ygopro-core 验证做场线是否**真的能执行**。目前只有不需要引擎的部分。
+用 ygopro-core 验证做场线是否**真的能执行**。
+
+现在能跑完一条完整的二卡动线：**睡鼠＋白兔 → 小男巫 → 连接解码员 → 备份员**，11 步，
+移动日志与录像 `10-17「22：03：56」` 逐条对得上，全程引擎日志 0 条报错。
 
 ## 为什么要它
 
@@ -22,12 +25,87 @@
 | M0 | 编译出 `ocgcore.dll` | ✅ **完成**（1444 KB，`OCG_GetVersion` → 11.0）|
 | M1 | `OCG_CreateDuel` 成功 | ✅ **完成**（`SUCCESS`，结构体对齐正确）|
 | M2 | `OCG_DuelNewCard` 装完卡组 | ✅ **完成**（55 张：主 40 / 额外 15）|
-| M3 | 卡脚本能加载 | ✅ **完成**（3 个全局脚本 + 40 个卡脚本，引擎日志 0 报错）|
+| M3 | 卡脚本能加载 | ✅ **完成**（3 个全局脚本 + 兼容层 + 40 个卡脚本）|
 | M4 | 解析消息流 | ✅ **完成**（`MSG_DRAW player=0 抽 5 张`）|
 | **M5a** | 通召白兔 | ✅ **完成**（`seed=8`，引擎接受动作并回了 `MSG_SUMMONED`）|
 | **M5b** | 连锁窗口里发动白兔① | ✅ **完成**（`SELECT_EFFECTYN` → `CHAIN_SOLVING` → 选陷阱 → `MSG_SET`）|
 | **M5c** | 发动 TB-11（主阶段动作）| ✅ **完成**（`SELECT_IDLECMD.activate` → cost 选卡 → `SPSUMMONED`）|
-| M5d | 剧本匹配器，走完 24 步 | ⬜ |
+| **M5d** | 剧本匹配器走完 11 步 | ✅ **完成**（10 个种子里 9 个 11/11）|
+
+```
+$ python m5d.py --line 睡鼠 --seed 27
+   1. ✓ 通常召唤「码丽丝<兵卒>睡鼠」
+   2. ✓ 睡鼠①：从卡组把「柴郡猫」除外
+   3. ✓ 柴郡猫③：支付 300 基本分回到场上
+   4. ✓ 柴郡猫①：除外手卡的「白兔」
+   5. ✓ 白兔③：支付 300 基本分回到场上
+   6. ✓ 白兔①：从卡组盖放「码丽丝<代码>TB-11」
+   7. ✓ 睡鼠＋白兔连接召唤「电子界小男巫」
+   8. ✓ 柴郡猫 → 「连接解码员」
+   9. ✓ 小男巫③：除外墓地柴郡猫，检索电子界调整
+  10. ✓ 备份员①：以连接解码员为条件从手卡自跳
+  11. ✓ 备份员②：检索码丽丝并弃 1 张
+[M5d] 通过：11 步全部执行完
+```
+
+每一步都要求**看到证据**才算过：`MSG_SUMMONING/SPSUMMONING/CHAINING/MOVE` 里出现这一步
+的卡号。没看到就报「第 N 步没有真的发生」——因为引擎会安静地丢弃不合法的动作，
+光看「我发了包、它没报错」等于没验证。
+
+## M5d 踩到的坑
+
+**10. 规则 flags 必须给 MR5。** `OCG_DuelOptions.flags = 0` 等于「没有额外怪兽区」，
+朝下的箭头全部落空：小男巫（↓↘）站在主要怪兽区什么都指不到，连接端特召成功也
+不触发它的③。给 `DUEL_MODE_MR5`（`0x2e800`）之后，额外怪兽区出现，箭头才落进
+主要怪兽区。录像头里的 `masterRule` 是 6（MDPro3 的 MR5），对得上。
+
+**11. 连接标记在 `datas.def` 列，不在 `link_marker` 列。** 这版 `cards.cdb` 没有
+`link_marker`，连接怪兽的箭头存在 `def` 里（同时 `level` 存连接数值）。
+漏填的后果不是报错，而是**连接召唤永远不出现在 `MSG_SELECT_IDLECMD` 的 spsummon 段**——
+引擎认为没有任何区域能放下这只怪兽。见 `probe._link_marker()`。
+
+**12. 卡脚本比引擎新：14 个函数根本不存在。** `Card.IsLinkType` / `Card.IsLinkRace` /
+`Card.IsLinkSetCard` / `Card.IsAllTypes` / `Card.IsFaceupEx` / `Duel.GetMustMaterial` 这些
+在 `mycard/ygopro-scripts` 的卡脚本里被当引擎 API 用，但 edo9300 版 `ocgcore` 的
+`libcard.cpp` / `libduel.cpp` 里没有，`constant/utility/procedure` 也没定义。
+
+危害最大的一个是 **`Duel.GetMustMaterial`**：它在 `Auxiliary.LinkCondition` 里，
+也就是**每一次**连接召唤判定都要过。缺了它，素材过滤抛 lua 错，引擎把这次召唤判定为
+不可用——现象是「场上素材够了，就是不给连接召唤」。
+
+`ocgcompat.lua` 补上这些函数（每段都有 `if X==nil` 守卫，换成自带这些 API 的核心时
+不会覆盖任何东西）；`audit_scripts.py` 可以一次列出所有这类缺口：
+
+```bash
+python audit_scripts.py --core ../../../../vendor/ygopro-core-src --scripts .cache/ygopro-scripts
+```
+
+> 只补函数名不够判断语义时，以卡脚本的用法为准：`Card.IsLinkType` 被用作素材过滤
+> （`AddLinkProcedure(c, FilterBoolFunction(Card.IsLinkType, TYPE_EFFECT), 2)`），
+> 而访问码语者的素材是「效果怪兽 2 只以上」——所以它必须等于 `IsType`，
+> 不能额外要求「是连接怪兽」。
+
+**13. 连接素材走 `MSG_SELECT_UNSELECT_CARD`，不是 `MSG_SELECT_CARD`。** 素材是一张一张
+点的，每次引擎都重算一遍是否已经满足条件。
+
+```
+uint8 player, uint8 finishable, uint8 cancelable, uint32 min, uint32 max,
+uint32 nselect, nselect × (code + loc_info),      ← 还没选的候选
+uint32 nunselect, nunselect × (code + loc_info)   ← 已选中、还可以退的
+```
+
+回应的**第一个** `int32` 是「1 = 我选了下面那张 / -1 = 结束或取消」，第二个才是下标：
+`int32 1 + int32 index`。回 `-1` 等于取消这次召唤——引擎不会报错，只会什么都不做，
+于是上一步看起来「成功了」。
+
+**14. 放哪一格决定效果能不能接上。** 小男巫站 5 号（左额外怪兽区）时 ↓ 指 1 号、
+↘ 指 2 号；站 0 号主要怪兽区时 ↓ 指魔陷区、↘ 指魔陷区，等于什么都没指。
+一律「放最左边的空格」会让 `柴郡猫 → 连接解码员` 这步之后接不上小男巫③。
+`field_model.py` 复刻了 `card::get_linked_zone` 的算法，放牌时优先选**被自己连接怪兽指着**
+的格子，其次额外怪兽区。
+
+**15. 起动效果（手卡自跳）在 idle 的 `activate` 段。** 备份员① 不是连接召唤、也不是
+额外卡组召唤，`spsummon` 段里没有它；`special_summon` 这类步骤要查 `activate` 段。
 
 ## M5b 踩到的坑
 
@@ -141,9 +219,16 @@ build_ocgcore.bat D:\vendor\ygopro-core-src D:\vendor\build
 3. ygopro-core 源码从 `codeload.github.com/edo9300/ygopro-core/zip/refs/heads/master` 下载解压
    （zip 不含子模块，所以 lua 要单独下）。
 
+> 卡脚本取自 `mycard/ygopro-scripts`，和 edo9300 版核心有 14 个 API 落差（见坑 12），
+> 靠 `ocgcompat.lua` 兜住。mycard 自己也有核心（`mycard/ygopro-core`），那几个函数
+> 它一个不缺，但它用的是**更老的 C API**（`create_duel` / `process` / `get_message`，
+> 而不是 `OCG_*` 那套），要用就得在 `ocgcore.py` 里再写一套绑定。
+> 想彻底避开兼容层的话，这是唯一的路。
+
 编译选项照着 `premake5.lua` 抄：C++17、`/MT` 静态运行库、`WIN32/_WIN32/NOMINMAX`、
 共享库加 `OCGCORE_EXPORT_FUNCTIONS`；Lua 的 `.c` 文件要**按 C++ 编译**（`/TP`）并强制
-包含 `luaconf-customize.h`。
+包含 `luaconf-customize.h`。Lua 标准库里 `lutf8lib` **不能跳过**（mycard 版核心的
+`interpreter` 会显式调 `luaopen_utf8`），`linit` 反而可以跳过——解释器自己接管了。
 
 > `.bat` 文件必须**纯 ASCII**——cmd 按 OEM 代码页解析，中文注释会乱码到解析失败。
 

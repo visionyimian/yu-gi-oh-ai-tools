@@ -26,10 +26,12 @@ import struct
 from pathlib import Path
 
 import messages as msg
+from field_model import Field
 from m5a import Session
 from ocg_constants import (
   LOCATION_MZONE,
   LOCATION_SZONE,
+  MSG_CHAINING,
   MSG_LPUPDATE,
   MSG_MOVE,
   MSG_SELECT_CARD,
@@ -39,8 +41,17 @@ from ocg_constants import (
   MSG_SELECT_OPTION,
   MSG_SELECT_PLACE,
   MSG_SELECT_POSITION,
+  MSG_SELECT_UNSELECT_CARD,
   MSG_SELECT_YESNO,
+  MSG_SPSUMMONED,
+  MSG_SPSUMMONING,
+  MSG_SUMMONED,
+  MSG_SUMMONING,
+  TYPE_LINK,
 )
+
+# 能证明「刚才那个动作真的发生了」的消息：召唤/特殊召唤/发动
+SUMMON_EVIDENCE = (MSG_SUMMONING, MSG_SUMMONED, MSG_SPSUMMONING, MSG_SPSUMMONED)
 
 
 class Deck:
@@ -67,6 +78,16 @@ class Deck:
 
   def code(self, name: str) -> int:
     return self.codes.get(name, 0)
+
+  def markers(self, code: int) -> int:
+    """连接标记。这一版 cards.cdb 把箭头存在 def 里（见 probe._link_marker）。"""
+    row = self.connection.execute("SELECT type, def FROM datas WHERE id = ?", (code,)).fetchone()
+    if not row:
+      return 0
+    type_code, defense = row
+    if not type_code & TYPE_LINK:
+      return 0
+    return defense or 0
 
   def summon_target(self, text: str, *, extra: bool) -> int | None:
     """从自然语言里找出召唤的是哪张卡（优先额外卡组/主卡组对应区）。"""
@@ -100,11 +121,13 @@ def describe_location(value: int) -> str:
 
 
 def expected_codes(step: dict, deck: Deck) -> list[int]:
-  """这一步要用到哪些卡。`uses` 优先，没有的话从 `act` 里找召唤目标。"""
+  """这一步会出现哪些卡：召唤目标排最前，后面跟 `uses` 里的素材。
+
+  召唤/连接召唤的 idle 里出现的是**要出场的怪兽**，素材只在选素材那一步出现，
+  所以两边都要带上，否则加个 `uses` 就会把 idle 匹配弄坏。
+  """
   codes = [deck.code(use["card"]) for use in step.get("uses") or []]
   codes = [code for code in codes if code]
-  if codes:
-    return codes
   action = step.get("action")
   text = step.get("act", "")
   if action == "normal_summon":
@@ -113,7 +136,27 @@ def expected_codes(step: dict, deck: Deck) -> list[int]:
     target = deck.summon_target(text, extra=True)
   else:
     target = None
-  return [target] if target else []
+  if target and target not in codes:
+    codes.insert(0, target)
+  return codes
+
+
+def material_codes(step: dict, deck: Deck) -> list[int]:
+  """这一步的素材/祭品该用哪些卡。
+
+  `uses` 里写全了就照它；没写就从步骤文本里认卡名（「睡鼠＋白兔连接召唤…」
+  「柴郡猫 → 连接解码员」），认不出来就只能贪心选第一张。
+  """
+  codes = [deck.code(use["card"]) for use in step.get("uses") or []]
+  codes = [code for code in codes if code]
+  if codes:
+    return codes
+  text = step.get("act") or ""
+  if not text:
+    return []
+  return [
+    code for code, name in deck.names.items() if short_name(name) and short_name(name) in text
+  ]
 
 
 def describe_idle(idle: dict) -> str:
@@ -138,17 +181,45 @@ def run(args) -> int:
   index = 0
   started = False
   idle_seen = 0
+  log_seen = 0
+  # 每一步在「选一张」的循环里已经点掉的卡号，避免同一张被反复选
+  picked_codes: dict[int, set[int]] = {}
+  # 「回完 idle 之后还没看到召唤/发动」的挂起动作：没有它，取消掉的召唤也会显示 ✓
+  promise: dict | None = None
+  # 怪兽区的位置模型：连接怪兽「指着哪」决定了后续能不能接上
+  field = Field(deck)
   try:
     for _ in range(2000):
       status, buffer = session.step()
+      if getattr(args, "logs", False):
+        for line in session.logs[log_seen:]:
+          print(f"      [日志] {line[:120]}")
+        log_seen = len(session.logs)
       for message in msg.split(buffer):
         if getattr(args, "all", False):
           print("    .", message.name)
+        if (
+          promise
+          and not promise["confirmed"]
+          and (message.type in SUMMON_EVIDENCE or message.type in (MSG_CHAINING, MSG_MOVE))
+        ):
+          event = msg.decode_card_event(message)
+          if event["code"] in promise["codes"]:
+            promise["confirmed"] = True
+            if args.trace:
+              print(f"        [确认] {message.name} {event['code']} 真的发生了")
         if message.type == MSG_SELECT_IDLECMD:
           if started:
+            if promise and not promise["confirmed"]:
+              print(
+                f"[M5d] 第 {index + 1} 步没有真的发生："
+                f"没看到 {promise['codes']} 的召唤 / 发动（引擎把动作静默丢弃了）"
+              )
+              return 1
             print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
             index += 1
             started = False
+            promise = None
           idle = msg.decode_idlecmd(message)
           if args.trace:
             print("        [空闲] " + describe_idle(idle))
@@ -175,10 +246,17 @@ def run(args) -> int:
               ),
               None,
             )
-          elif action == "activate":
+          elif action in ("activate", "special_summon"):
+            # 起动效果（手卡自跳、场上发动）走 activate 段；靠自身手续从额外/手卡
+            # 出场的走 spsummon 段。两个都查，先按发动处理。
             chosen = next(
               (
                 (msg.IDLE_ACTIVATE, i) for i, e in enumerate(idle["activate"]) if e["code"] in codes
+              ),
+              None,
+            ) or next(
+              (
+                (msg.IDLE_SPSUMMON, i) for i, e in enumerate(idle["spsummon"]) if e["code"] in codes
               ),
               None,
             )
@@ -186,9 +264,14 @@ def run(args) -> int:
           if chosen is None:
             print(f"[M5d] 第 {index + 1} 步不可行：{step['act'][:40]}")
             print(f"       期望卡号 {codes}，引擎给的是 {describe_idle(idle)}")
+            if session.logs:
+              print(f"       引擎日志 {len(session.logs)} 条，最近 5 条：")
+              for line in session.logs[-5:]:
+                print(f"         {line[:160]}")
             return 1
           session.respond(msg.encode_idlecmd_response(*chosen))
           started = True
+          promise = {"codes": codes, "confirmed": False}
 
         elif message.type == MSG_SELECT_EFFECTYN:
           choice = msg.decode_effectyn(message)
@@ -277,20 +360,49 @@ def run(args) -> int:
         elif message.type == MSG_SELECT_PLACE:
           place = msg.decode_place(message)
           zones = msg.zones_from_flag(place["flag"])
-          mzones = [zone for zone in zones if zone < 7]
-          szones = [zone for zone in zones if zone >= 8]
-          if mzones:
-            session.respond(msg.encode_place_response(place["player"], LOCATION_MZONE, mzones[0]))
-          elif szones:
-            session.respond(
-              msg.encode_place_response(place["player"], LOCATION_SZONE, szones[0] - 8)
-            )
-          else:
+          zone = field.choose_zone(zones)
+          if zone is None:
             return 1
+          if zone >= 8:
+            session.respond(msg.encode_place_response(place["player"], LOCATION_SZONE, zone - 8))
+          else:
+            session.respond(msg.encode_place_response(place["player"], LOCATION_MZONE, zone))
+          if args.trace:
+            print(f"        [放牌] 允许 {zones} → 选 {zone}（场：{field.describe()}）")
 
         elif message.type == MSG_SELECT_POSITION:
           position = msg.decode_position(message)
           session.respond(msg.encode_position(0x1 if position["positions"] & 0x1 else 0x4))
+
+        elif message.type == MSG_SELECT_UNSELECT_CARD:
+          # 连接素材就是这么选的：一次一张，引擎每收一张就重算一次是否已满足条件。
+          # 想选的卡都选完就回 -1 结束；选错方向会直接进 MSG_RETRY 死循环。
+          selection = msg.decode_select_unselect_card(message)
+          codes = material_codes(steps[index], deck) if index < len(steps) else []
+          picked = picked_codes.setdefault(index, set())
+          candidates = [
+            i
+            for i, card in enumerate(selection["select"])
+            if card["code"] in codes and card["code"] not in picked
+          ]
+          if not candidates:
+            # 认不出素材时不要急着回 -1：那是「取消这次召唤」，引擎会安静地什么都不做，
+            # 于是看起来像「上一步成功了」。选一张没选过的，让引擎自己判合法性。
+            candidates = [
+              i for i, card in enumerate(selection["select"]) if card["code"] not in picked
+            ]
+          if args.trace:
+            print(
+              f"        [选/退] 步骤 {index + 1} 期望 {codes}，"
+              f"候选 {[card['code'] for card in selection['select']]}，"
+              f"已选 {sorted(picked)}"
+            )
+          if candidates:
+            chosen_index = candidates[0]
+            picked.add(selection["select"][chosen_index]["code"])
+            session.respond(msg.encode_unselect_card_response(chosen_index))
+          else:
+            session.respond(msg.encode_unselect_card_response(None))
 
         elif message.type == MSG_SELECT_YESNO:
           choice = msg.decode_yesno(message)
@@ -304,14 +416,16 @@ def run(args) -> int:
           player, lp = struct.unpack_from("<BI", message.payload, 0)
           print(f"        [LP] 玩家 {player} -> {lp}")
 
-        elif message.type == MSG_MOVE and args.trace:
+        elif message.type == MSG_MOVE:
           move = msg.decode_move(message)
-          name = deck.names.get(move["code"], move["code"])
-          print(
-            f"        [移动] {name}: "
-            f"{describe_location(move['from']['location'])} -> "
-            f"{describe_location(move['to']['location'])}"
-          )
+          field.update_from_move(move)
+          if args.trace:
+            name = deck.names.get(move["code"], move["code"])
+            print(
+              f"        [移动] {name}: "
+              f"{describe_location(move['from']['location'])} -> "
+              f"{describe_location(move['to']['location'])}"
+            )
 
       if status == 0:
         print(f"[M5d] status=0 对局结束（走到第 {index + 1} 步）")
@@ -332,6 +446,7 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--seed", type=int, default=8)
   parser.add_argument("--trace", action="store_true", help="打印连锁/选卡的候选")
   parser.add_argument("--all", action="store_true", help="打印全部消息名")
+  parser.add_argument("--logs", action="store_true", help="打印引擎日志（脚本报错会出现在这里）")
   return run(parser.parse_args(argv))
 
 
