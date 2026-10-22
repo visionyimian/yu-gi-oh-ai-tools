@@ -30,6 +30,7 @@ from ocg_constants import (
   LOCATION_MZONE,
   LOCATION_SZONE,
   MSG_LPUPDATE,
+  MSG_MOVE,
   MSG_SELECT_CARD,
   MSG_SELECT_CHAIN,
   MSG_SELECT_EFFECTYN,
@@ -73,6 +74,22 @@ class Deck:
       if name and name in text:
         return code
     return None
+
+
+LOCATION_NAMES = {
+  0x01: "DECK",
+  0x02: "HAND",
+  0x04: "MZONE",
+  0x08: "SZONE",
+  0x10: "GRAVE",
+  0x20: "REMOVED",
+  0x40: "EXTRA",
+  0x80: "OVERLAY",
+}
+
+
+def describe_location(value: int) -> str:
+  return LOCATION_NAMES.get(value, hex(value))
 
 
 def expected_codes(step: dict, deck: Deck) -> list[int]:
@@ -270,6 +287,15 @@ def run(args) -> int:
         elif message.type == MSG_LPUPDATE and args.trace:
           player, lp = struct.unpack_from("<BI", message.payload, 0)
           print(f"        [LP] 玩家 {player} -> {lp}")
+
+        elif message.type == MSG_MOVE and args.trace:
+          move = msg.decode_move(message)
+          name = deck.names.get(move["code"], move["code"])
+          print(
+            f"        [移动] {name}: "
+            f"{describe_location(move['from']['location'])} -> "
+            f"{describe_location(move['to']['location'])}"
+          )
 
       if status == 0:
         print(f"[M5d] 对局结束（走到第 {index + 1} 步）")

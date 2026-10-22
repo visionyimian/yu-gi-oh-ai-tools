@@ -323,3 +323,27 @@ def decode_position(message: Message) -> dict:
 def encode_position(value: int) -> bytes:
   """SELECT_POSITION 的回应：int32 的位置位（POS_FACEUP_ATTACK = 0x1 等），不是下标。"""
   return struct.pack("<i", value)
+
+
+def decode_move(message: Message) -> dict:
+  """MSG_MOVE: uint32 code, loc_info 旧, loc_info 新, uint32 reason。
+
+  loc_info 是逐字段写的：uint8 ctrl, uint8 loc, uint32 seq, uint32 pos（共 10 字节）。
+  """
+  payload = message.payload
+  code = struct.unpack_from("<I", payload, 0)[0]
+
+  def location(offset: int) -> dict:
+    controller, loc = struct.unpack_from("<BB", payload, offset)
+    sequence, position = struct.unpack_from("<II", payload, offset + 2)
+    return {
+      "controller": controller,
+      "location": loc,
+      "sequence": sequence,
+      "position": position,
+    }
+
+  previous = location(4)
+  current = location(14)
+  reason = struct.unpack_from("<I", payload, 24)[0]
+  return {"code": code, "from": previous, "to": current, "reason": reason}

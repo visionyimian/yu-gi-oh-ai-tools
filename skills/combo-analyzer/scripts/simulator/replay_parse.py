@@ -50,6 +50,22 @@ class Replay:
   events: list[Event] = field(default_factory=list)
 
 
+LOCATION_NAMES = {
+  1: "DECK",
+  2: "HAND",
+  4: "MZONE",
+  8: "SZONE",
+  16: "GRAVE",
+  32: "REMOVED",
+  64: "EXTRA",
+  128: "OVERLAY",
+}
+
+
+def loc_name(value: int) -> str:
+  return LOCATION_NAMES.get(value, hex(value))
+
+
 def read_packets(data: bytes) -> list[tuple[int, bytes]]:
   packets = []
   pos = 0
@@ -104,8 +120,14 @@ def parse(path: Path) -> Replay:
       replay.events.append(Event(turn, "set", card_of(payload)))
     elif kind == MSG_CHAINING:
       replay.events.append(Event(turn, "effect", card_of(payload)))
-    elif kind == MSG_MOVE:
-      pass
+    elif kind == MSG_MOVE and len(payload) >= 12:
+      # 紧凑版：code(4) + 起点(ctrl,loc,seq,pos 各 1 字节) + 终点 + reason
+      code = struct.unpack_from("<I", payload, 0)[0]
+      from_loc = payload[5]
+      to_loc = payload[9]
+      replay.events.append(
+        Event(turn, "move", code, detail=f"{loc_name(from_loc)}->{loc_name(to_loc)}")
+      )
   return replay
 
 
