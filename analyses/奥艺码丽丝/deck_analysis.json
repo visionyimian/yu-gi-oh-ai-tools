@@ -900,7 +900,8 @@
       ],
       "notes": "真正在滚的是「陷阱循环」：白棋捆绑② 盖一张陷阱，那张陷阱以白棋捆绑为 cost 发动，白棋捆绑③ 再回场——净 0 场值，但每轮换到一次检索＋一次抽牌，而且陷阱自己还产出一个效果。一轮的净收益通常是 +1 场值（GWC-06 复活）或 +1 手牌（MTP-07 检索）。循环的上限是三张不同名陷阱各用一次（卡名 1 回合 1 次），所以这不是无限循环。",
       "verdict": "推荐",
-      "verified": false
+      "verified": false,
+      "superseded_reason": "未在本版引擎验证；若依赖设置回合发动陷阱，费用不被收取，见 known_gaps"
     },
     {
       "name": "地下界线：不吃通召 → 3 场值",
@@ -1026,7 +1027,8 @@
       "verdict": "备选",
       "verified": false,
       "starter_in_rules": false,
-      "starter_note": "自动推导没有把「码丽丝梦游地下界」算成动点：它的①只是「从卡组除外」，在 SetCategory 里是 CATEGORY_REMOVE，不在推导管用的产出类（检索/特召/盖放）里。"
+      "starter_note": "自动推导没有把「码丽丝梦游地下界」算成动点：它的①只是「从卡组除外」，在 SetCategory 里是 CATEGORY_REMOVE，不在推导管用的产出类（检索/特召/盖放）里。",
+      "superseded_reason": "未在本版引擎验证；若依赖设置回合发动陷阱，费用不被收取，见 known_gaps"
     },
     {
       "name": "无垢大艺术线：两次② 回场 → 4 场值",
@@ -1162,7 +1164,779 @@
       ],
       "notes": "三个无垢大艺术怪兽共享「除外状态 + 特定召唤触发回场」的结构，所以这条线靠两次② 一次加 2 点场值。",
       "verdict": "备选",
-      "verified": false
+      "verified": false,
+      "superseded_reason": "未在本版引擎验证；若依赖设置回合发动陷阱，费用不被收取，见 known_gaps"
+    },
+    {
+      "name": "睡鼠＋白兔：二卡动 → 小男巫",
+      "goal": "用「被除外→回场」把两只手牌照成的场值滚起来，再交给小男巫/备份员接力",
+      "starter": "码丽丝<兵卒>睡鼠",
+      "hand_required": [
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝<兵卒>白兔"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝<兵卒>柴郡猫",
+        "码丽丝<兵卒>白兔",
+        "电子界小男巫",
+        "连接解码员",
+        "备份员@火灵天星",
+        "码丽丝<代码>TB-11"
+      ],
+      "steps": [
+        {
+          "act": "通常召唤「码丽丝<兵卒>睡鼠」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "normal_summon",
+          "uses": [],
+          "note": null
+        },
+        {
+          "act": "睡鼠①：从卡组把「柴郡猫」除外",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "柴郡猫③：支付 300 基本分回到场上",
+          "field_value": 2,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "柴郡猫①：除外手卡的「白兔」",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔③：支付 300 基本分回到场上",
+          "field_value": 3,
+          "gain": "+1（③ 回场）",
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔①：从卡组盖放「码丽丝<代码>TB-11」",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "睡鼠＋白兔连接召唤「电子界小男巫」",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "action": "link_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "连接素材"
+            },
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "连接素材"
+            }
+          ],
+          "note": "打包"
+        },
+        {
+          "act": "柴郡猫 → 「连接解码员」",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "action": "link_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "连接素材"
+            }
+          ],
+          "note": "打包"
+        },
+        {
+          "act": "小男巫③：除外墓地柴郡猫，检索电子界调整",
+          "field_value": 3,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "电子界小男巫",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "备份员①：以连接解码员为条件从手卡自跳",
+          "field_value": 4,
+          "gain": "+1",
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "备份员@火灵天星",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "备份员②：检索码丽丝并弃 1 张",
+          "field_value": 4,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "备份员@火灵天星",
+              "effect": "②"
+            }
+          ],
+          "note": null
+        }
+      ],
+      "peak_field_value": 4,
+      "endboard_options": [
+        {
+          "name": "A. 小男巫＋解码员＋备份员",
+          "board": [
+            "电子界小男巫",
+            "连接解码员",
+            "备份员@火灵天星"
+          ],
+          "cost": "0",
+          "interactions": 2,
+          "pros": "小男巫不被破坏，备份员可继续检索",
+          "cons": "本回合还没有终端"
+        }
+      ],
+      "choice_reason": "这一步只是中转，真正终端在后面（红心加密/白棋捆绑）。",
+      "endboard": [
+        "电子界小男巫",
+        "备份员@火灵天星"
+      ],
+      "interactions": 2,
+      "branches": [],
+      "notes": "顺序取自录像 22:03:56：睡鼠先扔卡组柴郡猫，柴郡猫① 再扔手卡白兔——白兔③ 是被「手卡被除外」触发的，不是被 TB-11 的 cost。\n引擎验证：11 步在 ygopro-core 11.0 + MR5 规则下逐条走通（种子 27 等 9 个），移动日志与录像 22:03:56 一致；种子 13 在第 3 步（柴郡猫③ 回场）停下。\n引擎验证：11 步在 ygopro-core 11.0 + MR5 规则下逐条走通（种子 27 等 9 个），移动日志与录像 22:03:56 一致；种子 13 在第 3 步（柴郡猫③ 回场）停下。",
+      "verdict": "推荐",
+      "verified": true,
+      "verification": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seeds": {
+          "27": "11/11",
+          "30": "11/11",
+          "65": "11/11",
+          "115": "11/11",
+          "151": "11/11",
+          "213": "11/11",
+          "264": "11/11",
+          "273": "11/11",
+          "292": "11/11",
+          "13": "第 3 步失败"
+        },
+        "final_field": [
+          "电子界小男巫（额外怪兽区）",
+          "连接解码员（主要怪兽区 1）",
+          "备份员@火灵天星（主要怪兽区 2）",
+          "码丽丝<代码>TB-11（盖放）"
+        ],
+        "final_lp": 7400,
+        "engine_log_errors": 0,
+        "verified_at": "2026-10-22"
+      }
+    },
+    {
+      "name": "睡鼠单卡：两体 → 小男巫",
+      "goal": "一张睡鼠换出两个身体，立小男巫",
+      "starter": "码丽丝<兵卒>睡鼠",
+      "hand_required": [
+        "码丽丝<兵卒>睡鼠"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝<兵卒>白兔",
+        "码丽丝<代码>TB-11",
+        "电子界小男巫"
+      ],
+      "steps": [
+        {
+          "act": "通常召唤「码丽丝<兵卒>睡鼠」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "normal_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "通常召唤"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "睡鼠①：从卡组把「白兔」除外",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "除外"
+            }
+          ],
+          "note": "除外的不是柴郡猫：白兔被除外后能回场并盖陷阱，柴郡猫不能"
+        },
+        {
+          "act": "白兔③：支付 300 基本分回到场上",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔①：从卡组盖放「TB-11」",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "睡鼠＋白兔连接召唤「电子界小男巫」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "link_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "素材"
+            },
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "素材"
+            }
+          ],
+          "note": null
+        }
+      ],
+      "peak_field_value": 2,
+      "endboard_options": [],
+      "choice_reason": "两体只够一个 Link-2；小男巫站额外怪兽区还能给后面的回合留位置。",
+      "endboard": [
+        "电子界小男巫",
+        "码丽丝<代码>TB-11（盖放）"
+      ],
+      "interactions": 1,
+      "branches": [],
+      "notes": "小男巫③ 没有触发对象（没有第二只怪兽特召到连接端），所以这条线只是站一个不被战破的 Link-2。",
+      "verdict": "可用（弱）",
+      "verified": true,
+      "verification": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seeds": {
+          "29": "5/5",
+          "36": "未跑",
+          "84": "未跑"
+        },
+        "final_field": [
+          "电子界小男巫（额外怪兽区）",
+          "码丽丝<代码>TB-11（盖放）"
+        ],
+        "final_lp": 7700,
+        "engine_log_errors": 0,
+        "verified_at": "2026-10-22"
+      }
+    },
+    {
+      "name": "白兔单卡：一前一后",
+      "goal": "通召白兔，盖一张码丽丝陷阱过",
+      "starter": "码丽丝<兵卒>白兔",
+      "hand_required": [
+        "码丽丝<兵卒>白兔"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>白兔",
+        "码丽丝<代码>TB-11"
+      ],
+      "steps": [
+        {
+          "act": "通常召唤「码丽丝<兵卒>白兔」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "normal_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "通常召唤"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔①：从卡组盖放「TB-11」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        }
+      ],
+      "peak_field_value": 1,
+      "endboard_options": [],
+      "choice_reason": "单白兔没有第二个身体可滚，本回合只能先摆好陷阱。",
+      "endboard": [
+        "码丽丝<兵卒>白兔",
+        "码丽丝<代码>TB-11（盖放）"
+      ],
+      "interactions": 1,
+      "branches": [],
+      "notes": "陷阱设置回合发动的 cost（除外自己场上一只表侧码丽丝）本版引擎不收取，见 known_gap；不靠它的话这条线就到这一步。",
+      "verdict": "过渡",
+      "verified": true,
+      "verification": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seeds": {
+          "8": "2/2"
+        },
+        "final_field": [
+          "码丽丝<兵卒>白兔（主要怪兽区）",
+          "码丽丝<代码>TB-11（盖放）"
+        ],
+        "final_lp": 8000,
+        "engine_log_errors": 0,
+        "verified_at": "2026-10-22"
+      }
+    },
+    {
+      "name": "星球改造单卡：两张「除外」= 两体 → 小男巫",
+      "goal": "一张地形检索把「除外→回场」开两次，立小男巫并留一张陷阱",
+      "starter": "星球改造",
+      "hand_required": [
+        "星球改造"
+      ],
+      "cards_used": [
+        "星球改造",
+        "码丽丝梦游地下界",
+        "码丽丝<兵卒>白兔",
+        "码丽丝<代码>TB-11",
+        "码丽丝<兵卒>睡鼠",
+        "码丽丝<兵卒>柴郡猫",
+        "码丽丝<王后>红心加密"
+      ],
+      "steps": [
+        {
+          "act": "发动「星球改造」：检索「码丽丝梦游地下界」",
+          "field_value": 0,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "星球改造",
+              "effect": "发动"
+            },
+            {
+              "card": "码丽丝梦游地下界",
+              "effect": "检索"
+            }
+          ],
+          "note": "地形检索不占通召，所以后面还能正常召唤一次"
+        },
+        {
+          "act": "发动「码丽丝梦游地下界」：除外卡组的「睡鼠」",
+          "field_value": 0,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝梦游地下界",
+              "effect": "发动"
+            },
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "除外"
+            }
+          ],
+          "note": "除外睡鼠而不是白兔：睡鼠回场后能用①再开一次「除外→回场」"
+        },
+        {
+          "act": "睡鼠③：支付 300 基本分回到场上",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "睡鼠①：从卡组把「白兔」除外",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "①"
+            },
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "除外"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔③：支付 300 基本分回到场上",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "③"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "白兔①：从卡组盖放「TB-11」",
+          "field_value": 2,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "①"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "睡鼠＋白兔连接召唤「电子界小男巫」",
+          "field_value": 1,
+          "gain": null,
+          "spend": null,
+          "action": "link_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>睡鼠",
+              "effect": "素材"
+            },
+            {
+              "card": "码丽丝<兵卒>白兔",
+              "effect": "素材"
+            }
+          ],
+          "note": null
+        }
+      ],
+      "peak_field_value": 2,
+      "endboard_options": [],
+      "choice_reason": "地形单卡只有两张「除外」可开：地下界一次、睡鼠①一次，正好凑两体。",
+      "endboard": [
+        "电子界小男巫",
+        "码丽丝<代码>TB-11（盖放）"
+      ],
+      "interactions": 2,
+      "branches": [],
+      "notes": "全程不碰「设置回合发动陷阱」，所以不受本版引擎漏收费用影响；LP 7400。",
+      "verdict": "推荐",
+      "verified": true,
+      "verification": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seeds": {
+          "38": "7/7",
+          "49": "未跑",
+          "98": "未跑"
+        },
+        "final_field": [
+          "电子界小男巫（额外怪兽区）",
+          "码丽丝<代码>TB-11（盖放）"
+        ],
+        "final_lp": 7400,
+        "engine_log_errors": 0,
+        "verified_at": "2026-10-22"
+      }
+    },
+    {
+      "name": "反证：柴郡猫单卡没有 ① 可发",
+      "goal": "证明柴郡猫单卡起手时，①（除外手卡码丽丝卡）没有对象",
+      "starter": "码丽丝<兵卒>柴郡猫",
+      "hand_required": [
+        "码丽丝<兵卒>柴郡猫"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>柴郡猫"
+      ],
+      "steps": [
+        {
+          "act": "通常召唤「码丽丝<兵卒>柴郡猫」",
+          "field_value": null,
+          "gain": null,
+          "spend": null,
+          "action": "normal_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "通常召唤"
+            }
+          ],
+          "note": null
+        },
+        {
+          "act": "柴郡猫①：除外手卡的码丽丝卡",
+          "field_value": null,
+          "gain": null,
+          "spend": null,
+          "action": "activate",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>柴郡猫",
+              "effect": "①"
+            }
+          ],
+          "note": "这一步**应该**失败：手卡里没有第二张码丽丝卡"
+        }
+      ],
+      "peak_field_value": 1,
+      "endboard_options": [],
+      "choice_reason": "反证用",
+      "endboard": [],
+      "interactions": 0,
+      "branches": [],
+      "notes": "预期在第 2 步失败（引擎的 activate 段里没有柴郡猫）。",
+      "verdict": "反证",
+      "verified": false,
+      "expect_failure_at": 2,
+      "failure_confirmed": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seed": 91,
+        "failed_at_step": 2,
+        "evidence": "通召后 idle 的 activate 段只有「无垢大艺术-「黄昏之变幻」」，没有柴郡猫"
+      }
+    },
+    {
+      "name": "反证：三月兔单卡没有 ① 可发",
+      "goal": "证明三月兔单卡起手时，①（除外手卡/墓地码丽丝卡）没有对象",
+      "starter": "码丽丝<兵卒>三月兔",
+      "hand_required": [
+        "码丽丝<兵卒>三月兔"
+      ],
+      "cards_used": [
+        "码丽丝<兵卒>三月兔"
+      ],
+      "steps": [
+        {
+          "act": "三月兔①：除外手卡/墓地的码丽丝卡后自跳",
+          "field_value": null,
+          "gain": null,
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "码丽丝<兵卒>三月兔",
+              "effect": "①"
+            }
+          ],
+          "note": "这一步**应该**失败：手卡只剩它自己，墓地空"
+        }
+      ],
+      "peak_field_value": 0,
+      "endboard_options": [],
+      "choice_reason": "反证用",
+      "endboard": [],
+      "interactions": 0,
+      "branches": [],
+      "notes": "预期在第 1 步失败。",
+      "verdict": "反证",
+      "verified": false,
+      "expect_failure_at": 1,
+      "failure_confirmed": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seed": 183,
+        "failed_at_step": 1,
+        "evidence": "起手 idle 的 summon 段有三月兔（可通召），但 activate 段没有它的①"
+      }
+    },
+    {
+      "name": "反证：备份员单卡没有 ① 可发",
+      "goal": "证明备份员单卡起手时，①（需要场上有从额外特召的电子界）不成立",
+      "starter": "备份员@火灵天星",
+      "hand_required": [
+        "备份员@火灵天星"
+      ],
+      "cards_used": [
+        "备份员@火灵天星"
+      ],
+      "steps": [
+        {
+          "act": "备份员①：从手卡自跳",
+          "field_value": null,
+          "gain": null,
+          "spend": null,
+          "action": "special_summon",
+          "uses": [
+            {
+              "card": "备份员@火灵天星",
+              "effect": "①"
+            }
+          ],
+          "note": "这一步**应该**失败：场上一只额外卡组出身的效果怪兽都没有"
+        }
+      ],
+      "peak_field_value": 0,
+      "endboard_options": [],
+      "choice_reason": "反证用",
+      "endboard": [],
+      "interactions": 0,
+      "branches": [],
+      "notes": "预期在第 1 步失败。",
+      "verdict": "反证",
+      "verified": false,
+      "expect_failure_at": 1,
+      "failure_confirmed": {
+        "engine": "ygopro-core 11.0（edo9300 fork，本地 MSVC 编译）",
+        "rules": "DUEL_MODE_MR5（0x2e800）",
+        "seed": 1,
+        "failed_at_step": 1,
+        "evidence": "idle 的 activate 段只有欢聚友伴，没有备份员"
+      }
+    }
+  ],
+  "one_card_starters": {
+    "one_card": [
+      {
+        "card": "码丽丝<兵卒>睡鼠",
+        "line": "睡鼠单卡：两体 → 小男巫",
+        "why": "① 从卡组除外 1 只码丽丝怪兽，被除外的它支付 300 LP 回场 = 两张身体。"
+      },
+      {
+        "card": "码丽丝<兵卒>白兔",
+        "line": "白兔单卡：一前一后",
+        "why": "通召 + ① 盖陷阱；陷阱的设置回合发动才是它真正的爆点（见 known_gaps）。"
+      },
+      {
+        "card": "星球改造",
+        "line": "星球改造单卡：两张「除外」= 两体 → 小男巫",
+        "why": "检索码丽丝梦游地下界，地下界开一次「除外→回场」= 两张身体，还不占通召。"
+      }
+    ],
+    "needs_second_maliss_card": [
+      {
+        "card": "码丽丝<兵卒>柴郡猫",
+        "why": "① 的 cost 是「除外手卡 1 张码丽丝卡」。手卡里另一张码丽丝卡（怪兽或陷阱都算）就能启动。",
+        "evidence": "反证：柴郡猫单卡没有 ① 可发（种子 91 失败；种子 72 手卡有 GWC-06 则成立）"
+      },
+      {
+        "card": "码丽丝<兵卒>三月兔",
+        "why": "① 要从手卡/墓地除外 1 张码丽丝卡（不能是自己），所以需要另一张码丽丝卡落进手卡或墓地。",
+        "evidence": "反证：三月兔单卡没有 ① 可发（种子 183 失败；种子 116 手卡有 GWC-06 则成立）"
+      }
+    ],
+    "never_a_starter": [
+      {
+        "card": "备份员@火灵天星",
+        "why": "① 要求场上已有「从额外卡组特召的表侧电子界怪兽」，所以它永远是后续件。",
+        "evidence": "反证：备份员单卡没有 ① 可发（种子 1 失败）"
+      },
+      {
+        "card": "无垢大艺术-「黄昏之变幻」",
+        "why": "检索的是 0x1e6 / 0x1e8（耀圣·无垢大艺术）那一轴，属另一个引擎，单卡不启动码丽丝线。",
+        "evidence": "脚本：s.thfilter 只认 0x1e6/0x1e8"
+      }
+    ]
+  },
+  "known_gaps": [
+    {
+      "issue": "设置回合发动陷阱的 cost 不被收取",
+      "detail": "effect::is_activable（effect.cpp）只检查 EFFECT_TRAP_ACT_IN_SET_TURN 的计数限制，不检查也不收取它挂的 cost；processor.cpp 的活化流程只在 SelectOption 分支里取用该效果，费用从此失踪。mycard 版 core 的同一函数会 check_condition(peffect->cost) 并返回 2。",
+      "impact": "TB-11 / GWC-06 / MTP-07 在本引擎里可以「设置回合免费发动」。真实规则要除外自己场上一只表侧码丽丝怪兽，而被除外的怪兽会触发 ③ 回场——所以靠这个漏洞推出来的线既少付了费用，也少了那次回场，不能当真实做场线用。",
+      "workaround": "本目录里所有已验证线路都不使用设置回合发动陷阱；要验证这类线，需要给核心打补丁或换 mycard 版核心。"
     }
   ]
 }
