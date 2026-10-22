@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import json
 import sqlite3
+import struct
 from pathlib import Path
 
 import messages as msg
@@ -28,6 +29,7 @@ from m5a import Session
 from ocg_constants import (
   LOCATION_MZONE,
   LOCATION_SZONE,
+  MSG_LPUPDATE,
   MSG_SELECT_CARD,
   MSG_SELECT_CHAIN,
   MSG_SELECT_EFFECTYN,
@@ -158,33 +160,55 @@ def run(args) -> int:
             print(f"       期望卡号 {codes}，引擎给的是 {describe_idle(idle)}")
             return 1
           session.respond(msg.encode_idlecmd_response(*chosen))
-          print(f"  {index + 1:2d}. ✓ {step['act'][:48]}")
-          index += 1
+          started = True
 
         elif message.type == MSG_SELECT_EFFECTYN:
           choice = msg.decode_effectyn(message)
-          step = steps[index] if index < len(steps) else None
-          if step and choice["code"] in expected_codes(step, deck):
+          # 下一步的诱发效果可能在上一步还没回到 idle 时就来问，优先级：下一步 > 当前步
+          order = [index + 1, index] if started else [index]
+          hit = None
+          for candidate in order:
+            if candidate >= len(steps):
+              continue
+            if choice["code"] in expected_codes(steps[candidate], deck):
+              hit = candidate
+              break
+          if hit is not None:
             session.respond(msg.encode_yes_no(True))
+            if hit > index:
+              print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
+              index = hit
             started = True
           else:
             session.respond(msg.encode_yes_no(False))
 
         elif message.type == MSG_SELECT_CHAIN:
           chain = msg.decode_chain(message)
-          step = steps[index] if index < len(steps) else None
+          # 当前步骤还在等结算时，下一步的诱发效果可能已经作为连锁上来了
+          # （白兔③ 就是 TB-11 那条连锁的第 2 环）。所以两个都试。
+          order = [index + 1, index] if started else [index]
           target = None
-          if step:
-            print(
-              f"        [连锁] 步骤 {index + 1} 期望 "
-              f"{expected_codes(step, deck)}，窗口 {[e['code'] for e in chain['chains']]}"
-              f" forced={chain['forced']}"
-            )
-          if step:
-            codes = expected_codes(step, deck)
-            target = next((i for i, e in enumerate(chain["chains"]) if e["code"] in codes), None)
+          hit = index
+          for candidate in order:
+            if candidate >= len(steps):
+              continue
+            codes = expected_codes(steps[candidate], deck)
+            if not codes:
+              continue
+            if args.trace:
+              print(
+                f"        [连锁] 候选步骤 {candidate + 1} 期望 {codes}，"
+                f"窗口 {[e['code'] for e in chain['chains']]} forced={chain['forced']}"
+              )
+            found = next((i for i, e in enumerate(chain["chains"]) if e["code"] in codes), None)
+            if found is not None:
+              target, hit = found, candidate
+              break
           if target is not None:
             session.respond(msg.encode_chain_response(target))
+            if hit > index:
+              print(f"  {index + 1:2d}. ✓ {steps[index]['act'][:48]}")
+              index = hit
             started = True
           elif chain["forced"]:
             session.respond(msg.encode_chain_response(0))
@@ -243,6 +267,10 @@ def run(args) -> int:
         elif message.type == MSG_SELECT_OPTION:
           session.respond(bytes([0]))
 
+        elif message.type == MSG_LPUPDATE and args.trace:
+          player, lp = struct.unpack_from("<BI", message.payload, 0)
+          print(f"        [LP] 玩家 {player} -> {lp}")
+
       if status == 0:
         print(f"[M5d] 对局结束（走到第 {index + 1} 步）")
         return 1
@@ -260,6 +288,7 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--analysis", type=Path, required=True)
   parser.add_argument("--line", default="白兔线")
   parser.add_argument("--seed", type=int, default=8)
+  parser.add_argument("--trace", action="store_true", help="打印连锁/选卡的候选")
   return run(parser.parse_args(argv))
 
 
