@@ -495,6 +495,11 @@ def main(argv: list[str] | None = None) -> int:
   parser.add_argument("--dll", type=Path, required=True)
   parser.add_argument("--cdb", type=Path, required=True)
   parser.add_argument("--ydk", type=Path, required=True)
+  parser.add_argument(
+    "--opponent-ydk",
+    type=Path,
+    help="对手改用另一套牌：邻家割草按双方卡组张数之差削牌，双方都 60 张会削 0 张",
+  )
   parser.add_argument("--scripts", type=Path, required=True)
   parser.add_argument("--analysis", type=Path, required=True)
   parser.add_argument("--line", default="白兔线")

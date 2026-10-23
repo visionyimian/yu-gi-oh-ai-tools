@@ -84,8 +84,22 @@ class Session:
     deck = read_ydk(args.ydk)
     main = deck["main"][:]
     random.Random(seed).shuffle(main)
+    # 对手默认用同一套牌；但「邻家割草」是按双方卡组张数的**差**削牌的，
+    # 双方都 60 张时会削 0 张，等于这张卡在模拟器里永远不生效。
+    # 所以割草变体要显式给对手一套 40 张的牌（--opponent-ydk）。
+    opponent_path = getattr(args, "opponent_ydk", None)
+    if opponent_path:
+      opponent = read_ydk(opponent_path)
+      opponent_main = opponent["main"][:]
+      random.Random(seed ^ 0x5A5A).shuffle(opponent_main)
+      decks = {
+        0: {"main": main, "extra": deck["extra"]},
+        1: {"main": opponent_main, "extra": opponent["extra"]},
+      }
+    else:
+      decks = {0: {"main": main, "extra": deck["extra"]}, 1: {"main": main, "extra": deck["extra"]}}
     for team in (0, 1):
-      for section, codes in (("main", main), ("extra", deck["extra"])):
+      for section, codes in (("main", decks[team]["main"]), ("extra", decks[team]["extra"])):
         loc = DECK_LOC if section == "main" else EXTRA_LOC
         for seq, code in enumerate(codes):
           info = ocgcore.NewCardInfo(
