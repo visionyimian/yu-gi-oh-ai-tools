@@ -173,8 +173,9 @@ def expected_codes(step: dict, deck: Deck) -> list[int]:
     target = deck.summon_target(text, extra=True)
   else:
     target = None
-  if target and target not in codes:
-    codes.insert(0, target)
+  if target:
+    # 召唤目标永远排最前：素材也可能写在 uses 里，不能让它顶在前面
+    codes = [target] + [code for code in codes if code != target]
   return codes
 
 
